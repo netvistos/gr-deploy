@@ -7,6 +7,12 @@ export const POLICY_RULES = {
     vigencia: "19/10/2024 até 31/10/2026",
   },
 
+  limiteDeCobertura: {
+    regra:
+      "Para todas as mercadorias que não se enquadram em nenhuma condição específica, o limite máximo de cobertura é de R$ 3.000.000,00",
+    valorMaximo: "3.000.000,00",
+  },
+
   condicoesParaExclusaoDeBensOuMercadorias: {
     condicao1: {
       regra:
@@ -73,12 +79,6 @@ export const POLICY_RULES = {
         "Armas Químicas, Biológicas, Bioquímicas, Eletromagnéticas e de Ataque Cibernético",
       ],
     },
-  },
-
-  limiteDeCobertura: {
-    regra:
-      "Para todas as mercadorias que não se enquadram em nenhuma condição específica, o limite máximo de cobertura é de R$ 3.000.000,00",
-    valorMaximo: "3.000.000,00",
   },
 
   regrasDeGerenciamentoDeRiscos: {
@@ -527,108 +527,288 @@ export const POLICY_RULES = {
 // Função para gerar prompt das regras para a IA
 export function generatePolicyPrompt() {
   return `
-INFORMAÇÕES DA APÓLICE DE SEGURO DE TRANSPORTE
+═══════════════════════════════════════════════════════════════════════
+                    APÓLICE DE SEGURO DE TRANSPORTE
+                      REGRAS PARA VALIDAÇÃO DE CTe
+═══════════════════════════════════════════════════════════════════════
 
-**DADOS DO EMITENTE:**
-- CNPJ: ${POLICY_RULES.emitente.cnpj}
-- Nome: ${POLICY_RULES.emitente.nome}
-- Vigência: ${POLICY_RULES.emitente.vigencia}
+📋 DADOS DO EMITENTE
+────────────────────────────────────────────────────────────────
+CNPJ: ${POLICY_RULES.emitente.cnpj}
+Nome: ${POLICY_RULES.emitente.nome}
+Vigência: ${POLICY_RULES.emitente.vigencia}
 
-**LIMITE MÁXIMO DE COBERTURA:**
-R$ ${POLICY_RULES.limiteDeCobertura.valorMaximo} para mercadorias não especificadas
+────────────────────────────────────────────────────────────────
 
-**MERCADORIAS TOTALMENTE PROIBIDAS (EXCLUSÃO COMPLETA):**
-${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao1.mercadorias.map(item => `• ${item}`).join('\n')}
+🚫 CONDIÇÕES PARA EXCLUSÃO DE BENS OU MERCADORIAS
 
-**MERCADORIAS PROIBIDAS PARA RIO DE JANEIRO (origem OU destino):**
-${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao2.mercadorias.map(item => `• ${item}`).join('\n')}
+【CONDIÇÃO 1】Mercadorias Totalmente Proibidas
+Regra: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao1.regra}
 
-**MERCADORIAS COM CONDIÇÕES ESPECIAIS:**
-${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao3.mercadorias.map(item => `• ${item}`).join('\n')}
+Lista de mercadorias proibidas:
+${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao1.mercadorias
+  .map((item) => `  • ${item}`)
+  .join("\n")}
 
-**RESTRIÇÃO DE VEÍCULOS:**
-- Exclusão total para veículos de passeio
-- Permitido apenas: Veículos de transporte de carga
+【CONDIÇÃO 2】Mercadorias Proibidas para Rio de Janeiro
+Regra: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao2.regra}
 
-**ARMAS QUÍMICAS E BIOLÓGICAS:**
-Exclusão total para: ${POLICY_RULES.clausulasEspecificasDeExclusao.condicao.mercadorias.join(', ')}
+Lista de mercadorias proibidas para RJ:
+${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao2.mercadorias
+  .map((item) => `  • ${item}`)
+  .join("\n")}
 
-**REGRAS DE GERENCIAMENTO DE RISCOS:**
+【CONDIÇÃO 3】Mercadorias com Condições Especiais
+Regra: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao3.regra}
 
-**RISCO A - MERCADORIAS DE ALTO VALOR:**
-Mercadorias: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoA.mercadorias.join(', ')}
+Lista de mercadorias:
+${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao3.mercadorias
+  .map((item) => `  • ${item}`)
+  .join("\n")}
+
+【CONDIÇÃO 4】Restrição de Veículos
+Regra: ${
+    POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao4.regra
+  }
+
+Veículos permitidos: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao4.veiculosPermitidos.join(
+    ", "
+  )}
+
+────────────────────────────────────────────────────────────────
+
+☢️ CLÁUSULAS ESPECÍFICAS DE EXCLUSÃO
+
+Regra: ${POLICY_RULES.clausulasEspecificasDeExclusao.condicao.regra}
+
+Mercadorias excluídas:
+${POLICY_RULES.clausulasEspecificasDeExclusao.condicao.mercadorias
+  .map((item) => `  • ${item}`)
+  .join("\n")}
+
+────────────────────────────────────────────────────────────────
+
+💰 LIMITE DE COBERTURA
+
+Regra: ${POLICY_RULES.limiteDeCobertura.regra}
+Valor Máximo: R$ ${POLICY_RULES.limiteDeCobertura.valorMaximo}
+
+────────────────────────────────────────────────────────────────
+
+⚠️ REGRAS DE GERENCIAMENTO DE RISCOS
+
+【RISCO A - Alto Valor】
+Mercadorias aplicáveis:
+${POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoA.mercadorias
+  .map((item) => `  • ${item}`)
+  .join("\n")}
 
 Regras por valor:
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoA.regras).map(([key, regra]) => 
-  `• ${regra.valorMercadoria}: ${Array.isArray(regra.obrigatoriedade) ? regra.obrigatoriedade.join(', ') : regra.obrigatoriedade}`
-).join('\n')}
+${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoA.regras)
+  .map(([key, regra]) => {
+    const obrig = Array.isArray(regra.obrigatoriedade)
+      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+      : `    - ${regra.obrigatoriedade}`;
+    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+  })
+  .join("\n\n")}
 
-**RISCO B - MERCADORIAS DE MÉDIO RISCO:**
-Mercadorias: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoB.mercadorias.join(', ')}
+【RISCO B - Médio Risco】
+Mercadorias aplicáveis:
+${POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoB.mercadorias
+  .map((item) => `  • ${item}`)
+  .join("\n")}
 
 Regras por valor:
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoB.regras).map(([key, regra]) => 
-  `• ${regra.valorMercadoria || regra.valorMercaria}: ${Array.isArray(regra.obrigatoriedade) ? regra.obrigatoriedade.join(', ') : regra.obrigatoriedade}`
-).join('\n')}
+${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoB.regras)
+  .map(([key, regra]) => {
+    const valor = regra.valorMercadoria || regra.valorMercaria;
+    const obrig = Array.isArray(regra.obrigatoriedade)
+      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+      : `    - ${regra.obrigatoriedade}`;
+    return `  ${key}. Valor ${valor}:\n${obrig}`;
+  })
+  .join("\n\n")}
 
-**SÊMEN BOVINO (condicionado em cilindro de nitrogênio):**
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.regras).map(([key, regra]) => 
-  `• ${regra.valorMercadoria}: ${Array.isArray(regra.obrigatoriedade) ? regra.obrigatoriedade.join(', ') : regra.obrigatoriedade}`
-).join('\n')}
+【SÊMEN BOVINO】
+Mercadoria: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.mercadoria
+  }
 
-**MÁQUINAS E EQUIPAMENTOS PESADOS (novos e sem uso):**
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.maquinasEquipamentosPesados.regras).map(([key, regra]) => 
-  `• ${regra.valorMercadoria}: ${regra.obrigatoriedade}`
-).join('\n')}
+Regras por valor:
+${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.regras)
+  .map(([key, regra]) => {
+    const obrig = Array.isArray(regra.obrigatoriedade)
+      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+      : `    - ${regra.obrigatoriedade}`;
+    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+  })
+  .join("\n\n")}
 
-**EMBARCADOR MANN+HUMMEL BRASIL LTDA:**
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.embarcadorMannHummel.regras).map(([key, regra]) => 
-  `• ${regra.valorMercadoria}: ${Array.isArray(regra.obrigatoriedade) ? regra.obrigatoriedade.join(', ') : regra.obrigatoriedade}`
-).join('\n')}
+【MÁQUINAS E EQUIPAMENTOS PESADOS】
+Mercadoria: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.maquinasEquipamentosPesados
+      .mercadoria
+  }
 
-**PAINEL SOLAR (proibido Rio de Janeiro):**
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.regras).map(([key, regra]) => 
-  `• ${regra.valorMercadoria}: ${Array.isArray(regra.obrigatoriedade) ? regra.obrigatoriedade.join(', ') : regra.obrigatoriedade}`
-).join('\n')}
+Regras por valor:
+${Object.entries(
+  POLICY_RULES.regrasDeGerenciamentoDeRiscos.maquinasEquipamentosPesados.regras
+)
+  .map(([key, regra]) => {
+    return `  ${key}. Valor ${regra.valorMercadoria}:\n    - ${regra.obrigatoriedade}`;
+  })
+  .join("\n\n")}
 
-**OPERAÇÃO BYD MAN:**
-Embarcador: BYD MAN
-Mercadorias: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.mercadoria.join(', ')}
-Veículo permitido: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.veiculo}
+【EMBARCADOR MANN+HUMMEL】
+Embarcador: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.embarcadorMannHummel.embarcador
+  }
 
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.regras).map(([key, regra]) => 
-  `• ${regra.valorMercadoria}: ${Array.isArray(regra.obrigatoriedade) ? regra.obrigatoriedade.join(', ') : regra.obrigatoriedade}`
-).join('\n')}
+Regras por valor:
+${Object.entries(
+  POLICY_RULES.regrasDeGerenciamentoDeRiscos.embarcadorMannHummel.regras
+)
+  .map(([key, regra]) => {
+    const obrig = Array.isArray(regra.obrigatoriedade)
+      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+      : `    - ${regra.obrigatoriedade}`;
+    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+  })
+  .join("\n\n")}
 
-**OPERAÇÃO BYD MAN - PAINEL SOLAR:**
-Embarcador: BYD MAN
-Mercadoria: painel solar
-Veículo permitido: BITREM
+【PAINEL SOLAR】
+Mercadoria: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.mercadoria
+  }
+Restrição: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.origemDestino
+  }
 
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.operacaoBydManPainelSolar.regras).map(([key, regra]) => 
-  `• ${regra.valorMercadoria}: ${Array.isArray(regra.obrigatoriedade) ? regra.obrigatoriedade.join(', ') : regra.obrigatoriedade}`
-).join('\n')}
+Regras por valor:
+${Object.entries(
+  POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.regras
+)
+  .map(([key, regra]) => {
+    const obrig = Array.isArray(regra.obrigatoriedade)
+      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+      : `    - ${regra.obrigatoriedade}`;
+    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+  })
+  .join("\n\n")}
 
-**OPERAÇÃO MIBA (proibido Rio de Janeiro):**
-Embarcador: MIBA
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.regras).map(([key, regra]) => 
-  `• ${regra.valorMercadoria}: ${Array.isArray(regra.obrigatoriedade) ? regra.obrigatoriedade.join(', ') : regra.obrigatoriedade}`
-).join('\n')}
+【OPERAÇÃO BYD MAN】
+Embarcador: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.embarcador
+  }
+Mercadorias: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.mercadoria.join(
+    ", "
+  )}
+Veículo permitido: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.veiculo
+  }
 
-**AERONAVES DESMONTADAS:**
-Mercadoria: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.aeronavesDesmontadas.mercadoria}
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.aeronavesDesmontadas.regras).map(([key, regra]) => 
-  `• ${regra.valorMercadoria}: ${Array.isArray(regra.obrigatoriedade) ? regra.obrigatoriedade.join(', ') : regra.obrigatoriedade}`
-).join('\n')}
+Regras por valor:
+${Object.entries(
+  POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.regras
+)
+  .map(([key, regra]) => {
+    const obrig = Array.isArray(regra.obrigatoriedade)
+      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+      : `    - ${regra.obrigatoriedade}`;
+    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+  })
+  .join("\n\n")}
 
-INSTRUÇÕES PARA ANÁLISE:
-1. Compare TODOS os dados do CTe com as regras acima
-2. Verifique se a mercadoria está na lista de proibidas
-3. Identifique o tipo de risco (A, B, ou regras específicas)
-4. Analise se o valor da mercadoria está dentro dos limites
-5. Verifique restrições geográficas (Rio de Janeiro)
-6. Confirme se os requisitos de segurança são atendidos
-7. Valide embarcadores específicos quando aplicável
-8. Retorne um JSON estruturado com os resultados da análise
+  【SUB-OPERAÇÃO BYD MAN - PAINEL SOLAR】
+  Embarcador: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan
+      .operacaoBydManPainelSolar.embarcador
+  }
+  Mercadoria: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan
+      .operacaoBydManPainelSolar.mercadoria
+  }
+  Veículo permitido: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan
+      .operacaoBydManPainelSolar.veiculo
+  }
+
+  Regras por valor:
+${Object.entries(
+  POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan
+    .operacaoBydManPainelSolar.regras
+)
+  .map(([key, regra]) => {
+    const obrig = Array.isArray(regra.obrigatoriedade)
+      ? regra.obrigatoriedade.map((item) => `      - ${item}`).join("\n")
+      : `      - ${regra.obrigatoriedade}`;
+    return `    ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+  })
+  .join("\n\n")}
+
+【OPERAÇÃO MIBA】
+Embarcador: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.embarcador}
+Restrição: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.origemDestino}
+
+Regras por valor:
+${Object.entries(
+  POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.regras
+)
+  .map(([key, regra]) => {
+    const obrig = Array.isArray(regra.obrigatoriedade)
+      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+      : `    - ${regra.obrigatoriedade}`;
+    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+  })
+  .join("\n\n")}
+
+【AERONAVES DESMONTADAS】
+Mercadoria: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.aeronavesDesmontadas.mercadoria
+  }
+
+Regras por valor:
+${Object.entries(
+  POLICY_RULES.regrasDeGerenciamentoDeRiscos.aeronavesDesmontadas.regras
+)
+  .map(([key, regra]) => {
+    const obrig = Array.isArray(regra.obrigatoriedade)
+      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+      : `    - ${regra.obrigatoriedade}`;
+    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+  })
+  .join("\n\n")}
+
+═══════════════════════════════════════════════════════════════════════
+                           INSTRUÇÕES PARA ANÁLISE
+═══════════════════════════════════════════════════════════════════════
+
+🎯 PROCESSO DE VALIDAÇÃO:
+
+1. VERIFICAR EXCLUSÕES TOTAIS
+   → Conferir se mercadoria está na lista de proibidas (Condição 1)
+   → Validar restrições para Rio de Janeiro (Condição 2)
+   → Checar cláusulas específicas de exclusão
+
+2. IDENTIFICAR CATEGORIA DE RISCO
+   → Classificar como Risco A, Risco B ou regra específica
+   → Verificar embarcadores especiais (MANN+HUMMEL, BYD MAN, MIBA)
+   → Validar mercadorias específicas (painel solar, sêmen bovino, etc.)
+
+3. ANALISAR VALOR DA MERCADORIA
+   → Comparar valor do CTe com faixas de valor das regras
+   → Verificar se excede limite máximo de cobertura (R$ 3.000.000,00)
+
+4. VALIDAR REQUISITOS DE SEGURANÇA
+   → Confirmar obrigatoriedades para a faixa de valor aplicável
+   → Verificar restrições de veículo quando aplicável
+
+5. VERIFICAR RESTRIÇÕES GEOGRÁFICAS
+   → Rio de Janeiro como origem ou destino
+   → Regras específicas por região
+
+📄 FORMATO DE RESPOSTA ESPERADO:
+Retornar JSON estruturado com análise completa e resultado da validação.
 `;
 }
