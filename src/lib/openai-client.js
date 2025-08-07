@@ -1,5 +1,5 @@
-import dotenv from 'dotenv';
-import OpenAI from 'openai';
+import dotenv from "dotenv";
+import OpenAI from "openai";
 
 // Carregar variáveis de ambiente
 dotenv.config();
@@ -12,50 +12,68 @@ const openai = new OpenAI({
 // Função para validar CTe com IA
 export async function validateCTeWithAI(cteData, policyRules) {
   try {
-    // Prompt estruturado para a IA
-    const prompt = `
-ANALISE OS DADOS DO CTe E COMPARE COM AS REGRAS DA APÓLICE:
+    // System prompt com instruções técnicas específicas para a IA
+    const systemPrompt = `
+Você é um especialista em validação de conformidade de CTe (Conhecimento de Transporte Eletrônico) com apólices de seguro de transporte.
 
-DADOS DO CTe:
+INSTRUÇÕES TÉCNICAS:
+• Analise TODOS os dados do CTe fornecidos
+• Compare rigorosamente com TODAS as regras da apólice
+• Identifique violações específicas com base nas regras
+• Classifique mercadorias por categoria de risco (A, B, específicas)
+• Verifique restrições geográficas, de valor e de veículo
+• Responda EXCLUSIVAMENTE em JSON válido
+• Seja preciso e detalhado nas explicações
+• Use valores exatos das regras nas comparações
+
+FORMATO DE RESPOSTA OBRIGATÓRIO:
+{
+  "conforme": boolean,
+  "violacoes": ["lista específica de violações encontradas"],
+  "explicacao": "análise detalhada da validação",
+  "categoria_risco": "A" | "B" | "específica" | "não_classificada",
+  "valor_limite_excedido": boolean,
+  "restricoes_geograficas": ["lista de restrições de local"],
+  "obrigatoriedades_requeridas": ["lista de requisitos de segurança"],
+  "detalhes_mercadoria": {
+    "nome": "nome da mercadoria",
+    "valor": "valor em reais",
+    "categoria": "categoria identificada"
+  }
+}`;
+
+    // User prompt com dados específicos
+    const userPrompt = `
+DADOS DO CTe PARA VALIDAÇÃO:
 ${JSON.stringify(cteData, null, 2)}
 
-REGRAS DA APÓLICE:
+REGRAS DA APÓLICE DE SEGURO:
 ${policyRules}
 
-RESPONDA EM JSON COM A SEGUINTE ESTRUTURA:
-{
-  "conforme": true/false,
-  "violacoes": ["lista de violações encontradas"],
-  "explicacao": "explicação detalhada da validação",
-  "riscos": {
-    "riscoA": ["mercadorias de risco A"],
-    "riscoB": ["mercadorias de risco B"]
-  }
-}
-`;
+Execute a validação completa seguindo as instruções do sistema.`;
 
     // Enviar prompt para a IA
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1-nano-2025-04-14',
+      model: "gpt-4.1-nano-2025-04-14",
       messages: [
         {
-          role: 'system',
-          content:
-            'Você é um especialista em análise de conformidade de CTe com apólices de seguro. Analise os dados e responda APENAS em JSON válido.',
+          role: "system",
+          content: systemPrompt,
         },
         {
-          role: 'user',
-          content: prompt,
+          role: "user",
+          content: userPrompt,
         },
       ],
       temperature: 0.1, // Baixa temperatura para respostas mais consistentes
+      response_format: { type: "json_object" }, // Força resposta em JSON
     });
 
     // Extrair resposta da IA
     const response = completion.choices[0]?.message?.content;
 
     if (!response) {
-      throw new Error('Resposta vazia da OpenAI');
+      throw new Error("Resposta vazia da OpenAI");
     }
 
     // Tentar fazer parse do JSON
@@ -66,7 +84,7 @@ RESPONDA EM JSON COM A SEGUINTE ESTRUTURA:
       throw new Error(`Erro ao fazer parse da resposta: ${parseError.message}`);
     }
   } catch (error) {
-    console.error('Erro na validação com IA:', error);
+    console.error("Erro na validação com IA:", error);
     throw new Error(`Falha na validação: ${error.message}`);
   }
 }
@@ -76,10 +94,10 @@ export async function testOpenAIConnection() {
   try {
     // Teste simples de conexão
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1-nano-2025-04-14',
+      model: "gpt-4.1-nano-2025-04-14",
       messages: [
         {
-          role: 'user',
+          role: "user",
           content: 'Teste de conexão - responda apenas "OK"',
         },
       ],
@@ -87,9 +105,9 @@ export async function testOpenAIConnection() {
     });
 
     const response = completion.choices[0]?.message?.content;
-    return response && response.trim() === 'OK';
+    return response && response.trim() === "OK";
   } catch (error) {
-    console.error('Erro na conexão OpenAI:', error.message);
+    console.error("Erro na conexão OpenAI:", error.message);
     return false;
   }
 }

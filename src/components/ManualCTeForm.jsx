@@ -1,36 +1,36 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/Button';
+import { Button } from "@/components/Button";
 import {
   CTE_SCHEMA,
   SECTION_TITLES,
   autoSaveCTeData,
   clearCTeDataFromStorage,
   loadCTeDataFromStorage,
-  validateFieldWithMask, // ✨ NOVA FUNÇÃO
-} from '@/lib/cte-schema';
-import { applyMask, formatStoredValue, removeMask } from '@/lib/input-masks'; // ✨ IMPORTAR NOVA FUNÇÃO
-import { useEffect, useState } from 'react';
+  validateFieldWithMask,
+} from "@/lib/cte-schema";
+import { applyMask, formatStoredValue, removeMask } from "@/lib/input-masks"; // IMPORTAR NOVA FUNÇÃO
+import { useEffect, useState } from "react";
 
 export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
   const [cteData, setCteData] = useState({});
   const [fieldErrors, setFieldErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
-  const [displayValues, setDisplayValues] = useState({}); // ✨ NOVO ESTADO PARA VALORES COM MÁSCARA
+  const [displayValues, setDisplayValues] = useState({}); // NOVO ESTADO PARA VALORES COM MÁSCARA
 
   // Carregar dados salvos ao montar o componente
   useEffect(() => {
     const savedData = loadCTeDataFromStorage();
     setCteData(savedData);
 
-    // APLICAR MÁSCARAS AOS DADOS CARREGADOS (ATUALIZADO)
+    // APLICAR MÁSCARAS AOS DADOS CARREGADOS
     const maskedData = {};
     Object.keys(savedData).forEach((sectionKey) => {
       if (savedData[sectionKey]) {
         maskedData[sectionKey] = {};
         Object.keys(savedData[sectionKey]).forEach((fieldKey) => {
           if (
-            typeof savedData[sectionKey][fieldKey] === 'object' &&
+            typeof savedData[sectionKey][fieldKey] === "object" &&
             savedData[sectionKey][fieldKey] !== null
           ) {
             // Campo aninhado
@@ -41,7 +41,7 @@ export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
                   CTE_SCHEMA[sectionKey]?.[fieldKey]?.[subFieldKey];
                 const value = savedData[sectionKey][fieldKey][subFieldKey];
 
-                // ✨ USAR NOVA FUNÇÃO PARA FORMATAR VALORES ARMAZENADOS
+                // USAR NOVA FUNÇÃO PARA FORMATAR VALORES ARMAZENADOS
                 maskedData[sectionKey][fieldKey][subFieldKey] = config?.mask
                   ? formatStoredValue(value, config.mask)
                   : value;
@@ -52,7 +52,7 @@ export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
             const config = CTE_SCHEMA[sectionKey]?.[fieldKey];
             const value = savedData[sectionKey][fieldKey];
 
-            // ✨ USAR NOVA FUNÇÃO PARA FORMATAR VALORES ARMAZENADOS
+            // USAR NOVA FUNÇÃO PARA FORMATAR VALORES ARMAZENADOS
             maskedData[sectionKey][fieldKey] = config?.mask
               ? formatStoredValue(value, config.mask)
               : value;
@@ -71,7 +71,7 @@ export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
     }
   }, [cteData]);
 
-  // ✨ ATUALIZAR VALOR DE CAMPO COM NOVA LÓGICA MONETÁRIA
+  // ATUALIZAR VALOR DE CAMPO COM NOVA LÓGICA MONETÁRIA
   const updateField = (sectionKey, fieldKey, value, subFieldKey = null) => {
     const config = subFieldKey
       ? CTE_SCHEMA[sectionKey]?.[fieldKey]?.[subFieldKey]
@@ -80,8 +80,8 @@ export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
     let maskedValue = value;
     let cleanValue = value;
 
-    // ✨ LÓGICA ESPECIAL PARA CAMPOS MONETÁRIOS
-    if (config?.mask === 'currency') {
+    // LÓGICA ESPECIAL PARA CAMPOS MONETÁRIOS
+    if (config?.mask === "currency") {
       // Para currency, aplicamos a máscara diretamente no valor digitado
       maskedValue = applyMask(value, config.mask);
       cleanValue = removeMask(maskedValue, config.mask);
@@ -127,7 +127,7 @@ export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
     validateFieldRealTime(sectionKey, fieldKey, cleanValue, subFieldKey);
   };
 
-  // ✨ VALIDAÇÃO EM TEMPO REAL ATUALIZADA
+  // VALIDAÇÃO EM TEMPO REAL ATUALIZADA
   const validateFieldRealTime = (
     sectionKey,
     fieldKey,
@@ -162,7 +162,7 @@ export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
         if (!fieldConfig.type) {
           // Campo aninhado
           Object.keys(fieldConfig).forEach((subFieldKey) => {
-            const value = cteData[sectionKey]?.[fieldKey]?.[subFieldKey] || '';
+            const value = cteData[sectionKey]?.[fieldKey]?.[subFieldKey] || "";
             const validation = validateFieldWithMask(
               sectionKey,
               fieldKey,
@@ -178,7 +178,7 @@ export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
           });
         } else {
           // Campo simples
-          const value = cteData[sectionKey]?.[fieldKey] || '';
+          const value = cteData[sectionKey]?.[fieldKey] || "";
           const validation = validateFieldWithMask(sectionKey, fieldKey, value);
           const fieldPath = `${sectionKey}.${fieldKey}`;
 
@@ -204,20 +204,20 @@ export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
 
   // Limpar formulário
   const handleClear = () => {
-    if (confirm('Deseja limpar todos os dados do formulário?')) {
+    if (confirm("Deseja limpar todos os dados do formulário?")) {
       clearCTeDataFromStorage();
       setCteData({});
-      setDisplayValues({}); // ✨ LIMPAR TAMBÉM OS VALORES DE EXIBIÇÃO
+      setDisplayValues({}); // LIMPAR TAMBÉM OS VALORES DE EXIBIÇÃO
       setFieldErrors({});
     }
   };
 
-  // ✨ RENDERIZAR CAMPO COM MÁSCARA
+  // RENDERIZAR CAMPO COM MÁSCARA
   const renderField = (
     sectionKey,
     fieldKey,
     fieldConfig,
-    value = '',
+    value = "",
     subFieldKey = null
   ) => {
     const fieldPath = subFieldKey
@@ -226,71 +226,71 @@ export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
 
     // Usar valor de exibição (com máscara)
     const displayValue = subFieldKey
-      ? displayValues[sectionKey]?.[fieldKey]?.[subFieldKey] || ''
-      : displayValues[sectionKey]?.[fieldKey] || '';
+      ? displayValues[sectionKey]?.[fieldKey]?.[subFieldKey] || ""
+      : displayValues[sectionKey]?.[fieldKey] || "";
 
     const error = fieldErrors[fieldPath];
     const hasError = !!error;
-    const isEmpty = !value || value.toString().trim() === '';
+    const isEmpty = !value || value.toString().trim() === "";
     const isValid = !hasError && !isEmpty;
 
     const getStatusIcon = () => {
-      if (hasError) return '❌';
-      if (isValid) return '✅';
-      if (fieldConfig.required && isEmpty) return '⚠️';
-      return '';
+      if (hasError) return "❌";
+      if (isValid) return "✅";
+      if (fieldConfig.required && isEmpty) return "⚠️";
+      return "";
     };
 
     const inputProps = {
       id: fieldPath,
-      value: displayValue, // ✨ USAR VALOR COM MÁSCARA
+      value: displayValue, // USAR VALOR COM MÁSCARA
       placeholder: fieldConfig.placeholder,
       disabled: disabled || isLoading,
-      maxLength: fieldConfig.maxLength, // ✨ LIMITAR TAMANHO SE DEFINIDO
+      maxLength: fieldConfig.maxLength, // LIMITAR TAMANHO SE DEFINIDO
       className: `w-full px-3 py-2 border rounded-md transition-colors ${
         hasError
-          ? 'border-red-300 bg-red-50'
+          ? "border-red-300 bg-red-50"
           : isValid
-          ? 'border-green-300 bg-green-50'
-          : 'border-gray-300'
+          ? "border-green-300 bg-green-50"
+          : "border-gray-300"
       } focus:outline-none focus:ring-2 focus:ring-blue-500`,
       onChange: (e) =>
         updateField(sectionKey, fieldKey, e.target.value, subFieldKey),
     };
 
     return (
-      <div key={fieldPath} className='space-y-1'>
+      <div key={fieldPath} className="space-y-1">
         <label
           htmlFor={fieldPath}
-          className='flex items-center space-x-2 text-sm font-medium text-gray-700'
+          className="flex items-center space-x-2 text-sm font-medium text-gray-700"
         >
           <span>{fieldConfig.label}</span>
-          {fieldConfig.required && <span className='text-red-500'>*</span>}
-          <span className='text-lg'>{getStatusIcon()}</span>
-          {/* ✨ INDICADOR DE MÁSCARA */}
+          {fieldConfig.required && <span className="text-red-500">*</span>}
+          <span className="text-lg">{getStatusIcon()}</span>
+          {/* INDICADOR DE MÁSCARA */}
           {fieldConfig.mask && (
-            <span className='text-xs text-blue-600 bg-blue-100 px-1 rounded'>
+            <span className="text-xs text-blue-600 bg-blue-100 px-1 rounded">
               {fieldConfig.mask}
             </span>
           )}
         </label>
 
-        {fieldConfig.type === 'select' ? (
+        {fieldConfig.type === "select" ? (
           <select {...inputProps}>
-            <option value=''>Selecione...</option>
+            <option value="">Selecione...</option>
             {fieldConfig.options?.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
             ))}
           </select>
-        ) : fieldConfig.type === 'textarea' ? (
+        ) : fieldConfig.type === "textarea" ? (
           <textarea {...inputProps} rows={3} />
         ) : (
-          <input {...inputProps} type='text' /> // ✨ SEMPRE 'text' PARA PERMITIR MÁSCARAS
+          <input {...inputProps} type="text" /> // SEMPRE 'text' PARA PERMITIR MÁSCARAS
         )}
 
-        {hasError && <p className='text-red-600 text-xs'>{error}</p>}
+        {hasError && <p className="text-red-600 text-xs">{error}</p>}
       </div>
     );
   };
@@ -302,24 +302,24 @@ export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
     return (
       <div
         key={sectionKey}
-        className='bg-white border rounded-lg p-4 space-y-4'
+        className="bg-white border rounded-lg p-4 space-y-4"
       >
-        <h3 className='text-lg font-semibold text-gray-800 border-b pb-2'>
+        <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">
           {SECTION_TITLES[sectionKey]}
         </h3>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {Object.keys(sectionConfig).map((fieldKey) => {
             const fieldConfig = sectionConfig[fieldKey];
 
             if (!fieldConfig.type) {
               // Campo aninhado (origem/destino)
               return (
-                <div key={fieldKey} className='md:col-span-2'>
-                  <h4 className='font-medium text-gray-700 mb-2 capitalize'>
+                <div key={fieldKey} className="md:col-span-2">
+                  <h4 className="font-medium text-gray-700 mb-2 capitalize">
                     {fieldKey}
                   </h4>
-                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {Object.keys(fieldConfig).map((subFieldKey) =>
                       renderField(
                         sectionKey,
@@ -348,34 +348,34 @@ export function ManualCTeForm({ onSubmit, isLoading, disabled }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-6'>
+    <form onSubmit={handleSubmit} className="space-y-6">
       {/* Renderizar todas as seções */}
       {Object.keys(CTE_SCHEMA).map(renderSection)}
 
       {/* Botões de ação */}
-      <div className='flex justify-between items-center pt-6 border-t'>
+      <div className="flex justify-between items-center pt-6 border-t">
         <Button
-          type='button'
+          type="button"
           onClick={handleClear}
           disabled={disabled || isLoading}
-          className='bg-gray-500 hover:bg-gray-600'
+          className="bg-gray-500 hover:bg-gray-600"
         >
           🗑️ Limpar Dados
         </Button>
 
-        <div className='flex items-center space-x-4'>
-          <span className='text-sm text-gray-600'>
+        <div className="flex items-center space-x-4">
+          <span className="text-sm text-gray-600">
             {isFormValid
-              ? '✅ Formulário válido'
-              : '⚠️ Preencha os campos obrigatórios'}
+              ? "✅ Formulário válido"
+              : "⚠️ Preencha os campos obrigatórios"}
           </span>
 
           <Button
-            type='submit'
+            type="submit"
             disabled={disabled || isLoading || !isFormValid}
-            className='bg-blue-600 hover:bg-blue-700'
+            className="bg-blue-600 hover:bg-blue-700"
           >
-            {isLoading ? '🤖 Validando...' : '🤖 Validar com IA'}
+            {isLoading ? "🤖 Validando..." : "🤖 Validar com IA"}
           </Button>
         </div>
       </div>

@@ -7,12 +7,6 @@ export const POLICY_RULES = {
     vigencia: "19/10/2024 até 31/10/2026",
   },
 
-  limiteDeCobertura: {
-    regra:
-      "Para todas as mercadorias que não se enquadram em nenhuma condição específica, o limite máximo de cobertura é de R$ 3.000.000,00",
-    valorMaximo: "3.000.000,00",
-  },
-
   condicoesParaExclusaoDeBensOuMercadorias: {
     condicao1: {
       regra:
@@ -79,6 +73,12 @@ export const POLICY_RULES = {
         "Armas Químicas, Biológicas, Bioquímicas, Eletromagnéticas e de Ataque Cibernético",
       ],
     },
+  },
+
+  limiteDeCobertura: {
+    regra:
+      "Para todas as mercadorias que não se enquadram em nenhuma condição específica, o limite máximo de cobertura é de R$ 3.000.000,00",
+    valorMaximo: "3.000.000,00",
   },
 
   regrasDeGerenciamentoDeRiscos: {
@@ -567,9 +567,7 @@ ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao3.mercadorias
   .join("\n")}
 
 【CONDIÇÃO 4】Restrição de Veículos
-Regra: ${
-    POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao4.regra
-  }
+Regra: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao4.regra}
 
 Veículos permitidos: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao4.veiculosPermitidos.join(
     ", "
@@ -631,9 +629,7 @@ ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoB.regras)
   .join("\n\n")}
 
 【SÊMEN BOVINO】
-Mercadoria: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.mercadoria
-  }
+Mercadoria: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.mercadoria}
 
 Regras por valor:
 ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.regras)
@@ -678,17 +674,13 @@ ${Object.entries(
   .join("\n\n")}
 
 【PAINEL SOLAR】
-Mercadoria: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.mercadoria
-  }
+Mercadoria: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.mercadoria}
 Restrição: ${
     POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.origemDestino
   }
 
 Regras por valor:
-${Object.entries(
-  POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.regras
-)
+${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.regras)
   .map(([key, regra]) => {
     const obrig = Array.isArray(regra.obrigatoriedade)
       ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
@@ -748,13 +740,15 @@ ${Object.entries(
   .join("\n\n")}
 
 【OPERAÇÃO MIBA】
-Embarcador: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.embarcador}
-Restrição: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.origemDestino}
+Embarcador: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.embarcador
+  }
+Restrição: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.origemDestino
+  }
 
 Regras por valor:
-${Object.entries(
-  POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.regras
-)
+${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.regras)
   .map(([key, regra]) => {
     const obrig = Array.isArray(regra.obrigatoriedade)
       ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
@@ -786,29 +780,12 @@ ${Object.entries(
 
 🎯 PROCESSO DE VALIDAÇÃO:
 
-1. VERIFICAR EXCLUSÕES TOTAIS
-   → Conferir se mercadoria está na lista de proibidas (Condição 1)
-   → Validar restrições para Rio de Janeiro (Condição 2)
-   → Checar cláusulas específicas de exclusão
+1. VERIFICAR INFORMAÇÕES DO EMITENTE
+    → CNPJ
+    → Nome
+    → Vigência
 
-2. IDENTIFICAR CATEGORIA DE RISCO
-   → Classificar como Risco A, Risco B ou regra específica
-   → Verificar embarcadores especiais (MANN+HUMMEL, BYD MAN, MIBA)
-   → Validar mercadorias específicas (painel solar, sêmen bovino, etc.)
+2. VERIFICAR CONDIÇÕES 
 
-3. ANALISAR VALOR DA MERCADORIA
-   → Comparar valor do CTe com faixas de valor das regras
-   → Verificar se excede limite máximo de cobertura (R$ 3.000.000,00)
-
-4. VALIDAR REQUISITOS DE SEGURANÇA
-   → Confirmar obrigatoriedades para a faixa de valor aplicável
-   → Verificar restrições de veículo quando aplicável
-
-5. VERIFICAR RESTRIÇÕES GEOGRÁFICAS
-   → Rio de Janeiro como origem ou destino
-   → Regras específicas por região
-
-📄 FORMATO DE RESPOSTA ESPERADO:
-Retornar JSON estruturado com análise completa e resultado da validação.
 `;
 }
