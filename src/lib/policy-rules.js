@@ -400,81 +400,80 @@ export const POLICY_RULES = {
             "Escolta Armada",
           ],
         },
-
-        operacaoBydManPainelSolar: {
-          embarcador: "BYD MAN",
-          mercadoria: "painel solar",
-          veiculo: "BITREM",
-          regras: {
-            1: {
-              valorMercadoria: "até R$ 80.000,00",
-              obrigatoriedade: "análise de perfil profissional",
-            },
-            2: {
-              valorMercadoria: "de R$ 80.000,01 até R$ 500.000,00",
-              obrigatoriedade: [
-                "análise de perfil profissional",
-                "rastreamento / monitoramento de cargas",
-              ],
-            },
-            3: {
-              valorMercadoria: "de R$ 500.000,01 até R$ 1.000.000,00",
-              obrigatoriedade: [
-                "análise de perfil profissional",
-                "rastreamento / monitoramento de cargas",
-                "Isca Eletrônica RF OU Imobilizador Inteligente OU Escolta Ostensiva OU 01 Fiscal de Rota em percurso integral",
-              ],
-            },
-            4: {
-              valorMercadoria: "de R$ 1.000.000,01 até R$ 1.500.000,00",
-              obrigatoriedade: [
-                "análise de perfil profissional",
-                "rastreamento / monitoramento de cargas",
-                "Isca Eletrônica E Escolta Armada OU Imobilizador Inteligente E Lacre Eletrônico",
-              ],
-            },
-            5: {
-              valorMercadoria: "de R$ 1.500.000,01 até R$ 3.000.000,00",
-              obrigatoriedade: [
-                "análise de perfil profissional",
-                "rastreamento / monitoramento de cargas",
-                "Escolta Armada OU Fiscal de Rota E Isca Eletrônica E Imobilizador Inteligente OU 01 Fiscal de Rota",
-              ],
-            },
-            6: {
-              valorMercadoria: "de R$ 3.000.000,01 até R$ 5.000.000,00",
-              obrigatoriedade: [
-                "análise de perfil profissional",
-                "rastreamento / monitoramento de cargas",
-                "02 Escoltas Armadas",
-                "02 Iscas Eletrônicas",
-                "Imobilizador Inteligente",
-                "01 Fiscal de Rota",
-              ],
-            },
-            7: {
-              valorMercadoria: "de R$ 5.000.000,01 até R$ 7.000.000,00",
-              obrigatoriedade: [
-                "análise de perfil profissional",
-                "rastreamento / monitoramento de cargas",
-                "02 Escoltas Armadas",
-                "02 Iscas Eletrônicas",
-                "Imobilizador Inteligente",
-                "01 Fiscal de Rota",
-              ],
-            },
-            8: {
-              valorMercadoria: "de R$ 7.000.000,01 até R$ 10.000.000,00",
-              obrigatoriedade: [
-                "análise de perfil profissional",
-                "rastreamento / monitoramento de cargas",
-                "03 Escoltas Armadas",
-                "02 Iscas Eletrônicas",
-                "Imobilizador Inteligente",
-                "01 Fiscal de Rota",
-              ],
-            },
-          },
+      },
+    },
+    operacaoBydManPainelSolar: {
+      embarcador: "BYD MAN",
+      mercadoria: "painel solar",
+      veiculo: "BITREM",
+      regras: {
+        1: {
+          valorMercadoria: "até R$ 80.000,00",
+          obrigatoriedade: "análise de perfil profissional",
+        },
+        2: {
+          valorMercadoria: "de R$ 80.000,01 até R$ 500.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+          ],
+        },
+        3: {
+          valorMercadoria: "de R$ 500.000,01 até R$ 1.000.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "Isca Eletrônica RF OU Imobilizador Inteligente OU Escolta Ostensiva OU 01 Fiscal de Rota em percurso integral",
+          ],
+        },
+        4: {
+          valorMercadoria: "de R$ 1.000.000,01 até R$ 1.500.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "Isca Eletrônica E Escolta Armada OU Imobilizador Inteligente E Lacre Eletrônico",
+          ],
+        },
+        5: {
+          valorMercadoria: "de R$ 1.500.000,01 até R$ 3.000.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "Escolta Armada OU Fiscal de Rota E Isca Eletrônica E Imobilizador Inteligente OU 01 Fiscal de Rota",
+          ],
+        },
+        6: {
+          valorMercadoria: "de R$ 3.000.000,01 até R$ 5.000.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "02 Escoltas Armadas",
+            "02 Iscas Eletrônicas",
+            "Imobilizador Inteligente",
+            "01 Fiscal de Rota",
+          ],
+        },
+        7: {
+          valorMercadoria: "de R$ 5.000.000,01 até R$ 7.000.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "02 Escoltas Armadas",
+            "02 Iscas Eletrônicas",
+            "Imobilizador Inteligente",
+            "01 Fiscal de Rota",
+          ],
+        },
+        8: {
+          valorMercadoria: "de R$ 7.000.000,01 até R$ 10.000.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "03 Escoltas Armadas",
+            "02 Iscas Eletrônicas",
+            "Imobilizador Inteligente",
+            "01 Fiscal de Rota",
+          ],
         },
       },
     },
@@ -712,30 +711,28 @@ ${Object.entries(
   })
   .join("\n\n")}
 
-  【SUB-OPERAÇÃO BYD MAN - PAINEL SOLAR】
-  Embarcador: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan
-      .operacaoBydManPainelSolar.embarcador
+【OPERAÇÃO BYD MAN - PAINEL SOLAR】
+Embarcador: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar
+      .embarcador
   }
-  Mercadoria: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan
-      .operacaoBydManPainelSolar.mercadoria
+Mercadoria: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar
+      .mercadoria
   }
-  Veículo permitido: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan
-      .operacaoBydManPainelSolar.veiculo
+Veículo permitido: ${
+    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar.veiculo
   }
 
-  Regras por valor:
+Regras por valor:
 ${Object.entries(
-  POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan
-    .operacaoBydManPainelSolar.regras
+  POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar.regras
 )
   .map(([key, regra]) => {
     const obrig = Array.isArray(regra.obrigatoriedade)
-      ? regra.obrigatoriedade.map((item) => `      - ${item}`).join("\n")
-      : `      - ${regra.obrigatoriedade}`;
-    return `    ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+      : `    - ${regra.obrigatoriedade}`;
+    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
   })
   .join("\n\n")}
 
@@ -773,19 +770,6 @@ ${Object.entries(
     return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
   })
   .join("\n\n")}
-
-═══════════════════════════════════════════════════════════════════════
-                           INSTRUÇÕES PARA ANÁLISE
-═══════════════════════════════════════════════════════════════════════
-
-🎯 PROCESSO DE VALIDAÇÃO:
-
-1. VERIFICAR INFORMAÇÕES DO EMITENTE
-    → CNPJ
-    → Nome
-    → Vigência
-
-2. VERIFICAR CONDIÇÕES 
 
 `;
 }
