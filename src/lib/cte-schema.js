@@ -1,4 +1,4 @@
-import { removeMask } from './input-masks';
+import { removeMask } from "./input-masks";
 
 // CTE Schema - Fonte única da verdade para estrutura de dados
 // Mudanças aqui refletem automaticamente no Parser XML e Formulário Manual
@@ -6,148 +6,148 @@ import { removeMask } from './input-masks';
 export const CTE_SCHEMA = {
   emitente: {
     cnpj: {
-      type: 'text',
+      type: "text",
       required: true,
-      label: 'CNPJ',
-      placeholder: '00.000.000/0000-00',
-      validation: 'cnpj',
-      mask: 'cnpj', // ✨ NOVA PROPRIEDADE
-      maxLength: 18, // Tamanho da máscara completa
+      label: "CNPJ",
+      placeholder: "00.000.000/0000-00",
+      validation: "cnpj",
+      mask: "cnpj",
+      maxLength: 18,
     },
     nome: {
-      type: 'text',
+      type: "text",
       required: true,
-      label: 'Nome/Razão Social',
-      placeholder: 'Nome da empresa',
+      label: "Nome/Razão Social",
+      placeholder: "Nome da empresa",
     },
     fantasia: {
-      type: 'text',
+      type: "text",
       required: false,
-      label: 'Nome Fantasia',
-      placeholder: 'Nome fantasia (opcional)',
+      label: "Nome Fantasia",
+      placeholder: "Nome fantasia (opcional)",
     },
   },
 
   mercadoria: {
     descricao: {
-      type: 'textarea',
+      type: "textarea",
       required: true,
-      label: 'Descrição das Mercadorias',
-      placeholder: 'Descreva o produto/mercadoria transportado',
+      label: "Descrição das Mercadorias",
+      placeholder: "Descreva o produto/mercadoria transportado",
     },
     valor: {
-      type: 'text',
+      type: "text",
       required: true,
-      label: 'Valor da Carga (R$)',
-      placeholder: '0,00',
-      validation: 'currency',
-      mask: 'currency',
+      label: "Valor da Carga (R$)",
+      placeholder: "0,00",
+      validation: "currency",
+      mask: "currency",
     },
   },
 
   transporte: {
     origem: {
       municipio: {
-        type: 'text',
+        type: "text",
         required: true,
-        label: 'Município de Origem',
-        placeholder: 'Cidade de origem',
+        label: "Município de Origem",
+        placeholder: "Cidade de origem",
       },
       uf: {
-        type: 'select',
+        type: "select",
         required: true,
-        label: 'UF',
+        label: "UF",
         options: [
-          'AC',
-          'AL',
-          'AP',
-          'AM',
-          'BA',
-          'CE',
-          'DF',
-          'ES',
-          'GO',
-          'MA',
-          'MT',
-          'MS',
-          'MG',
-          'PA',
-          'PB',
-          'PR',
-          'PE',
-          'PI',
-          'RJ',
-          'RN',
-          'RS',
-          'RO',
-          'RR',
-          'SC',
-          'SP',
-          'SE',
-          'TO',
+          "AC",
+          "AL",
+          "AP",
+          "AM",
+          "BA",
+          "CE",
+          "DF",
+          "ES",
+          "GO",
+          "MA",
+          "MT",
+          "MS",
+          "MG",
+          "PA",
+          "PB",
+          "PR",
+          "PE",
+          "PI",
+          "RJ",
+          "RN",
+          "RS",
+          "RO",
+          "RR",
+          "SC",
+          "SP",
+          "SE",
+          "TO",
         ],
       },
     },
     destino: {
       municipio: {
-        type: 'text',
+        type: "text",
         required: true,
-        label: 'Município de Destino',
-        placeholder: 'Cidade de destino',
+        label: "Município de Destino",
+        placeholder: "Cidade de destino",
       },
       uf: {
-        type: 'select',
+        type: "select",
         required: true,
-        label: 'UF',
+        label: "UF",
         options: [
-          'AC',
-          'AL',
-          'AP',
-          'AM',
-          'BA',
-          'CE',
-          'DF',
-          'ES',
-          'GO',
-          'MA',
-          'MT',
-          'MS',
-          'MG',
-          'PA',
-          'PB',
-          'PR',
-          'PE',
-          'PI',
-          'RJ',
-          'RN',
-          'RS',
-          'RO',
-          'RR',
-          'SC',
-          'SP',
-          'SE',
-          'TO',
+          "AC",
+          "AL",
+          "AP",
+          "AM",
+          "BA",
+          "CE",
+          "DF",
+          "ES",
+          "GO",
+          "MA",
+          "MT",
+          "MS",
+          "MG",
+          "PA",
+          "PB",
+          "PR",
+          "PE",
+          "PI",
+          "RJ",
+          "RN",
+          "RS",
+          "RO",
+          "RR",
+          "SC",
+          "SP",
+          "SE",
+          "TO",
         ],
       },
     },
     informacoesTransporte: {
-      type: 'text',
+      type: "text",
       required: true,
-      label: 'Informações do Transporte',
-      placeholder: 'Ex: TRANSPORTE ESTADUAL',
+      label: "Informações do Transporte",
+      placeholder: "Ex: TRANSPORTE ESTADUAL",
     },
   },
 };
 
 // Títulos das seções para interface
 export const SECTION_TITLES = {
-  emitente: '🏢 Dados do Emitente',
-  mercadoria: '📦 Dados da Mercadoria',
-  transporte: '🗺️ Rota de Transporte',
+  emitente: "🏢 Dados do Emitente",
+  mercadoria: "📦 Dados da Mercadoria",
+  transporte: "🗺️ Rota de Transporte",
 };
 
 // Chave para localStorage
-const STORAGE_KEY = 'cte_manual_form_data';
+const STORAGE_KEY = "cte_manual_form_data";
 
 // Função para gerar estrutura vazia baseada no schema
 export function createEmptyCTeData() {
@@ -163,19 +163,19 @@ export function createEmptyCTeData() {
       if (!fieldConfig.type) {
         data[sectionKey][fieldKey] = {};
         Object.keys(fieldConfig).forEach((subFieldKey) => {
-          data[sectionKey][fieldKey][subFieldKey] = '';
+          data[sectionKey][fieldKey][subFieldKey] = "";
         });
       } else {
         // Campo simples - valor inicial baseado no tipo
         switch (fieldConfig.type) {
-          case 'number':
-            data[sectionKey][fieldKey] = '';
+          case "number":
+            data[sectionKey][fieldKey] = "";
             break;
-          case 'date':
-            data[sectionKey][fieldKey] = '';
+          case "date":
+            data[sectionKey][fieldKey] = "";
             break;
           default:
-            data[sectionKey][fieldKey] = '';
+            data[sectionKey][fieldKey] = "";
         }
       }
     });
@@ -190,9 +190,9 @@ export function createEmptyCTeData() {
 export function saveCTeDataToStorage(data) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    console.log('Dados CTe salvos no localStorage');
+    console.log("Dados CTe salvos no localStorage");
   } catch (error) {
-    console.warn('Erro ao salvar dados CTe:', error);
+    console.warn("Erro ao salvar dados CTe:", error);
   }
 }
 
@@ -202,11 +202,11 @@ export function loadCTeDataFromStorage() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsedData = JSON.parse(saved);
-      console.log('Dados CTe carregados do localStorage');
+      console.log("Dados CTe carregados do localStorage");
       return parsedData;
     }
   } catch (error) {
-    console.warn('Erro ao carregar dados CTe:', error);
+    console.warn("Erro ao carregar dados CTe:", error);
   }
 
   // Retorna estrutura vazia se não conseguir carregar
@@ -217,9 +217,9 @@ export function loadCTeDataFromStorage() {
 export function clearCTeDataFromStorage() {
   try {
     localStorage.removeItem(STORAGE_KEY);
-    console.log('Dados CTe removidos do localStorage');
+    console.log("Dados CTe removidos do localStorage");
   } catch (error) {
-    console.warn('Erro ao limpar dados CTe:', error);
+    console.warn("Erro ao limpar dados CTe:", error);
   }
 }
 
@@ -246,19 +246,19 @@ export function validateField(sectionKey, fieldKey, value, subFieldKey = null) {
   if (!config) return { valid: true };
 
   // Campo obrigatório
-  if (config.required && (!value || value.toString().trim() === '')) {
-    return { valid: false, message: 'Campo obrigatório' };
+  if (config.required && (!value || value.toString().trim() === "")) {
+    return { valid: false, message: "Campo obrigatório" };
   }
 
   // Validações específicas
   switch (config.validation) {
-    case 'cnpj':
+    case "cnpj":
       return validateCNPJ(value);
-    case 'currency':
+    case "currency":
       return validateCurrency(value);
-    case 'positive':
+    case "positive":
       return validatePositiveNumber(value);
-    case 'integer':
+    case "integer":
       return validateInteger(value);
     default:
       return { valid: true };
@@ -269,9 +269,9 @@ export function validateField(sectionKey, fieldKey, value, subFieldKey = null) {
 function validateCNPJ(cnpj) {
   if (!cnpj) return { valid: true }; // Campo pode estar vazio se não obrigatório
 
-  const cleanCNPJ = cnpj.replace(/[^\d]/g, '');
+  const cleanCNPJ = cnpj.replace(/[^\d]/g, "");
   if (cleanCNPJ.length !== 14) {
-    return { valid: false, message: 'CNPJ deve ter 14 dígitos' };
+    return { valid: false, message: "CNPJ deve ter 14 dígitos" };
   }
 
   return { valid: true };
@@ -282,7 +282,7 @@ function validateCurrency(value) {
 
   const numValue = parseFloat(value);
   if (isNaN(numValue) || numValue < 0) {
-    return { valid: false, message: 'Valor deve ser um número positivo' };
+    return { valid: false, message: "Valor deve ser um número positivo" };
   }
 
   return { valid: true };
@@ -293,7 +293,7 @@ function validatePositiveNumber(value) {
 
   const numValue = parseFloat(value);
   if (isNaN(numValue) || numValue < 0) {
-    return { valid: false, message: 'Deve ser um número positivo' };
+    return { valid: false, message: "Deve ser um número positivo" };
   }
 
   return { valid: true };
@@ -304,7 +304,7 @@ function validateInteger(value) {
 
   const numValue = parseInt(value);
   if (isNaN(numValue) || numValue < 0 || !Number.isInteger(numValue)) {
-    return { valid: false, message: 'Deve ser um número inteiro positivo' };
+    return { valid: false, message: "Deve ser um número inteiro positivo" };
   }
 
   return { valid: true };
@@ -312,18 +312,18 @@ function validateInteger(value) {
 
 // Função para formatar valor para exibição
 export function formatFieldValue(value, fieldConfig) {
-  if (!value) return '';
+  if (!value) return "";
 
   switch (fieldConfig.validation) {
-    case 'currency':
-      return parseFloat(value).toLocaleString('pt-BR', {
+    case "currency":
+      return parseFloat(value).toLocaleString("pt-BR", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
-    case 'cnpj':
+    case "cnpj":
       return value.replace(
         /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
-        '$1.$2.$3/$4-$5'
+        "$1.$2.$3/$4-$5"
       );
     default:
       return value.toString();
@@ -347,19 +347,19 @@ export function validateFieldWithMask(
   }
 
   // Campo obrigatório
-  if (config.required && (!cleanValue || cleanValue.toString().trim() === '')) {
-    return { valid: false, message: 'Campo obrigatório' };
+  if (config.required && (!cleanValue || cleanValue.toString().trim() === "")) {
+    return { valid: false, message: "Campo obrigatório" };
   }
 
   // Validações específicas
   switch (config.validation) {
-    case 'cnpj':
+    case "cnpj":
       return validateCNPJ(cleanValue);
-    case 'currency':
+    case "currency":
       return validateCurrency(cleanValue);
-    case 'positive':
+    case "positive":
       return validatePositiveNumber(cleanValue);
-    case 'integer':
+    case "integer":
       return validateInteger(cleanValue);
     default:
       return { valid: true };
