@@ -1,5 +1,5 @@
-import { validateCTeWithAI } from '@/lib/openai-client';
-import { generatePolicyPrompt } from '@/lib/policy-rules';
+import { validateCTeWithAI } from "@/lib/openai-client";
+import { generatePolicyPrompt } from "@/lib/policy-rules";
 
 export async function POST(request) {
   try {
@@ -9,7 +9,7 @@ export async function POST(request) {
     // Validar se dados foram enviados
     if (!cteData) {
       return Response.json(
-        { error: 'Dados do CTe são obrigatórios' },
+        { error: "Dados do CTe são obrigatórios" },
         { status: 400 }
       );
     }
@@ -23,30 +23,30 @@ export async function POST(request) {
     // Retornar resultado estruturado
     return Response.json({
       success: true,
-      message: 'Validação concluída com sucesso',
+      message: "Validação concluída com sucesso",
       validation: validationResult,
       cteInfo: {
-        emitente: `${cteData.emitente?.nome || 'N/A'} (CNPJ: ${
-          cteData.emitente?.cnpj || 'N/A'
+        emitente: `${cteData.emitente?.nome || "N/A"} (CNPJ: ${
+          cteData.emitente?.cnpj || "N/A"
         })`,
-        mercadoria: cteData.mercadoria?.descricao || 'N/A',
+        mercadoria: cteData.mercadoria?.descricao || "N/A",
         valor: cteData.mercadoria?.valor || 0,
-        origem: `${cteData.transporte?.origem?.municipio || 'N/A'} - ${
-          cteData.transporte?.origem?.uf || 'N/A'
+        origem: `${cteData.transporte?.origem?.municipio || "N/A"} - ${
+          cteData.transporte?.origem?.uf || "N/A"
         }`,
-        destino: `${cteData.transporte?.destino?.municipio || 'N/A'} - ${
-          cteData.transporte?.destino?.uf || 'N/A'
+        destino: `${cteData.transporte?.destino?.municipio || "N/A"} - ${
+          cteData.transporte?.destino?.uf || "N/A"
         }`,
         informacoesTransporte:
-          cteData.transporte?.informacoesTransporte || 'N/A',
+          cteData.transporte?.informacoesTransporte || "N/A",
       },
     });
   } catch (error) {
-    console.error('Erro na validação:', error);
+    console.error("Erro na validação:", error);
 
     return Response.json(
       {
-        error: 'Erro interno na validação',
+        error: "Erro interno na validação",
         details: error.message,
       },
       { status: 500 }

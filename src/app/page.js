@@ -31,7 +31,7 @@ export default function Home() {
         throw new Error(validateData.error || "Erro na validação");
       }
 
-      setValidationResult(validateData);
+      setValidationResult(validateData.validation);
       console.log(
         `Resultado da validação (${source}):`,
         validateData.validation
