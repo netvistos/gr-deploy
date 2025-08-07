@@ -1,6 +1,5 @@
 // Regras da Apólice de Seguro para Validação de CTe
 // Baseado na planilha de regras fornecida
-
 export const POLICY_RULES = {
   dadosDoEmitente: {
     cnpj: "13.657.062/0001-12",
@@ -351,6 +350,173 @@ export const POLICY_RULES = {
             "análise de perfil profissional",
             "rastreamento / monitoramento de cargas",
             "acompanhamento de escolta armada e monitorada do início ao fim do risco OU 01 Fiscal de Rota E Isca Eletrônica E Imobilizador Inteligente",
+          ],
+        },
+      },
+    },
+    operacaoBydMan: {
+      embarcador: "BYD MAN",
+      mercadoria: [
+        "Células de baterias e partes e peças para uso em Ônibus elétrico",
+        "filtro de ar para veículos e partes",
+        "peças de veículos elétricos",
+      ],
+      veiculo: "BITREM OU TRUCK",
+      regras: {
+        1: {
+          valorMercadoria: "até R$ 500.000,00",
+          obrigatoriedade: "análise de perfil profissional",
+        },
+        2: {
+          valorMercadoria: "de R$ 500.000,01 até R$ 1.500.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+          ],
+        },
+        3: {
+          valorMercadoria: "de R$ 1.500.000,01 até R$ 2.500.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "Isca Eletrônica RF OU Imobilizador Inteligente OU Escolta Ostensiva OU 01 Fiscal de Rota em percurso integral",
+          ],
+        },
+        4: {
+          valorMercadoria: "de R$ 2.500.000,01 até R$ 5.000.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "Isca Eletrônica RF E Imobilizador Inteligente OU Escolta Ostensiva OU 01 Fiscal de Rota em percurso integral OU 02 Iscas Eletrônicas",
+          ],
+        },
+        5: {
+          valorMercadoria: "de R$ 5.000.000,01 até R$ 8.000.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "02 Iscas Eletrônicas RF",
+            "Imobilizador Inteligente",
+            "Escolta Armada",
+          ],
+        },
+
+        operacaoBydManPainelSolar: {
+          embarcador: "BYD MAN",
+          mercadoria: "painel solar",
+          veiculo: "BITREM",
+          regras: {
+            1: {
+              valorMercadoria: "até R$ 80.000,00",
+              obrigatoriedade: "análise de perfil profissional",
+            },
+            2: {
+              valorMercadoria: "de R$ 80.000,01 até R$ 500.000,00",
+              obrigatoriedade: [
+                "análise de perfil profissional",
+                "rastreamento / monitoramento de cargas",
+              ],
+            },
+            3: {
+              valorMercadoria: "de R$ 500.000,01 até R$ 1.000.000,00",
+              obrigatoriedade: [
+                "análise de perfil profissional",
+                "rastreamento / monitoramento de cargas",
+                "Isca Eletrônica RF OU Imobilizador Inteligente OU Escolta Ostensiva OU 01 Fiscal de Rota em percurso integral",
+              ],
+            },
+            4: {
+              valorMercadoria: "de R$ 1.000.000,01 até R$ 1.500.000,00",
+              obrigatoriedade: [
+                "análise de perfil profissional",
+                "rastreamento / monitoramento de cargas",
+                "Isca Eletrônica E Escolta Armada OU Imobilizador Inteligente E Lacre Eletrônico",
+              ],
+            },
+            5: {
+              valorMercadoria: "de R$ 1.500.000,01 até R$ 3.000.000,00",
+              obrigatoriedade: [
+                "análise de perfil profissional",
+                "rastreamento / monitoramento de cargas",
+                "Escolta Armada OU Fiscal de Rota E Isca Eletrônica E Imobilizador Inteligente OU 01 Fiscal de Rota",
+              ],
+            },
+            6: {
+              valorMercadoria: "de R$ 3.000.000,01 até R$ 5.000.000,00",
+              obrigatoriedade: [
+                "análise de perfil profissional",
+                "rastreamento / monitoramento de cargas",
+                "02 Escoltas Armadas",
+                "02 Iscas Eletrônicas",
+                "Imobilizador Inteligente",
+                "01 Fiscal de Rota",
+              ],
+            },
+            7: {
+              valorMercadoria: "de R$ 5.000.000,01 até R$ 7.000.000,00",
+              obrigatoriedade: [
+                "análise de perfil profissional",
+                "rastreamento / monitoramento de cargas",
+                "02 Escoltas Armadas",
+                "02 Iscas Eletrônicas",
+                "Imobilizador Inteligente",
+                "01 Fiscal de Rota",
+              ],
+            },
+            8: {
+              valorMercadoria: "de R$ 7.000.000,01 até R$ 10.000.000,00",
+              obrigatoriedade: [
+                "análise de perfil profissional",
+                "rastreamento / monitoramento de cargas",
+                "03 Escoltas Armadas",
+                "02 Iscas Eletrônicas",
+                "Imobilizador Inteligente",
+                "01 Fiscal de Rota",
+              ],
+            },
+          },
+        },
+      },
+    },
+    operacaoMiba: {
+      embarcador: "MIBA",
+      origemDestino: "proibido para origem ou destino do Rio de Janeiro",
+      regras: {
+        1: {
+          valorMercadoria: "até R$ 300.000,00",
+          obrigatoriedade: "análise de perfil profissional",
+        },
+        2: {
+          valorMercadoria: "de R$ 300.000,01 até R$ 800.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+          ],
+        },
+      },
+    },
+
+    aeronavesDesmontadas: {
+      mercadoria:
+        "aeronaves desmontadas, inclusive suas partes e peças e acessórios",
+      regras: {
+        1: {
+          valorMercadoria: "até R$ 300.000,00",
+          obrigatoriedade: "análise de perfil profissional",
+        },
+        2: {
+          valorMercadoria: "de R$ 300.000,01 até R$ 1.000.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+          ],
+        },
+        3: {
+          valorMercadoria: "de R$ 1.000.000,01 até R$ 2.000.000,00",
+          obrigatoriedade: [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "Trava de quinta roda OU Sensor de Desengate",
           ],
         },
       },
