@@ -26,7 +26,6 @@ const FileUpload = React.forwardRef(
       const file = event.target.files?.[0];
       if (file && onFileSelect && !disabled) {
         onFileSelect(file);
-        // 🔧 CORREÇÃO: Limpar o input após seleção
         event.target.value = '';
       }
     };
