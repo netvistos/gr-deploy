@@ -1,5 +1,45 @@
 import xml2js from "xml2js";
 
+// Função para validar se o conteúdo é um XML válido de CTe
+export function isValidXML(xmlContent) {
+  if (!xmlContent || typeof xmlContent !== "string") {
+    return false;
+  }
+
+  // Verificar se contém tags básicas de XML
+  if (!xmlContent.includes("<?xml") && !xmlContent.includes("<cteProc")) {
+    return false;
+  }
+
+  // Verificar se é um CTe (procura por tags específicas do CTe)
+  const cteTags = ["cteProc", "CTe", "infCte"];
+  const hasCTeTags = cteTags.every((tag) => xmlContent.includes(tag));
+
+  if (!hasCTeTags) {
+    return false;
+  }
+
+  // Validação adicional: verificar estrutura básica de XML
+  // Verificar se tem tags de abertura e fechamento
+  const hasOpeningTags = xmlContent.includes("<") && xmlContent.includes(">");
+  const hasClosingTags = xmlContent.includes("</") || xmlContent.includes("/>");
+
+  if (!hasOpeningTags || !hasClosingTags) {
+    return false;
+  }
+
+  // Verificar se não tem erros básicos de XML
+  // Contar tags de abertura e fechamento para verificar se estão balanceadas
+  const openingCount = (xmlContent.match(/</g) || []).length;
+  const closingCount = (xmlContent.match(/>/g) || []).length;
+
+  if (openingCount !== closingCount) {
+    return false;
+  }
+
+  return true;
+}
+
 // Função para formatar data do CT-e
 function formatarDataCTe(dataString) {
   if (!dataString) return "";

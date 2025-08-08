@@ -1,0 +1,72 @@
+"use client";
+
+export function ResultCard({ result, onNewUpload }) {
+  if (!result) {
+    return (
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="text-center text-gray-500">
+          Nenhum resultado disponível
+        </div>
+      </div>
+    );
+  }
+
+  const { validation, cteInfo } = result;
+
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">
+      {/* Dados do CTe */}
+      <div className="border border-gray-200 rounded-lg">
+        <div className="px-4 py-3 bg-gray-50 rounded-t-lg">
+          <h3 className="font-semibold text-gray-900">Dados do CTe</h3>
+        </div>
+        <div className="p-4 bg-white rounded-b-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <strong>Emitente:</strong> {cteInfo?.emitente || "N/A"}
+            </div>
+            <div>
+              <strong>Mercadoria:</strong> {cteInfo?.mercadoria || "N/A"}
+            </div>
+            <div>
+              <strong>Valor:</strong>{" "}
+              {cteInfo?.valor
+                ? `R$ ${cteInfo.valor.toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                  })}`
+                : "N/A"}
+            </div>
+            <div>
+              <strong>Rota:</strong> {cteInfo?.origem || "N/A"} →{" "}
+              {cteInfo?.destino || "N/A"}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Resultado Completo da IA */}
+      <div className="border border-gray-200 rounded-lg">
+        <div className="px-4 py-3 bg-gray-50 rounded-t-lg">
+          <h3 className="font-semibold text-gray-900">
+            Análise Completa da IA
+          </h3>
+        </div>
+        <div className="p-4 bg-white rounded-b-lg">
+          <pre className="whitespace-pre-wrap text-sm bg-gray-50 p-4 rounded border overflow-x-auto">
+            {JSON.stringify(validation, null, 2)}
+          </pre>
+        </div>
+      </div>
+
+      {/* Botão Novo Upload */}
+      <div className="pt-4 border-t border-gray-200">
+        <button
+          onClick={onNewUpload}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+        >
+          Novo Upload
+        </button>
+      </div>
+    </div>
+  );
+}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FileUpload } from "@/components/FileUpload";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { ResultCard } from "@/components/ResultCard";
 
 export default function Home() {
   // Estados simplificados - apenas 3 estados principais
@@ -17,7 +18,7 @@ export default function Home() {
     setResult(null);
 
     try {
-      // Upload e validação em uma única operação
+      // 1. Upload e validação em uma única operação
       const formData = new FormData();
       formData.append("file", file);
 
@@ -32,7 +33,7 @@ export default function Home() {
         throw new Error(uploadData.error || "Erro no upload");
       }
 
-      // Validação automática
+      // 2. Validação (sequencial e automática)
       const validateResponse = await fetch("/api/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -51,6 +52,12 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Handler para novo upload
+  const handleNewUpload = () => {
+    setResult(null);
+    setError(null);
   };
 
   return (
@@ -102,12 +109,7 @@ export default function Home() {
         )}
 
         {/* Estado de Resultado */}
-        {result && (
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            {/* Resultado será implementado no próximo bloco */}
-            <p>Resultado aqui...</p>
-          </div>
-        )}
+        {result && <ResultCard result={result} onNewUpload={handleNewUpload} />}
       </div>
     </div>
   );

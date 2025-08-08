@@ -20,9 +20,6 @@ export async function POST(request) {
     // Chamar IA para validação
     const validationResult = await validateCTeWithAI(cteData, policyRules);
 
-    // Log do resultado da validação
-    console.log(validationResult);
-
     // Retornar resultado estruturado
     return Response.json({
       success: true,

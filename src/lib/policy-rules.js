@@ -586,7 +586,7 @@ ${POLICY_RULES.clausulasEspecificasDeExclusao.condicao.mercadorias
 
 ⚠️ REGRAS DE GERENCIAMENTO DE RISCOS
 
-【RISCO A - Alto Valor】
+【RISCO A】
 Mercadorias aplicáveis:
 ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoA.mercadorias
   .map((item) => `  • ${item}`)
@@ -602,7 +602,7 @@ ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoA.regras)
   })
   .join("\n\n")}
 
-【RISCO B - Médio Risco】
+【RISCO B】
 Mercadorias aplicáveis:
 ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoB.mercadorias
   .map((item) => `  • ${item}`)
@@ -619,7 +619,7 @@ ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoB.regras)
   })
   .join("\n\n")}
 
-【SÊMEN BOVINO】
+【RISCO - SÊMEN BOVINO】
 Mercadoria: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.mercadoria}
 
 Regras por valor:
@@ -632,7 +632,7 @@ ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.regras)
   })
   .join("\n\n")}
 
-【MÁQUINAS E EQUIPAMENTOS PESADOS】
+【RISCO - MÁQUINAS E EQUIPAMENTOS PESADOS】
 Mercadoria: ${
     POLICY_RULES.regrasDeGerenciamentoDeRiscos.maquinasEquipamentosPesados
       .mercadoria
@@ -647,7 +647,7 @@ ${Object.entries(
   })
   .join("\n\n")}
 
-【EMBARCADOR MANN+HUMMEL】
+【RISCO - EMBARCADOR MANN+HUMMEL】
 Embarcador: ${
     POLICY_RULES.regrasDeGerenciamentoDeRiscos.embarcadorMannHummel.embarcador
   }
@@ -664,7 +664,7 @@ ${Object.entries(
   })
   .join("\n\n")}
 
-【PAINEL SOLAR】
+【RISCO - PAINEL SOLAR】
 Mercadoria: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.mercadoria}
 Restrição: ${
     POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.origemDestino
@@ -680,7 +680,7 @@ ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.regras)
   })
   .join("\n\n")}
 
-【OPERAÇÃO BYD MAN】
+【RISCO - OPERAÇÃO BYD MAN】
 Embarcador: ${
     POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.embarcador
   }
@@ -703,7 +703,7 @@ ${Object.entries(
   })
   .join("\n\n")}
 
-【OPERAÇÃO BYD MAN - PAINEL SOLAR】
+【RISCO - OPERAÇÃO BYD MAN - PAINEL SOLAR】
 Embarcador: ${
     POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar
       .embarcador
@@ -728,7 +728,7 @@ ${Object.entries(
   })
   .join("\n\n")}
 
-【OPERAÇÃO MIBA】
+【RISCO - OPERAÇÃO MIBA】
 Embarcador: ${
     POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.embarcador
   }
@@ -746,7 +746,7 @@ ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.regras)
   })
   .join("\n\n")}
 
-【AERONAVES DESMONTADAS】
+【RISCO - AERONAVES DESMONTADAS】
 Mercadoria: ${
     POLICY_RULES.regrasDeGerenciamentoDeRiscos.aeronavesDesmontadas.mercadoria
   }
