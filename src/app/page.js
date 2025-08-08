@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FileUpload } from "@/components/FileUpload";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 export default function Home() {
   // Estados simplificados - apenas 3 estados principais
@@ -79,15 +80,11 @@ export default function Home() {
         {/* Estado de Loading */}
         {isLoading && (
           <div className="bg-white rounded-lg shadow-lg p-6">
-            <div className="text-center space-y-4">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="text-blue-600 font-medium">
-                Processando arquivo XML...
-              </p>
-              <p className="text-gray-500 text-sm">
-                Aguarde enquanto validamos o documento
-              </p>
-            </div>
+            <LoadingSpinner
+              message="Processando arquivo XML..."
+              description="Aguarde enquanto validamos o documento"
+              size="default"
+            />
           </div>
         )}
 
