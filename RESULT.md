@@ -10,3 +10,17 @@ vigencia: {
 "data_cte": "01/01/2021",
 "vigencia_apolice": "01/01/2021 - 01/01/2022",
 }
+
+mercadoria_excluida: {
+"status": true|false,
+"motivo": "N/A|motivo da exclusão"
+}
+
+regras_gerencia_de_riscos: {
+"status": true|false,
+"motivo": "N/A|motivo da exclusão"
+}
+
+limite_de_cobertura: {
+"valor": "valor da regra|3.000.000,00"
+}
