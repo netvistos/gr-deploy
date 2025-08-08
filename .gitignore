@@ -4,6 +4,7 @@
 CLAUDE.md
 .cursorignore
 .files/
+.github/
 
 # dependencies
 /node_modules
