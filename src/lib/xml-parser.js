@@ -126,11 +126,20 @@ export async function parseCTeXML(xmlContent) {
 // Função para formatar dados para envio à IA
 export function formatDataForAI(extractedData) {
   return {
-    emitente: `${extractedData.emitente.nome} (CNPJ: ${extractedData.emitente.cnpj})`,
+    emitente: {
+      nome: extractedData.emitente.nome,
+      cnpj: extractedData.emitente.cnpj,
+    },
     dataTransporte: extractedData.dataTransporte,
     mercadoria: extractedData.mercadoria.descricao,
     valorMercadoria: extractedData.mercadoria.valor,
-    origem: `${extractedData.transporte.origem.municipio} - ${extractedData.transporte.origem.uf}`,
-    destino: `${extractedData.transporte.destino.municipio} - ${extractedData.transporte.destino.uf}`,
+    origem: {
+      municipio: extractedData.transporte.origem.municipio,
+      uf: extractedData.transporte.origem.uf,
+    },
+    destino: {
+      municipio: extractedData.transporte.destino.municipio,
+      uf: extractedData.transporte.destino.uf,
+    },
   };
 }

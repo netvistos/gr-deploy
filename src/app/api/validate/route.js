@@ -1,5 +1,5 @@
 import { validateCTeWithAI } from "@/lib/openai-client";
-import { generatePolicyPrompt } from "@/lib/policy-rules";
+import { POLICY_RULES } from "@/lib/policy-rules";
 import { formatDataForAI } from "@/lib/xml-parser"; // novo
 
 export async function POST(request) {
@@ -12,12 +12,10 @@ export async function POST(request) {
       );
     }
 
-    const policyRules = generatePolicyPrompt();
-
     // Padroniza os dados antes de ir para a IA
     const aiInput = formatDataForAI(cteData);
 
-    const validationResult = await validateCTeWithAI(aiInput, policyRules);
+    const validationResult = await validateCTeWithAI(aiInput, POLICY_RULES);
 
     // Retornar resultado estruturado
     return Response.json({

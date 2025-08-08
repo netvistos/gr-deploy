@@ -7,8 +7,8 @@ export const POLICY_RULES = {
     vigencia: "19/10/2024 até 31/10/2026",
   },
 
-  condicoesParaExclusaoDeBensOuMercadorias: {
-    condicao1: {
+  bensOuMercadoriasExcluidas: {
+    condicao_1: {
       regra:
         "Qualquer mercadoria que se esteja na lista a seguir estará proibida",
       mercadorias: [
@@ -36,7 +36,7 @@ export const POLICY_RULES = {
         "Veículos de colecionador",
       ],
     },
-    condicao2: {
+    condicao_2: {
       regra:
         "Se origem e destino do transporte for o Estado do Rio de Janeiro, as mercadorias a seguir estarão proibidas",
       mercadorias: [
@@ -50,19 +50,13 @@ export const POLICY_RULES = {
         "Queijo",
       ],
     },
-    condicao3: {
-      regra: "Cobertura de bens ou mercadorias sujeitos a condições próprias",
+    condicao_3: {
+      regra: "Qualquer mercadoria que se esteja na lista a seguir estará proibida",
       mercadorias: [
         "Mudanças de móveis e utensílios (residenciais ou de escritório)",
         "Animais vivos",
         "Objetos de arte (quadros, esculturas, antiguidades e coleções)",
-        "Veículos trafegando por meios próprios",
       ],
-    },
-    condicao4: {
-      regra:
-        "Exclusão total da cobertura para bens ou mercadorias transportadas em veículos de passeio e/ou outros veículos não destinados ao transporte rodoviário de carga",
-      veiculosPermitidos: ["Veículo de transporte de carga"],
     },
   },
 
@@ -515,262 +509,256 @@ export const POLICY_RULES = {
       },
     },
   },
-  limiteDeCobertura: {
+  limiteMaximoGarantia: {
     regra:
       "Para todas as mercadorias que não se enquadram em nenhuma condição específica, o limite máximo de cobertura é de R$ 3.000.000,00",
     valorMaximo: "3.000.000,00",
+    
   },
 };
 
-// Função para gerar prompt das regras para a IA
-export function generatePolicyPrompt() {
-  return `
-═══════════════════════════════════════════════════════════════════════
-                    APÓLICE DE SEGURO DE TRANSPORTE
-                      REGRAS PARA VALIDAÇÃO DE CTe
-═══════════════════════════════════════════════════════════════════════
+// // Função para gerar prompt das regras para a IA
+// export function generatePolicyPrompt() {
+//   return `
+// ═══════════════════════════════════════════════════════════════════════
+//                     APÓLICE DE SEGURO DE TRANSPORTE
+//                       REGRAS PARA VALIDAÇÃO DE CTe
+// ═══════════════════════════════════════════════════════════════════════
 
-📋 DADOS DO EMITENTE
-────────────────────────────────────────────────────────────────
-CNPJ: ${POLICY_RULES.emitente.cnpj}
-Nome: ${POLICY_RULES.emitente.nome}
-Vigência: ${POLICY_RULES.emitente.vigencia}
+// 📋 DADOS DO EMITENTE
+// ────────────────────────────────────────────────────────────────
+// CNPJ: ${POLICY_RULES.emitente.cnpj}
+// Nome: ${POLICY_RULES.emitente.nome}
+// Vigência: ${POLICY_RULES.emitente.vigencia}
 
-────────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────────
 
-🚫 CONDIÇÕES PARA EXCLUSÃO DE BENS OU MERCADORIAS
+// 🚫 CONDIÇÕES PARA EXCLUSÃO DE BENS OU MERCADORIAS
 
-【CONDIÇÃO 1】Mercadorias Totalmente Proibidas
-Regra: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao1.regra}
+// 【CONDIÇÃO_1】Mercadorias Totalmente Proibidas
+// Regra: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao_1.regra}
 
-Lista de mercadorias proibidas:
-${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao1.mercadorias
-  .map((item) => `  • ${item}`)
-  .join("\n")}
+// Lista de mercadorias proibidas:
+// ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao_1.mercadorias
+//   .map((item) => `  • ${item}`)
+//   .join("\n")}
 
-【CONDIÇÃO 2】Mercadorias Proibidas para Rio de Janeiro
-Regra: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao2.regra}
+// 【CONDIÇÃO_2】Mercadorias Proibidas para Rio de Janeiro
+// Regra: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao_2.regra}
 
-Lista de mercadorias proibidas para RJ:
-${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao2.mercadorias
-  .map((item) => `  • ${item}`)
-  .join("\n")}
+// Lista de mercadorias proibidas para RJ:
+// ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao_2.mercadorias
+//   .map((item) => `  • ${item}`)
+//   .join("\n")}
 
-【CONDIÇÃO 3】Mercadorias com Condições Especiais
-Regra: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao3.regra}
+// 【CONDIÇÃO_3】Mercadorias com Condições Especiais
+// Regra: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao_3.regra}
 
-Lista de mercadorias:
-${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao3.mercadorias
-  .map((item) => `  • ${item}`)
-  .join("\n")}
+// Lista de mercadorias:
+// ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao_3.mercadorias
+//   .map((item) => `  • ${item}`)
+//   .join("\n")}
 
-【CONDIÇÃO 4】Restrição de Veículos
-Regra: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao4.regra}
+// ────────────────────────────────────────────────────────────────
 
-Veículos permitidos: ${POLICY_RULES.condicoesParaExclusaoDeBensOuMercadorias.condicao4.veiculosPermitidos.join(
-    ", "
-  )}
+// ☢️ CLÁUSULAS ESPECÍFICAS DE EXCLUSÃO
 
-────────────────────────────────────────────────────────────────
+// Regra: ${POLICY_RULES.clausulasEspecificasDeExclusao.condicao.regra}
 
-☢️ CLÁUSULAS ESPECÍFICAS DE EXCLUSÃO
+// Mercadorias excluídas:
+// ${POLICY_RULES.clausulasEspecificasDeExclusao.condicao.mercadorias
+//   .map((item) => `  • ${item}`)
+//   .join("\n")}
 
-Regra: ${POLICY_RULES.clausulasEspecificasDeExclusao.condicao.regra}
+// ────────────────────────────────────────────────────────────────
 
-Mercadorias excluídas:
-${POLICY_RULES.clausulasEspecificasDeExclusao.condicao.mercadorias
-  .map((item) => `  • ${item}`)
-  .join("\n")}
+// ⚠️ REGRAS DE GERENCIAMENTO DE RISCOS
 
-────────────────────────────────────────────────────────────────
+// 【RISCO A】
+// Mercadorias aplicáveis:
+// ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoA.mercadorias
+//   .map((item) => `  • ${item}`)
+//   .join("\n")}
 
-⚠️ REGRAS DE GERENCIAMENTO DE RISCOS
+// Regras por valor:
+// ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoA.regras)
+//   .map(([key, regra]) => {
+//     const obrig = Array.isArray(regra.obrigatoriedade)
+//       ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+//       : `    - ${regra.obrigatoriedade}`;
+//     return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+//   })
+//   .join("\n\n")}
 
-【RISCO A】
-Mercadorias aplicáveis:
-${POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoA.mercadorias
-  .map((item) => `  • ${item}`)
-  .join("\n")}
+// 【RISCO B】
+// Mercadorias aplicáveis:
+// ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoB.mercadorias
+//   .map((item) => `  • ${item}`)
+//   .join("\n")}
 
-Regras por valor:
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoA.regras)
-  .map(([key, regra]) => {
-    const obrig = Array.isArray(regra.obrigatoriedade)
-      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
-      : `    - ${regra.obrigatoriedade}`;
-    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
-  })
-  .join("\n\n")}
+// Regras por valor:
+// ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoB.regras)
+//   .map(([key, regra]) => {
+//     const valor = regra.valorMercadoria || regra.valorMercaria;
+//     const obrig = Array.isArray(regra.obrigatoriedade)
+//       ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+//       : `    - ${regra.obrigatoriedade}`;
+//     return `  ${key}. Valor ${valor}:\n${obrig}`;
+//   })
+//   .join("\n\n")}
 
-【RISCO B】
-Mercadorias aplicáveis:
-${POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoB.mercadorias
-  .map((item) => `  • ${item}`)
-  .join("\n")}
+// 【RISCO - SÊMEN BOVINO】
+// Mercadoria: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.mercadoria}
 
-Regras por valor:
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.riscoB.regras)
-  .map(([key, regra]) => {
-    const valor = regra.valorMercadoria || regra.valorMercaria;
-    const obrig = Array.isArray(regra.obrigatoriedade)
-      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
-      : `    - ${regra.obrigatoriedade}`;
-    return `  ${key}. Valor ${valor}:\n${obrig}`;
-  })
-  .join("\n\n")}
+// Regras por valor:
+// ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.regras)
+//   .map(([key, regra]) => {
+//     const obrig = Array.isArray(regra.obrigatoriedade)
+//       ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+//       : `    - ${regra.obrigatoriedade}`;
+//     return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+//   })
+//   .join("\n\n")}
 
-【RISCO - SÊMEN BOVINO】
-Mercadoria: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.mercadoria}
+// 【RISCO - MÁQUINAS E EQUIPAMENTOS PESADOS】
+// Mercadoria: ${
+//     POLICY_RULES.regrasDeGerenciamentoDeRiscos.maquinasEquipamentosPesados
+//       .mercadoria
+//   }
 
-Regras por valor:
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.semenBovino.regras)
-  .map(([key, regra]) => {
-    const obrig = Array.isArray(regra.obrigatoriedade)
-      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
-      : `    - ${regra.obrigatoriedade}`;
-    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
-  })
-  .join("\n\n")}
+// Regras por valor:
+// ${Object.entries(
+//   POLICY_RULES.regrasDeGerenciamentoDeRiscos.maquinasEquipamentosPesados.regras
+// )
+//   .map(([key, regra]) => {
+//     return `  ${key}. Valor ${regra.valorMercadoria}:\n    - ${regra.obrigatoriedade}`;
+//   })
+//   .join("\n\n")}
 
-【RISCO - MÁQUINAS E EQUIPAMENTOS PESADOS】
-Mercadoria: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.maquinasEquipamentosPesados
-      .mercadoria
-  }
+// 【RISCO - EMBARCADOR MANN+HUMMEL】
+// Embarcador: ${
+//     POLICY_RULES.regrasDeGerenciamentoDeRiscos.embarcadorMannHummel.embarcador
+//   }
 
-Regras por valor:
-${Object.entries(
-  POLICY_RULES.regrasDeGerenciamentoDeRiscos.maquinasEquipamentosPesados.regras
-)
-  .map(([key, regra]) => {
-    return `  ${key}. Valor ${regra.valorMercadoria}:\n    - ${regra.obrigatoriedade}`;
-  })
-  .join("\n\n")}
+// Regras por valor:
+// ${Object.entries(
+//   POLICY_RULES.regrasDeGerenciamentoDeRiscos.embarcadorMannHummel.regras
+// )
+//   .map(([key, regra]) => {
+//     const obrig = Array.isArray(regra.obrigatoriedade)
+//       ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+//       : `    - ${regra.obrigatoriedade}`;
+//     return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+//   })
+//   .join("\n\n")}
 
-【RISCO - EMBARCADOR MANN+HUMMEL】
-Embarcador: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.embarcadorMannHummel.embarcador
-  }
+// 【RISCO - PAINEL SOLAR】
+// Mercadoria: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.mercadoria}
+// Restrição: ${
+//     POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.origemDestino
+//   }
 
-Regras por valor:
-${Object.entries(
-  POLICY_RULES.regrasDeGerenciamentoDeRiscos.embarcadorMannHummel.regras
-)
-  .map(([key, regra]) => {
-    const obrig = Array.isArray(regra.obrigatoriedade)
-      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
-      : `    - ${regra.obrigatoriedade}`;
-    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
-  })
-  .join("\n\n")}
+// Regras por valor:
+// ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.regras)
+//   .map(([key, regra]) => {
+//     const obrig = Array.isArray(regra.obrigatoriedade)
+//       ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+//       : `    - ${regra.obrigatoriedade}`;
+//     return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+//   })
+//   .join("\n\n")}
 
-【RISCO - PAINEL SOLAR】
-Mercadoria: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.mercadoria}
-Restrição: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.origemDestino
-  }
+// 【RISCO - OPERAÇÃO BYD MAN】
+// Embarcador: ${
+//     POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.embarcador
+//   }
+// Mercadorias: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.mercadoria.join(
+//     ", "
+//   )}
+// Veículo permitido: ${
+//     POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.veiculo
+//   }
 
-Regras por valor:
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.painelSolar.regras)
-  .map(([key, regra]) => {
-    const obrig = Array.isArray(regra.obrigatoriedade)
-      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
-      : `    - ${regra.obrigatoriedade}`;
-    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
-  })
-  .join("\n\n")}
+// Regras por valor:
+// ${Object.entries(
+//   POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.regras
+// )
+//   .map(([key, regra]) => {
+//     const obrig = Array.isArray(regra.obrigatoriedade)
+//       ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+//       : `    - ${regra.obrigatoriedade}`;
+//     return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+//   })
+//   .join("\n\n")}
 
-【RISCO - OPERAÇÃO BYD MAN】
-Embarcador: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.embarcador
-  }
-Mercadorias: ${POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.mercadoria.join(
-    ", "
-  )}
-Veículo permitido: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.veiculo
-  }
+// 【RISCO - OPERAÇÃO BYD MAN - PAINEL SOLAR】
+// Embarcador: ${
+//     POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar
+//       .embarcador
+//   }
+// Mercadoria: ${
+//     POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar
+//       .mercadoria
+//   }
+// Veículo permitido: ${
+//     POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar.veiculo
+//   }
 
-Regras por valor:
-${Object.entries(
-  POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydMan.regras
-)
-  .map(([key, regra]) => {
-    const obrig = Array.isArray(regra.obrigatoriedade)
-      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
-      : `    - ${regra.obrigatoriedade}`;
-    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
-  })
-  .join("\n\n")}
+// Regras por valor:
+// ${Object.entries(
+//   POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar.regras
+// )
+//   .map(([key, regra]) => {
+//     const obrig = Array.isArray(regra.obrigatoriedade)
+//       ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+//       : `    - ${regra.obrigatoriedade}`;
+//     return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+//   })
+//   .join("\n\n")}
 
-【RISCO - OPERAÇÃO BYD MAN - PAINEL SOLAR】
-Embarcador: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar
-      .embarcador
-  }
-Mercadoria: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar
-      .mercadoria
-  }
-Veículo permitido: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar.veiculo
-  }
+// 【RISCO - OPERAÇÃO MIBA】
+// Embarcador: ${
+//     POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.embarcador
+//   }
+// Restrição: ${
+//     POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.origemDestino
+//   }
 
-Regras por valor:
-${Object.entries(
-  POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoBydManPainelSolar.regras
-)
-  .map(([key, regra]) => {
-    const obrig = Array.isArray(regra.obrigatoriedade)
-      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
-      : `    - ${regra.obrigatoriedade}`;
-    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
-  })
-  .join("\n\n")}
+// Regras por valor:
+// ${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.regras)
+//   .map(([key, regra]) => {
+//     const obrig = Array.isArray(regra.obrigatoriedade)
+//       ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+//       : `    - ${regra.obrigatoriedade}`;
+//     return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+//   })
+//   .join("\n\n")}
 
-【RISCO - OPERAÇÃO MIBA】
-Embarcador: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.embarcador
-  }
-Restrição: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.origemDestino
-  }
+// 【RISCO - AERONAVES DESMONTADAS】
+// Mercadoria: ${
+//     POLICY_RULES.regrasDeGerenciamentoDeRiscos.aeronavesDesmontadas.mercadoria
+//   }
 
-Regras por valor:
-${Object.entries(POLICY_RULES.regrasDeGerenciamentoDeRiscos.operacaoMiba.regras)
-  .map(([key, regra]) => {
-    const obrig = Array.isArray(regra.obrigatoriedade)
-      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
-      : `    - ${regra.obrigatoriedade}`;
-    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
-  })
-  .join("\n\n")}
+// Regras por valor:
+// ${Object.entries(
+//   POLICY_RULES.regrasDeGerenciamentoDeRiscos.aeronavesDesmontadas.regras
+// )
+//   .map(([key, regra]) => {
+//     const obrig = Array.isArray(regra.obrigatoriedade)
+//       ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
+//       : `    - ${regra.obrigatoriedade}`;
+//     return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
+//   })
+//   .join("\n\n")}
 
-【RISCO - AERONAVES DESMONTADAS】
-Mercadoria: ${
-    POLICY_RULES.regrasDeGerenciamentoDeRiscos.aeronavesDesmontadas.mercadoria
-  }
+// ────────────────────────────────────────────────────────────────
 
-Regras por valor:
-${Object.entries(
-  POLICY_RULES.regrasDeGerenciamentoDeRiscos.aeronavesDesmontadas.regras
-)
-  .map(([key, regra]) => {
-    const obrig = Array.isArray(regra.obrigatoriedade)
-      ? regra.obrigatoriedade.map((item) => `    - ${item}`).join("\n")
-      : `    - ${regra.obrigatoriedade}`;
-    return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
-  })
-  .join("\n\n")}
+// 💰 LIMITE DE COBERTURA
 
-────────────────────────────────────────────────────────────────
+// Regra: ${POLICY_RULES.limiteMaximoGarantia.regra}
+// Valor Máximo: R$ ${POLICY_RULES.limiteMaximoGarantia.valorMaximo}
 
-💰 LIMITE DE COBERTURA
+// ────────────────────────────────────────────────────────────────
 
-Regra: ${POLICY_RULES.limiteDeCobertura.regra}
-Valor Máximo: R$ ${POLICY_RULES.limiteDeCobertura.valorMaximo}
-
-────────────────────────────────────────────────────────────────
-
-`;
-}
+// `;
+// }

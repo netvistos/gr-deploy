@@ -15,35 +15,6 @@ export function ResultCard({ result, onNewUpload }) {
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">
-      {/* Dados do CTe */}
-      <div className="border border-gray-200 rounded-lg">
-        <div className="px-4 py-3 bg-gray-50 rounded-t-lg">
-          <h3 className="font-semibold text-gray-900">Dados do CTe</h3>
-        </div>
-        <div className="p-4 bg-white rounded-b-lg">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <strong>Emitente:</strong> {cteInfo?.emitente || "N/A"}
-            </div>
-            <div>
-              <strong>Mercadoria:</strong> {cteInfo?.mercadoria || "N/A"}
-            </div>
-            <div>
-              <strong>Valor:</strong>{" "}
-              {cteInfo?.valor
-                ? `R$ ${cteInfo.valor.toLocaleString("pt-BR", {
-                    minimumFractionDigits: 2,
-                  })}`
-                : "N/A"}
-            </div>
-            <div>
-              <strong>Rota:</strong> {cteInfo?.origem || "N/A"} →{" "}
-              {cteInfo?.destino || "N/A"}
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Resultado Completo da IA */}
       <div className="border border-gray-200 rounded-lg">
         <div className="px-4 py-3 bg-gray-50 rounded-t-lg">
