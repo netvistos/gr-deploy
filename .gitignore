@@ -3,6 +3,7 @@
 .cursorrules
 CLAUDE.md
 .cursorignore
+.files/
 
 # dependencies
 /node_modules

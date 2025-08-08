@@ -26,7 +26,10 @@ INSTRUÇÕES TÉCNICAS:
 • Avalie se os dados do CTe se enquadra em alguma REGRAS DE GERENCIAMENTO DE RISCOS
 • Se a mercadoria não se enquadra em nenhuma condição específica anterior, avalie se o valor da mercadoria está dentro do LIMITE DE COBERTURA
 
+IMPORTANTE: Você DEVE retornar sua resposta exclusivamente em formato json válido.
+
 FORMATO DE RESPOSTA OBRIGATÓRIO:
+Retorne apenas um objeto json estruturado com os seguintes campos:
 {
   "emitente": {
     "cnpj": "aprovado|reprovado",
@@ -40,10 +43,10 @@ FORMATO DE RESPOSTA OBRIGATÓRIO:
   "regras_de_gerencia_de_riscos": {
     "status": "aprovado|reprovado",
     "motivo": "N/A|motivo da exclusão"
-  ],
-  "limite_de_cobertura": {
-    "valor": "valor da regra|3.000.000,00",
   },
+  "limite_de_cobertura": {
+    "valor": "valor da regra|3.000.000,00"
+  }
 }`;
 
     // User prompt com dados específicos
@@ -54,7 +57,7 @@ ${JSON.stringify(cteData, null, 2)}
 REGRAS DA APÓLICE DE SEGURO:
 ${policyRules}
 
-Execute a validação completa seguindo as instruções do sistema.`;
+Por favor, execute a validação completa seguindo as instruções do sistema e retorne EXCLUSIVAMENTE uma resposta em formato json válido com a estrutura especificada. Não inclua texto adicional, apenas o objeto json.`;
 
     // Enviar prompt para a IA
     const completion = await openai.chat.completions.create({
