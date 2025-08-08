@@ -1,12 +1,10 @@
 import { validateCTeWithAI } from "@/lib/openai-client";
 import { generatePolicyPrompt } from "@/lib/policy-rules";
+import { formatDataForAI } from "@/lib/xml-parser"; // novo
 
 export async function POST(request) {
   try {
-    // Pegar dados do CTe do body da requisição
     const { cteData } = await request.json();
-
-    // Validar se dados foram enviados
     if (!cteData) {
       return Response.json(
         { error: "Dados do CTe são obrigatórios" },
@@ -14,11 +12,12 @@ export async function POST(request) {
       );
     }
 
-    // Gerar prompt com regras da apólice
     const policyRules = generatePolicyPrompt();
 
-    // Chamar IA para validação
-    const validationResult = await validateCTeWithAI(cteData, policyRules);
+    // Padroniza os dados antes de ir para a IA
+    const aiInput = formatDataForAI(cteData);
+
+    const validationResult = await validateCTeWithAI(aiInput, policyRules);
 
     // Retornar resultado estruturado
     return Response.json({

@@ -15,17 +15,39 @@ export async function validateCTeWithAI(cteData, policyRules) {
     // System prompt com instruções técnicas específicas para a IA
     const systemPrompt = `
 Você é um especialista em validação de conformidade de CTe (Conhecimento de Transporte Eletrônico) com apólices de seguro de transporte.
-Use variações semânticas para validar as informações.
+Use variações semânticas para validar as informações e siga estritamente as regras organizadas abaixo.
 
-INSTRUÇÕES TÉCNICAS:
-1 - cnpj: Validar se o CNPJ do CTe é o mesmo do CNPJ da apólice.
-2 - vigencia: Validar se a vigência do CTe está dentro da vigência da apólice.
-3 - mercadoria_excluida: Validar se a mercadoria do CTe está excluída da apólice. Se sim, seu status deve ser "reprovado" e você deve justificar o "motivo" com base na "regra" e "mercadoria" correspondente da apólice.
-4 - regras_gerenciamento_de_riscos: Validar se as informações do CTe estão fora às regras de gerenciamento de riscos da apólice. Se sim, seu status deve ser "reprovado" e você deve justificar o "motivo" com base na condição/ regra que foi violada.
-5 - clausula_especifica_de_exclusao: Validar se a clausula específica de exclusão do CTe está aplicável à apólice. Se sim, seu status deve ser "reprovado" e você deve justificar o "motivo" com base na condição/ regra que foi violada.
-6 - limite_de_cobertura: Se as mercadoridas tiverem status "aprovado" nas regras 3, 4, 5: o valor padrão de garantia será de R$3.000.000,00 . Caso contrário, seu limite de cobertura será o valor informado na apólice a partir do seu enquadramento em regras_gerencia_de_riscos. Se sim, seu status deve ser "reprovado" e você deve justificar o "motivo" com base na condição/ regra que foi violada.
+INSTRUÇÕES TÉCNICAS DETALHADAS:
 
-IMPORTANTE: Você DEVE retornar sua resposta exclusivamente em formato json válido.
+1 - cnpj:
+   - SEMPRE normalizar removendo pontuação antes da comparação.
+   - Comparar apenas os 14 dígitos numéricos.
+   - Exemplo: "32.606.932/0001-79" = "32606932000179".
+
+2 - vigencia:
+   - A data do CTe deve estar em "DD/MM/YYYY" (já fornecida nos dados).
+   - Extrair data inicial e final da vigência da apólice no texto e validar:
+     data_cte >= data_inicial AND data_cte <= data_final (limites inclusivos).
+
+3 - mercadoria_excluida:
+   - Usar matching por palavras-chave (não exato), considerar sinônimos (ex.: "celular" ~ "telefone móvel" ~ "smartphone").
+   - Regras geográficas: aplicar exclusões específicas APENAS se origem E destino = RJ.
+
+4 - regras_gerenciamento_de_riscos:
+   - Normalizar valor da carga removendo formatação ("R$ 40.000,00" → 40000.00).
+   - Classificar produto na categoria aplicável (A, B ou específica da apólice) e aplicar os thresholds conforme regras descritas.
+   - Exemplos de thresholds: Risco A ≥ 40.000; Risco B ≥ 100.000 (ajuste conforme texto da apólice).
+
+5 - clausula_especifica_de_exclusao:
+   - Verificar palavras-chave como "químic", "biológic", "eletromagnét" etc., conforme as cláusulas da apólice.
+
+6 - limite_de_cobertura:
+   - SE todas as validações anteriores (3, 4 e 5) estiverem "aprovado" → valor "3.000.000,00".
+   - SE qualquer uma for "reprovado" → valor "0,00" (sem cobertura).
+
+PADRÕES DE RESPOSTA:
+- Sempre retornar JSON válido.
+- Status deve ser SEMPRE "aprovado" ou "reprovado" (strings), nunca booleanos.
 
 FORMATO DE RESPOSTA OBRIGATÓRIO:
 Retorne apenas um objeto json estruturado com os seguintes campos:
@@ -33,33 +55,33 @@ Retorne apenas um objeto json estruturado com os seguintes campos:
   cnpj: {
     "status": "aprovado|reprovado",
     "cnpj_cte": "00.000.000/0000-00",
-    "cnpj_apolice": "00.000.000/0000-00",
-  }
+    "cnpj_apolice": "00.000.000/0000-00"
+  },
 
   vigencia: {
     "status": "aprovado|reprovado",
     "data_cte": "01/01/2021",
-    "vigencia_apolice": "01/01/2021 - 01/01/2022",
-  }
+    "vigencia_apolice": "01/01/2021 - 01/01/2022"
+  },
 
   mercadoria_excluida: {
     "status": "aprovado|reprovado",
     "motivo": "N/A|motivo da exclusão"
-  }
+  },
 
-  regras_gerencia_de_riscos: {
+  regras_gerenciamento_de_riscos: {
     "status": "aprovado|reprovado",
-    "motivo": "N/A|motivo da exclusão"
-  }
+    "motivo": "N/A|motivo da reprovação"
+  },
 
   clausula_especifica_de_exclusao: {
     "status": "aprovado|reprovado",
-    "motivo": "N/A|motivo da exclusão"
-  }
+    "motivo": "N/A|motivo da reprovação"
+  },
 
   limite_de_cobertura: {
     "status": "aprovado|reprovado",
-    "valor": "valor da regra|3.000.000,00"
+    "valor": "0,00|3.000.000,00"
   }
 }`;
 
@@ -75,19 +97,13 @@ Por favor, execute a validação completa seguindo as instruções do sistema e 
 
     // Enviar prompt para a IA
     const completion = await openai.chat.completions.create({
-      model: "gpt-4.1-nano-2025-04-14",
+      model: "gpt-4.1-mini",
       messages: [
-        {
-          role: "system",
-          content: systemPrompt,
-        },
-        {
-          role: "user",
-          content: userPrompt,
-        },
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
       ],
-      temperature: 0.1, // Baixa temperatura para respostas mais consistentes
-      response_format: { type: "json_object" }, // Força resposta em JSON
+      temperature: 0.0, // ajustado para consistência
+      response_format: { type: "json_object" },
     });
 
     // Extrair resposta da IA

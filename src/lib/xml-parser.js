@@ -127,7 +127,7 @@ export async function parseCTeXML(xmlContent) {
 export function formatDataForAI(extractedData) {
   return {
     emitente: `${extractedData.emitente.nome} (CNPJ: ${extractedData.emitente.cnpj})`,
-    dataTransporte: extractedData.transporte.dataTransporte,
+    dataTransporte: extractedData.dataTransporte,
     mercadoria: extractedData.mercadoria.descricao,
     valorMercadoria: extractedData.mercadoria.valor,
     origem: `${extractedData.transporte.origem.municipio} - ${extractedData.transporte.origem.uf}`,
