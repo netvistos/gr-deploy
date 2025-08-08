@@ -75,12 +75,6 @@ export const POLICY_RULES = {
     },
   },
 
-  limiteDeCobertura: {
-    regra:
-      "Para todas as mercadorias que não se enquadram em nenhuma condição específica, o limite máximo de cobertura é de R$ 3.000.000,00",
-    valorMaximo: "3.000.000,00",
-  },
-
   regrasDeGerenciamentoDeRiscos: {
     riscoA: {
       mercadorias: [
@@ -521,6 +515,11 @@ export const POLICY_RULES = {
       },
     },
   },
+  limiteDeCobertura: {
+    regra:
+      "Para todas as mercadorias que não se enquadram em nenhuma condição específica, o limite máximo de cobertura é de R$ 3.000.000,00",
+    valorMaximo: "3.000.000,00",
+  },
 };
 
 // Função para gerar prompt das regras para a IA
@@ -582,13 +581,6 @@ Mercadorias excluídas:
 ${POLICY_RULES.clausulasEspecificasDeExclusao.condicao.mercadorias
   .map((item) => `  • ${item}`)
   .join("\n")}
-
-────────────────────────────────────────────────────────────────
-
-💰 LIMITE DE COBERTURA
-
-Regra: ${POLICY_RULES.limiteDeCobertura.regra}
-Valor Máximo: R$ ${POLICY_RULES.limiteDeCobertura.valorMaximo}
 
 ────────────────────────────────────────────────────────────────
 
@@ -770,6 +762,15 @@ ${Object.entries(
     return `  ${key}. Valor ${regra.valorMercadoria}:\n${obrig}`;
   })
   .join("\n\n")}
+
+────────────────────────────────────────────────────────────────
+
+💰 LIMITE DE COBERTURA
+
+Regra: ${POLICY_RULES.limiteDeCobertura.regra}
+Valor Máximo: R$ ${POLICY_RULES.limiteDeCobertura.valorMaximo}
+
+────────────────────────────────────────────────────────────────
 
 `;
 }

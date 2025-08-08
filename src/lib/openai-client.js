@@ -15,31 +15,35 @@ export async function validateCTeWithAI(cteData, policyRules) {
     // System prompt com instruções técnicas específicas para a IA
     const systemPrompt = `
 Você é um especialista em validação de conformidade de CTe (Conhecimento de Transporte Eletrônico) com apólices de seguro de transporte.
+Use variações semânticas para validar as informações.
 
 INSTRUÇÕES TÉCNICAS:
 • Analise TODOS os dados do CTe fornecidos
 • Compare rigorosamente com TODAS as regras da apólice
-• Identifique violações específicas com base nas regras
-• Classifique mercadorias por categoria de risco (A, B, específicas)
-• Verifique restrições geográficas, de valor e de veículo
-• Responda EXCLUSIVAMENTE em JSON válido
-• Seja preciso e detalhado nas explicações
-• Use valores exatos das regras nas comparações
+• Avalie se os DADOS DO EMITENTE compatíveis
+• Avalie se os dados do CTe se enquadra em alguma CONDIÇÃO PARA EXCLUSÃO DE BENS OU MERCADORIAS
+• Avalie se os dados do CTe se enquadra em alguma CLÁUSULA ESPECÍFICA DE EXCLUSÃO
+• Avalie se os dados do CTe se enquadra em alguma REGRAS DE GERENCIAMENTO DE RISCOS
+• Se a mercadoria não se enquadra em nenhuma condição específica anterior, avalie se o valor da mercadoria está dentro do LIMITE DE COBERTURA
 
 FORMATO DE RESPOSTA OBRIGATÓRIO:
 {
-  "conforme": boolean,
-  "violacoes": ["lista específica de violações encontradas"],
-  "explicacao": "análise detalhada da validação",
-  "categoria_risco": "A" | "B" | "específica" | "não_classificada",
-  "valor_limite_excedido": boolean,
-  "restricoes_geograficas": ["lista de restrições de local"],
-  "obrigatoriedades_requeridas": ["lista de requisitos de segurança"],
-  "detalhes_mercadoria": {
-    "nome": "nome da mercadoria",
-    "valor": "valor em reais",
-    "categoria": "categoria identificada"
-  }
+  "emitente": {
+    "cnpj": "aprovado|reprovado",
+    "nome": "aprovado|reprovado",
+    "vigencia": "aprovado|reprovado"
+  },
+  "mercadoria_excluida": {
+    "status": "aprovado|reprovado",
+    "motivo": "N/A|motivo da exclusão"
+  },
+  "regras_de_gerencia_de_riscos": {
+    "status": "aprovado|reprovado",
+    "motivo": "N/A|motivo da exclusão"
+  ],
+  "limite_de_cobertura": {
+    "valor": "valor da regra|3.000.000,00",
+  },
 }`;
 
     // User prompt com dados específicos
@@ -86,28 +90,5 @@ Execute a validação completa seguindo as instruções do sistema.`;
   } catch (error) {
     console.error("Erro na validação com IA:", error);
     throw new Error(`Falha na validação: ${error.message}`);
-  }
-}
-
-// Função para testar conexão OpenAI
-export async function testOpenAIConnection() {
-  try {
-    // Teste simples de conexão
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4.1-nano-2025-04-14",
-      messages: [
-        {
-          role: "user",
-          content: 'Teste de conexão - responda apenas "OK"',
-        },
-      ],
-      max_tokens: 5,
-    });
-
-    const response = completion.choices[0]?.message?.content;
-    return response && response.trim() === "OK";
-  } catch (error) {
-    console.error("Erro na conexão OpenAI:", error.message);
-    return false;
   }
 }
