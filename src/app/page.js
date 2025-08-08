@@ -76,7 +76,41 @@ export default function Home() {
           </FileUpload>
         </div>
 
-        {/* Estados de loading, erro e resultado serão adicionados aqui */}
+        {/* Estado de Loading */}
+        {isLoading && (
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="text-center space-y-4">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+              <p className="text-blue-600 font-medium">
+                Processando arquivo XML...
+              </p>
+              <p className="text-gray-500 text-sm">
+                Aguarde enquanto validamos o documento
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Estado de Erro */}
+        {error && (
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <div className="flex items-center space-x-2">
+                <span className="text-red-500 text-xl">❌</span>
+                <h3 className="font-semibold text-red-800">Erro</h3>
+              </div>
+              <p className="text-red-700 text-sm mt-2">{error}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Estado de Resultado */}
+        {result && (
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            {/* Resultado será implementado no próximo bloco */}
+            <p>Resultado aqui...</p>
+          </div>
+        )}
       </div>
     </div>
   );
