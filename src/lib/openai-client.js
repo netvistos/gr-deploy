@@ -35,7 +35,11 @@ INSTRUÇÕES TÉCNICAS DETALHADAS:
    - Status "aprovado" se: dataCte >= dataInicial AND dataCte <= dataFinal (limites inclusivos).
    - Status "reprovado" caso contrário.
 
-3 - mercadoriasExcluidas:
+3 - mercadoria:
+   - nome: nome exato da mercadoria sendo transportada pelo CTe
+   - valor: valor da mercadoria no formato "R$ 30.100,00"
+
+4 - mercadoriasExcluidas:
   - comparar dados do CTe com "mercadoriasExcluidas" da apólice.
    - este é um grupo de mercadorias que estarão excluídos da cobertura da apólice caso uma "regra" seja atendida. "regras" são as condições que definem quais itens estão excluídos e "mercadorias" são as mercadorias que estão proibidas.
    - status: "aprovado" -> caso os dados do transporte (CTe) não estejam incluso em nenhuma condições (1,2,3), considerando suas respectivas "regras" e "mercadorias".
@@ -43,7 +47,7 @@ INSTRUÇÕES TÉCNICAS DETALHADAS:
    - "reprovado" -> caso haja alguma condição (1, 2 ou 3) e sua respectiva "regra" e "mercadoria" reprovada ao comparar com os dados do CTe.
    - motivo: Breve descrição do motivo da reprovação, mencionando a "regra" e a "mercadoria" que causaram a reprovação.
 
-4 - regrasDeGerenciamentoDeRisco:
+5 - regrasDeGerenciamentoDeRisco:
 
    - comparar dados do CTe com "regrasDeGerenciamentoDeRisco" da apólice.
    - status: "não se aplica" -> caso os dados do CTe não se enquadrem em nenhuma condicao (1, 2, 3 ... 10) da apólice.
@@ -68,6 +72,11 @@ Retorne apenas um objeto json estruturado com os seguintes campos:
     "status": "aprovado|reprovado",
     "dataCte": "01/01/2021",
     "vigenciaApolice": "19/10/2024 até 31/10/2026"
+  },
+
+  mercadoria: {
+    "nome": "Nome da mercadoria",
+    "valor": "R$ 30.100,00",
   },
 
   mercadoriasExcluidas: {
