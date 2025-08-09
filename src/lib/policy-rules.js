@@ -70,7 +70,7 @@ export const POLICY_RULES = {
   },
 
   regrasDeGerenciamentoDeRiscos: {
-    riscoA: {
+    condicao_1: {
       mercadorias: [
         "Aparelhos de telefonia celular, suas partes, peças e seus acessórios",
         "Café de qualquer tipo",
@@ -87,18 +87,18 @@ export const POLICY_RULES = {
         "Tablets em Geral",
       ],
       regras: {
-        1: {
+        regra_1: {
           valorMercadoria: "igual ou superior a R$ 40.000,00",
           obrigatoriedade: "análise de perfil profissional",
         },
-        2: {
+        regra_2: {
           valorMercadoria: "igual ou superior a R$ 40.000,01 até R$ 350.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
             "rastreamento / monitoramento de cargas",
           ],
         },
-        3: {
+        regra_3: {
           valorMercadoria:
             "igual ou superior a R$ 350.000,01 até R$ 600.000,00",
           obrigatoriedade: [
@@ -110,7 +110,7 @@ export const POLICY_RULES = {
             "Proibido Autônomo",
           ],
         },
-        4: {
+        regra_4: {
           valorMercadoria:
             "igual ou superior a R$ 600.000,01 até R$ 1.000.000,00",
           obrigatoriedade: [
@@ -123,7 +123,7 @@ export const POLICY_RULES = {
         },
       },
     },
-    riscoB: {
+    condicao_2: {
       mercadorias: [
         "Aço e Ferro em geral",
         "Álcool Etílico e para fins medicinais/farmacêuticos",
@@ -190,18 +190,18 @@ export const POLICY_RULES = {
         "Zinco (qualquer tipo)",
       ],
       regras: {
-        1: {
+        regra_1: {
           valorMercadoria: "até R$ 200.000,00",
           obrigatoriedade: "análise de perfil profissional",
         },
-        2: {
+        regra_2: {
           valorMercadoria: "de R$ 200.000,01 até R$ 1.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
             "rastreamento / monitoramento de cargas OU acompanhamento de escolta armada e monitorada do início ao fim do risco",
           ],
         },
-        3: {
+        regra_3: {
           valorMercadoria: "de R$ 1.000.000,01 até R$ 2.500.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -209,7 +209,7 @@ export const POLICY_RULES = {
             "acompanhamento de escolta armada e monitorada do início ao fim do risco",
           ],
         },
-        4: {
+        regra_4: {
           valorMercadoria: "de R$ 2.500.000,01 até R$ 3.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -217,28 +217,28 @@ export const POLICY_RULES = {
             "acompanhamento de escolta armada e monitorada do início ao fim do risco OU Isca Eletrônica RF e Imobilizador Inteligente",
           ],
         },
-        5: {
-          valorMercaria: "de R$ 2.000.000,00",
+        regra_5: {
+          valorMercadoria: "de R$ 2.000.000,00",
           obrigatoriedade: "MOTORISTA FROTA",
         },
       },
     },
-    semenBovino: {
+    condicao_3: {
       mercadoria:
         "exclusivamente sêmen bovino E acondicionado em cilindro de nitrogênio",
       regras: {
-        1: {
+        regra_1: {
           valorMercadoria: "até R$ 150.000,00",
           obrigatoriedade: "análise de perfil profissional",
         },
-        2: {
+        regra_2: {
           valorMercadoria: "de R$ 150.000,01 até R$ 1.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
             "rastreamento / monitoramento de cargas OU acompanhamento de escolta armada e monitorada do início ao fim do risco",
           ],
         },
-        3: {
+        regra_3: {
           valorMercadoria: "de R$ 1.000.000,01 até R$ 3.500.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -248,30 +248,30 @@ export const POLICY_RULES = {
         },
       },
     },
-    maquinasEquipamentosPesados: {
+    condicao_4: {
       mercadoria: "Máquinas e equipamentos pesados novos e sem uso",
       regras: {
-        1: {
+        regra_1: {
           valorMercadoria: "até R$ 4.000.000,00",
           obrigatoriedade: "análise de perfil profissional",
         },
       },
     },
-    embarcadorMannHummel: {
+    condicao_5: {
       embarcador: "MANN+HUMMEL BRASIL LTDA",
       regras: {
-        1: {
+        regra_1: {
           valorMercadoria: "até R$ 300.000,00",
           obrigatoriedade: "análise de perfil profissional",
         },
-        2: {
+        regra_2: {
           valorMercadoria: "de R$ 300.000,01 até R$ 1.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
             "rastreamento / monitoramento de cargas OU acompanhamento de escolta armada e monitorada do início ao fim do risco",
           ],
         },
-        3: {
+        regra_3: {
           valorMercadoria: "de R$ 1.000.000,01 até R$ 2.500.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -279,7 +279,7 @@ export const POLICY_RULES = {
             "acompanhamento de escolta armada e monitorada do início ao fim do risco OU Isca Eletrônica RF OU Imobilizador Inteligente",
           ],
         },
-        4: {
+        regra_4: {
           valorMercadoria: "de R$ 2.500.000,01 até R$ 3.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -287,28 +287,28 @@ export const POLICY_RULES = {
             "acompanhamento de escolta armada e monitorada do início ao fim do risco OU Isca Eletrônica RF E Imobilizador Inteligente",
           ],
         },
-        5: {
+        regra_5: {
           valorMercadoria: "igual ou superior a R$ 2.000.000,00",
           obrigatoriedade: "MOTORISTA FROTA",
         },
       },
     },
-    painelSolar: {
+    condicao_6: {
       mercadoria: "painel solar",
       origemDestino: "proibido para origem ou destino do Rio de Janeiro",
       regras: {
-        1: {
+        regra_1: {
           valorMercadoria: "até R$ 80.000,00",
           obrigatoriedade: "análise de perfil profissional",
         },
-        2: {
+        regra_2: {
           valorMercadoria: "de R$ 80.000,01 até R$ 500.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
             "rastreamento / monitoramento de cargas",
           ],
         },
-        3: {
+        regra_3: {
           valorMercadoria: "de R$ 500.000,01 até R$ 800.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -316,7 +316,7 @@ export const POLICY_RULES = {
             "acompanhamento de escolta armada e monitorada do início ao fim do risco OU 01 Fiscal de Rota OU Imobilizador Inteligente",
           ],
         },
-        4: {
+        regra_4: {
           valorMercadoria: "de R$ 800.000,01 até R$ 1.200.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -324,7 +324,7 @@ export const POLICY_RULES = {
             "acompanhamento de escolta armada e monitorada do início ao fim do risco OU 01 Fiscal de Rota OU Imobilizador Inteligente",
           ],
         },
-        5: {
+        regra_5: {
           valorMercadoria: "de R$ 1.200.000,01 até R$ 1.500.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -332,7 +332,7 @@ export const POLICY_RULES = {
             "acompanhamento de escolta armada e monitorada do início ao fim do risco OU Imobilizador Inteligente E Lacre Eletrônico E Isca Eletrônica",
           ],
         },
-        6: {
+        regra_6: {
           valorMercadoria: "de R$ 1.500.000,01 até R$ 3.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -342,7 +342,7 @@ export const POLICY_RULES = {
         },
       },
     },
-    operacaoBydMan: {
+    condicao_7: {
       embarcador: "BYD MAN",
       mercadoria: [
         "Células de baterias e partes e peças para uso em Ônibus elétrico",
@@ -351,7 +351,7 @@ export const POLICY_RULES = {
       ],
       veiculo: "BITREM OU TRUCK",
       regras: {
-        1: {
+        regra_1: {
           valorMercadoria: "até R$ 500.000,00",
           obrigatoriedade: "análise de perfil profissional",
         },
@@ -362,7 +362,7 @@ export const POLICY_RULES = {
             "rastreamento / monitoramento de cargas",
           ],
         },
-        3: {
+        regra_3: {
           valorMercadoria: "de R$ 1.500.000,01 até R$ 2.500.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -370,7 +370,7 @@ export const POLICY_RULES = {
             "Isca Eletrônica RF OU Imobilizador Inteligente OU Escolta Ostensiva OU 01 Fiscal de Rota em percurso integral",
           ],
         },
-        4: {
+        regra_4: {
           valorMercadoria: "de R$ 2.500.000,01 até R$ 5.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -378,7 +378,7 @@ export const POLICY_RULES = {
             "Isca Eletrônica RF E Imobilizador Inteligente OU Escolta Ostensiva OU 01 Fiscal de Rota em percurso integral OU 02 Iscas Eletrônicas",
           ],
         },
-        5: {
+        regra_5: {
           valorMercadoria: "de R$ 5.000.000,01 até R$ 8.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -390,12 +390,12 @@ export const POLICY_RULES = {
         },
       },
     },
-    operacaoBydManPainelSolar: {
+    condicao_8: {
       embarcador: "BYD MAN",
       mercadoria: "painel solar",
       veiculo: "BITREM",
       regras: {
-        1: {
+        regra_1: {
           valorMercadoria: "até R$ 80.000,00",
           obrigatoriedade: "análise de perfil profissional",
         },
@@ -406,7 +406,7 @@ export const POLICY_RULES = {
             "rastreamento / monitoramento de cargas",
           ],
         },
-        3: {
+        regra_3: {
           valorMercadoria: "de R$ 500.000,01 até R$ 1.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -414,7 +414,7 @@ export const POLICY_RULES = {
             "Isca Eletrônica RF OU Imobilizador Inteligente OU Escolta Ostensiva OU 01 Fiscal de Rota em percurso integral",
           ],
         },
-        4: {
+        regra_4: {
           valorMercadoria: "de R$ 1.000.000,01 até R$ 1.500.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -422,7 +422,7 @@ export const POLICY_RULES = {
             "Isca Eletrônica E Escolta Armada OU Imobilizador Inteligente E Lacre Eletrônico",
           ],
         },
-        5: {
+        regra_5: {
           valorMercadoria: "de R$ 1.500.000,01 até R$ 3.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -430,7 +430,7 @@ export const POLICY_RULES = {
             "Escolta Armada OU Fiscal de Rota E Isca Eletrônica E Imobilizador Inteligente OU 01 Fiscal de Rota",
           ],
         },
-        6: {
+        regra_6: {
           valorMercadoria: "de R$ 3.000.000,01 até R$ 5.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -441,7 +441,7 @@ export const POLICY_RULES = {
             "01 Fiscal de Rota",
           ],
         },
-        7: {
+        regra_7: {
           valorMercadoria: "de R$ 5.000.000,01 até R$ 7.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -452,7 +452,7 @@ export const POLICY_RULES = {
             "01 Fiscal de Rota",
           ],
         },
-        8: {
+        regra_8: {
           valorMercadoria: "de R$ 7.000.000,01 até R$ 10.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -465,15 +465,15 @@ export const POLICY_RULES = {
         },
       },
     },
-    operacaoMiba: {
+    condicao_9: {
       embarcador: "MIBA",
       origemDestino: "proibido para origem ou destino do Rio de Janeiro",
       regras: {
-        1: {
+        regra_1: {
           valorMercadoria: "até R$ 300.000,00",
           obrigatoriedade: "análise de perfil profissional",
         },
-        2: {
+        regra_2: {
           valorMercadoria: "de R$ 300.000,01 até R$ 800.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
@@ -483,22 +483,22 @@ export const POLICY_RULES = {
       },
     },
 
-    aeronavesDesmontadas: {
+    condicao_10: {
       mercadoria:
         "aeronaves desmontadas, inclusive suas partes e peças e acessórios",
       regras: {
-        1: {
+        regra_1: {
           valorMercadoria: "até R$ 300.000,00",
           obrigatoriedade: "análise de perfil profissional",
         },
-        2: {
+        regra_2: {
           valorMercadoria: "de R$ 300.000,01 até R$ 1.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",
             "rastreamento / monitoramento de cargas",
           ],
         },
-        3: {
+        regra_3: {
           valorMercadoria: "de R$ 1.000.000,01 até R$ 2.000.000,00",
           obrigatoriedade: [
             "análise de perfil profissional",

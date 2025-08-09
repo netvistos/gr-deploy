@@ -35,12 +35,19 @@ INSTRUÇÕES TÉCNICAS DETALHADAS:
    - Status "aprovado" se: dataCte >= dataInicial AND dataCte <= dataFinal (limites inclusivos).
    - Status "reprovado" caso contrário.
 
-3 - mercadoria_excluida:
+3 - mercadoriaExcluida:
    - comparar dados do CTe com "bensOuMercadoriasExcluidas" da apólice.
-   - "aprovado" -> caso todas as condições e suas respectivas regras estejam aprovadas.
-   - "reprovado" -> caso haja alguma condição ou regra reprovada (ex: mercadoria identificada na lista de exclusão, se o Estado de origem ou destino = Rio de Janeiro).
+   - status: "aprovado" -> caso todas as condições (1, 2, 3) estejam aprovadas ao comparar com os dados do CTe.
+   - motivo: "N/A" -> caso não haja motivo para reprovação.
+   - "reprovado" -> caso haja alguma condição (1, 2 ou 3) reprovada ao comparar com os dados do CTe.
+   - motivo: Breve descrição do motivo da reprovação.
 
-
+4 - regrasDeGerenciamentoDeRisco:
+   - comparar dados do CTe com "regrasDeGerenciamentoDeRisco" da apólice.
+   - status: "aprovado" -> caso todas as condições (1, 2, 3,... 10) estejam aprovadas ao comparar com os dados do CTe.
+   - motivo: "N/A" -> caso não haja motivo para reprovação.
+   - "reprovado" -> caso haja alguma condição (1, 2, 3 ou 4) reprovada ao comparar com os dados do CTe.
+   - motivo: Breve descrição do motivo da reprovação.
 
 PADRÕES DE RESPOSTA:
 - Sempre retornar JSON válido.
@@ -57,15 +64,19 @@ Retorne apenas um objeto json estruturado com os seguintes campos:
 
   vigencia: {
     "status": "aprovado|reprovado",
-    "data_cte": "01/01/2021",
-    "vigencia_apolice": "19/10/2024 até 31/10/2026"
+    "dataCte": "01/01/2021",
+    "vigenciaApolice": "19/10/2024 até 31/10/2026"
   },
 
-  mercadoria_excluida: {
+  mercadoriaExcluida: {
     "status": "aprovado|reprovado",
     "motivo": "N/A|motivo da exclusão"
   },
 
+  regrasDeGerenciamentoDeRisco: {
+    "status": "aprovado|reprovado",
+    "motivo": "N/A|motivo da reprovação"
+  }
 
 }`;
 

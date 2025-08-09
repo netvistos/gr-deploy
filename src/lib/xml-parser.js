@@ -92,6 +92,12 @@ export async function parseCTeXML(xmlContent) {
         nome: cte.emit?.xNome || "",
       },
 
+      // Dados do embarcador
+      embarcador: {
+        cnpj: cte.rem?.CNPJ || "",
+        nome: cte.rem?.xNome || "",
+      },
+
       // Data do transporte
       dataTransporte: formatarDataCTe(cte.ide?.dhEmi || ""),
       dataTransporteOriginal: cte.ide?.dhEmi || "", // Data original para referência
@@ -129,6 +135,10 @@ export function formatDataForAI(extractedData) {
     emitente: {
       nome: extractedData.emitente.nome,
       cnpj: extractedData.emitente.cnpj,
+    },
+    embarcador: {
+      nome: extractedData.embarcador.nome,
+      cnpj: extractedData.embarcador.cnpj,
     },
     dataTransporte: extractedData.dataTransporte,
     mercadoria: extractedData.mercadoria.descricao,
