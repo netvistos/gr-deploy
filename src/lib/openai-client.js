@@ -86,7 +86,7 @@ DADOS DO CTe PARA VALIDAÇÃO:
 ${JSON.stringify(cteData, null, 2)}
 
 REGRAS DA APÓLICE DE SEGURO:
-${policyRules}
+${JSON.stringify(policyRules, null, 2)}
 
 Por favor, execute a validação completa seguindo as instruções do sistema e retorne EXCLUSIVAMENTE uma resposta em formato json válido com a estrutura especificada. Não inclua texto adicional, apenas o objeto json.
 `;

@@ -3,9 +3,13 @@ const mockCte = {
     cnpj: '12345678000199',
     nome: 'Transportadora Exemplo Ltda',
   },
+  embarcador: {
+    cnpj: '98765432000198',
+    nome: 'Embarcador Exemplo Ltda',
+  },
   dataTransporte: '2024-08-10T10:00:00.000Z',
   mercadoria: {
-    descricao: 'Maracujá',
+    descricao: 'painel solar',
     valor: '150000.00',
   },
   transporte: {
