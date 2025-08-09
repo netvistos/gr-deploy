@@ -35,16 +35,18 @@ INSTRUÇÕES TÉCNICAS DETALHADAS:
    - Status "aprovado" se: dataCte >= dataInicial AND dataCte <= dataFinal (limites inclusivos).
    - Status "reprovado" caso contrário.
 
-3 - mercadoriaExcluida:
-   - comparar dados do CTe com "bensOuMercadoriasExcluidas" da apólice.
-   - status: "aprovado" -> caso todas as condições (1, 2, 3) estejam aprovadas ao comparar com os dados do CTe.
-   - motivo: "N/A" -> caso não haja motivo para reprovação.
-   - "reprovado" -> caso haja alguma condição (1, 2 ou 3) reprovada ao comparar com os dados do CTe.
-   - motivo: Breve descrição do motivo da reprovação.
+3 - mercadoriasExcluidas:
+  - comparar dados do CTe com "mercadoriasExcluidas" da apólice.
+   - este é um grupo de mercadorias que estarão excluídos da cobertura da apólice caso uma "regra" seja atendida. "regras" são as condições que definem quais itens estão excluídos e "mercadorias" são as mercadorias que estão proibidas.
+   - status: "aprovado" -> caso os dados do transporte (CTe) não estejam incluso em nenhuma condições (1,2,3), considerando suas respectivas "regras" e "mercadorias".
+   - motivo: "N/A" -> caso status seja "aprovado"
+   - "reprovado" -> caso haja alguma condição (1, 2 ou 3) e sua respectiva "regra" e "mercadoria" reprovada ao comparar com os dados do CTe.
+   - motivo: Breve descrição do motivo da reprovação, mencionando a "regra" e a "mercadoria" que causaram a reprovação.
 
 4 - regrasDeGerenciamentoDeRisco:
+
    - comparar dados do CTe com "regrasDeGerenciamentoDeRisco" da apólice.
-   - status: "aprovado" -> caso todas as condições (1, 2, 3,... 10) estejam aprovadas ao comparar com os dados do CTe.
+   - status: "não se aplica" -> caso os dados do CTe não se enquadrem em nenhuma condicao (1, 2, 3 ... 10) da apólice.
    - motivo: "N/A" -> caso não haja motivo para reprovação.
    - "reprovado" -> caso haja alguma condição (1, 2, 3 ou 4) reprovada ao comparar com os dados do CTe.
    - motivo: Breve descrição do motivo da reprovação.
@@ -68,14 +70,14 @@ Retorne apenas um objeto json estruturado com os seguintes campos:
     "vigenciaApolice": "19/10/2024 até 31/10/2026"
   },
 
-  mercadoriaExcluida: {
+  mercadoriasExcluidas: {
     "status": "aprovado|reprovado",
     "motivo": "N/A|motivo da exclusão"
   },
 
   regrasDeGerenciamentoDeRisco: {
-    "status": "aprovado|reprovado",
-    "motivo": "N/A|motivo da reprovação"
+    "status": "não se aplica|ponto de atenção",
+    "obrigatoriedade": "N/A|motivo da reprovação"
   }
 
 }`;

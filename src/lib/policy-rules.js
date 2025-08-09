@@ -7,7 +7,7 @@ export const POLICY_RULES = {
     vigencia: "19/10/2024 até 31/10/2026",
   },
 
-  bensOuMercadoriasExcluidas: {
+  mercadoriasExcluidas: {
     condicao_1: {
       regra:
         "Qualquer mercadoria que se esteja na lista a seguir estará proibida",
