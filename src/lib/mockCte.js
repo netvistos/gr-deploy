@@ -5,7 +5,7 @@ const mockCte = {
   },
   dataTransporte: '2024-08-10T10:00:00.000Z',
   mercadoria: {
-    descricao: 'Cigarro de palha',
+    descricao: 'Tabaco mastigável',
     valor: '150000.00',
   },
   transporte: {

@@ -90,16 +90,25 @@ Por favor, execute a validação completa seguindo as instruções do sistema e 
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
       ],
-      temperature: 0.0, // ajustado para consistência
+      temperature: 0.3,
       response_format: { type: "json_object" },
     });
 
+
+    const tokenUsage = {
+      prompt_tokens: completion.usage.prompt_tokens,
+      completion_tokens: completion.usage.completion_tokens,
+    };
+
+    // Token usage
+    console.log("Token usage:", tokenUsage);
     // Extrair resposta da IA
     const response = completion.choices[0]?.message?.content;
 
     if (!response) {
       throw new Error("Resposta vazia da OpenAI");
     }
+
 
     // Tentar fazer parse do JSON
     try {

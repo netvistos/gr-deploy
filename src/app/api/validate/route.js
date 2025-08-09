@@ -15,28 +15,14 @@ export async function POST(request) {
     // Padroniza os dados antes de ir para a IA
     const aiInput = formatDataForAI(cteData);
 
+    // Chamada para validação com OpenAI
     const validationResult = await validateCTeWithAI(aiInput, POLICY_RULES);
 
     // Retornar resultado estruturado
     return Response.json({
       success: true,
       message: "Validação concluída com sucesso",
-      validation: validationResult,
-      cteInfo: {
-        emitente: `${cteData.emitente?.nome || "N/A"} (CNPJ: ${
-          cteData.emitente?.cnpj || "N/A"
-        })`,
-        mercadoria: cteData.mercadoria?.descricao || "N/A",
-        valor: cteData.mercadoria?.valor || 0,
-        origem: `${cteData.transporte?.origem?.municipio || "N/A"} - ${
-          cteData.transporte?.origem?.uf || "N/A"
-        }`,
-        destino: `${cteData.transporte?.destino?.municipio || "N/A"} - ${
-          cteData.transporte?.destino?.uf || "N/A"
-        }`,
-        informacoesTransporte:
-          cteData.transporte?.informacoesTransporte || "N/A",
-      },
+      validation: validationResult
     });
   } catch (error) {
     console.error("Erro na validação:", error);
