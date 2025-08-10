@@ -41,3 +41,4 @@ function isDateWithinPolicy(transportDate, startDate, endDate) {
 
   return transport >= start && transport <= end;
 }
+

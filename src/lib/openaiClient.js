@@ -20,21 +20,6 @@ Use variações semânticas para validar as informações e siga estritamente as
 
 INSTRUÇÕES TÉCNICAS DETALHADAS:
 
-1 - cnpj:
-   - Comparar apenas os 14 dígitos numéricos.
-   - Exemplo: "32.606.932/0001-79" = "32606932000179".
-   - SEMPRE normalizar removendo pontuação antes da comparação.
-   - Status: "aprovado": caso o CNPJ do CTe corresponda ao CNPJ da apólice.
-   - Status: "reprovado": caso contrário.
-   - cnpjCte: cnpj fornecido no CTe.
-   - cnpjApolice = fixo, cnpj fornecido na apólice.
-
-2 - vigencia:
-   - dataCte = A data extraída do CTe e deve estar em "DD/MM/YYYY" (já fornecida nos dados).
-   - dataApolice = fixo, vigência fornecida na apólice "19/10/2024 até 31/10/2026"
-   - Status "aprovado" se: dataCte >= dataInicial AND dataCte <= dataFinal (limites inclusivos).
-   - Status "reprovado" caso contrário.
-
 3 - mercadoria:
    - nome: nome exato da mercadoria sendo transportada pelo CTe
    - valor: valor da mercadoria no formato "R$ 30.100,00"
@@ -62,18 +47,6 @@ PADRÕES DE RESPOSTA:
 FORMATO DE RESPOSTA OBRIGATÓRIO:
 Retorne apenas um objeto json estruturado com os seguintes campos:
 {
-  cnpj: {
-    "status": "aprovado|reprovado",
-    "cnpjCte": "00.000.000/0000-00",
-    "cnpjApolice": "13.657.062/0001-12"
-  },
-
-  vigencia: {
-    "status": "aprovado|reprovado",
-    "dataCte": "01/01/2021",
-    "vigenciaApolice": "19/10/2024 até 31/10/2026"
-  },
-
   mercadoria: {
     "nome": "Nome da mercadoria",
     "valor": "R$ 30.100,00",
