@@ -1,114 +1,56 @@
 import xml2js from "xml2js";
 
-// Função para validar se o conteúdo é um XML válido de CTe
+/**
+ * Validação básica do XML de CTe.
+ * Retorna true se o XML contém as tags principais e estrutura mínima.
+ */
 export function isValidXML(xmlContent) {
-  if (!xmlContent || typeof xmlContent !== "string") {
-    return false;
-  }
-
-  // Verificar se contém tags básicas de XML
-  if (!xmlContent.includes("<?xml") && !xmlContent.includes("<cteProc")) {
-    return false;
-  }
-
-  // Verificar se é um CTe (procura por tags específicas do CTe)
-  const cteTags = ["cteProc", "CTe", "infCte"];
-  const hasCTeTags = cteTags.every((tag) => xmlContent.includes(tag));
-
-  if (!hasCTeTags) {
-    return false;
-  }
-
-  // Validação adicional: verificar estrutura básica de XML
-  // Verificar se tem tags de abertura e fechamento
-  const hasOpeningTags = xmlContent.includes("<") && xmlContent.includes(">");
-  const hasClosingTags = xmlContent.includes("</") || xmlContent.includes("/>");
-
-  if (!hasOpeningTags || !hasClosingTags) {
-    return false;
-  }
-
-  // Verificar se não tem erros básicos de XML
-  // Contar tags de abertura e fechamento para verificar se estão balanceadas
-  const openingCount = (xmlContent.match(/</g) || []).length;
-  const closingCount = (xmlContent.match(/>/g) || []).length;
-
-  if (openingCount !== closingCount) {
-    return false;
-  }
-
+  if (!xmlContent || typeof xmlContent !== "string") return false;
+  const requiredTags = ["<cteProc", "<CTe", "<infCte"];
+  const hasAllTags = requiredTags.every(tag => xmlContent.includes(tag));
+  if (!hasAllTags) return false;
+  if (!xmlContent.includes("<") || !xmlContent.includes(">")) return false;
   return true;
 }
 
-// Função para formatar data do CT-e
-function formatarDataCTe(dataString) {
-  if (!dataString) return "";
-
-  try {
-    // Converter a string ISO para objeto Date
-    const data = new Date(dataString);
-
-    // Verificar se a data é válida
-    if (isNaN(data.getTime())) {
-      return dataString; // Retorna a string original se não conseguir converter
-    }
-
-    // Formatar para o padrão brasileiro
-    const dia = data.getDate().toString().padStart(2, "0");
-    const mes = (data.getMonth() + 1).toString().padStart(2, "0");
-    const ano = data.getFullYear();
-
-    return `${dia}/${mes}/${ano}`;
-  } catch (error) {
-    console.error("Erro ao formatar data:", error);
-    return dataString; // Retorna a string original em caso de erro
-  }
+/**
+ * Função utilitária para extrair a data do transporte do bloco <ide>
+ * Prioriza <dPrev>, depois <dhEmi> (apenas a data).
+ */
+function extractTransportDate(ide) {
+  if (ide?.dPrev) return ide.dPrev;
+  if (ide?.dhEmi) return ide.dhEmi.split('T')[0];
+  return "";
 }
 
-// Parser XML simples para CTe
+/**
+ * Parser XML simples para CTe.
+ * Retorna objeto estruturado com os dados essenciais para validação.
+ */
 export async function parseCTeXML(xmlContent) {
   try {
-    // Configurar parser XML
     const parser = new xml2js.Parser({
-      explicitArray: false, // Não criar arrays para elementos únicos
-      ignoreAttrs: true, // Ignorar atributos para simplificar
+      explicitArray: false,
+      ignoreAttrs: true,
     });
-
-    // Fazer parse do XML
     const result = await parser.parseStringPromise(xmlContent);
-
-    // Extrair dados do CTe
     const cte = result.cteProc?.CTe?.infCte;
+    if (!cte) throw new Error("Estrutura XML inválida - CTe não encontrado");
 
-    if (!cte) {
-      throw new Error("Estrutura XML inválida - CTe não encontrado");
-    }
-
-    // Extrair dados essenciais
     const extractedData = {
-      // Dados do emitente
       emitente: {
         cnpj: cte.emit?.CNPJ || "",
         nome: cte.emit?.xNome || "",
       },
-
-      // Dados do embarcador
       embarcador: {
         cnpj: cte.rem?.CNPJ || "",
         nome: cte.rem?.xNome || "",
       },
-
-      // Data do transporte
-      dataTransporte: formatarDataCTe(cte.ide?.dhEmi || ""),
-      dataTransporteOriginal: cte.ide?.dhEmi || "", // Data original para referência
-
-      // Dados das mercadorias
+      dataTransporte: extractTransportDate(cte.ide),
       mercadoria: {
         descricao: cte.infCTeNorm?.infCarga?.proPred || "",
         valor: parseFloat(cte.infCTeNorm?.infCarga?.vCarga) || 0,
       },
-
-      // Dados de origem e destino
       transporte: {
         origem: {
           municipio: cte.ide?.xMunIni || "",
@@ -118,7 +60,6 @@ export async function parseCTeXML(xmlContent) {
           municipio: cte.ide?.xMunFim || "",
           uf: cte.ide?.UFFim || "",
         },
-        informacoesTransporte: cte.ide?.natOp || "",
       },
     };
 
@@ -129,7 +70,10 @@ export async function parseCTeXML(xmlContent) {
   }
 }
 
-// Função para formatar dados para envio à IA
+/**
+ * Formata os dados extraídos para envio à IA.
+ * Retorna apenas os campos relevantes para análise semântica.
+ */
 export function formatDataForAI(extractedData) {
   return {
     emitente: {
