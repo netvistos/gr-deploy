@@ -1,4 +1,4 @@
-import { isValidXML, parseCTeXML } from "@/lib/xml-parser";
+import { isValidXML, parseCTeXML } from "@/lib/xmlParser";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {

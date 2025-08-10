@@ -1,6 +1,6 @@
 import { validateCTeWithAI } from "@/lib/openai-client";
-import { POLICY_RULES } from "@/lib/policy-rules";
-import { formatDataForAI } from "@/lib/xml-parser"; // novo
+import { POLICY_RULES } from "@/lib/policyRules";
+import { formatDataForAI } from "@/lib/xmlParser"; // novo
 
 export async function POST(request) {
   try {

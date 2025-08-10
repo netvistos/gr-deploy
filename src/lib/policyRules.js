@@ -4,10 +4,13 @@ export const POLICY_RULES = {
   emitente: {
     cnpj: "13.657.062/0001-12",
     nome: "LOGITIME TRANSPORTES LTDA",
-    vigencia: "19/10/2024 até 31/10/2026",
+    vigencia: {
+      inicio: "19/10/2024",
+      fim: "31/10/2026",
+    },
   },
 
-  mercadoriasExcluidas: {
+  mercadorias_excluidas: {
     condicao_1: {
       regra:
         "Qualquer mercadoria que se esteja na lista a seguir estará proibida",
