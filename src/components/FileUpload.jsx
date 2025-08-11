@@ -11,24 +11,24 @@ export function FileUpload({
 }) {
   // Estados para controlar a interação
   const [isDragOver, setIsDragOver] = useState(false);
-  const [error, setError] = useState(null);
+  const [localError, setLocalError] = useState(null);
   const fileInputRef = useRef(null);
 
   // Função para validar o arquivo
   const validateFile = (file) => {
     // Limpa erro anterior
-    setError(null);
+    setLocalError(null);
 
     // Verifica se é um arquivo XML
     if (!file.name.toLowerCase().endsWith(".xml")) {
-      setError("Por favor, selecione apenas arquivos XML");
+      setLocalError("Por favor, selecione apenas arquivos XML");
       return false;
     }
 
     // Verifica tamanho (máximo 10MB)
     const maxSize = 10 * 1024 * 1024; // 10MB
     if (file.size > maxSize) {
-      setError("Arquivo muito grande. Máximo 10MB permitido.");
+      setLocalError("Arquivo muito grande. Máximo 10MB permitido.");
       return false;
     }
 
@@ -98,26 +98,23 @@ export function FileUpload({
         ref={fileInputRef}
         type="file"
         accept={accept}
-        onChange={handleInputChange}
-        className="hidden"
+        style={{ display: "none" }}
         disabled={disabled}
+        onChange={handleInputChange}
       />
-
-      {/* Área de drag and drop */}
       <div
-        className={`
-          relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200
-          ${
-            isDragOver
-              ? "border-blue-500 bg-blue-50"
-              : "border-gray-300 hover:border-gray-400"
-          }
-          ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
-        `}
+        className={`border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 ${
+          isDragOver
+            ? "border-blue-500 bg-blue-50"
+            : "border-gray-300 hover:border-gray-400"
+        } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={handleButtonClick}
+        role="button"
+        tabIndex={0}
+        aria-disabled={disabled}
       >
         {/* Ícone */}
         <div className="mb-4">
@@ -136,7 +133,6 @@ export function FileUpload({
             />
           </svg>
         </div>
-
         {/* Texto principal */}
         <div className="space-y-2">
           <p className="text-lg font-medium text-gray-900">
@@ -146,13 +142,11 @@ export function FileUpload({
             ou clique para selecionar um arquivo
           </p>
         </div>
-
         {/* Mensagem de erro */}
-        {(error || props.error) && (
-          <div className="mt-2 text-red-600 text-sm">
-            {props.error || error}
-          </div>
+        {(error || localError) && (
+          <div className="mt-2 text-red-600 text-sm">{error || localError}</div>
         )}
+      </div>
     </div>
   );
 }

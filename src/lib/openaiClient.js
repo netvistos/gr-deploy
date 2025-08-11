@@ -9,7 +9,6 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-
 // Função para validar CTe com IA
 export async function validateCTeWithAI(userPrompt) {
   try {
@@ -33,7 +32,6 @@ export async function validateCTeWithAI(userPrompt) {
       response_format: { type: "json_object" },
     });
 
-
     const tokenUsage = {
       prompt_tokens: completion.usage.prompt_tokens,
       completion_tokens: completion.usage.completion_tokens,
@@ -47,7 +45,6 @@ export async function validateCTeWithAI(userPrompt) {
     if (!response) {
       throw new Error("Resposta vazia da OpenAI");
     }
-
 
     // Tentar fazer parse do JSON
     try {
