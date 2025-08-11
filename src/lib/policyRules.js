@@ -61,10 +61,6 @@ export const POLICY_RULES = {
         "Objetos de arte (quadros, esculturas, antiguidades e coleções)",
       ],
     },
-    condicao_4: {
-      regra:
-        "Bens ou mercadorias transportadas em veículos de passeio e/ou outros veículos não destinados ao transporte rodoviário de carga",
-    },
   },
   clausula_especificas_exclusao: {
     condicao_1: {

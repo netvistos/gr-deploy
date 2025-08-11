@@ -54,8 +54,8 @@ export async function compareCteSequencial(cteData) {
     const excludedGoods = POLICY_RULES.bens_mercadorias_excluidas;
     const userPrompt = `
     Compare as informações do CTe com as condições e regras de exclusão de bens e mercadorias da apólice.
-    - Se houver qualquer regra que explique a exclusão de mercadorias, reprove e detalhe o motivo.
-    - Se houver qualquer regra que não seja cumprida na apólice (origem, destino, embarcador, veículo proibido), reprove e detalhe o motivo.
+    - Mercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino: poderão ter restrições específicas.
+    - status: "reprovado" -> se houver qualquer "regra" que não seja cumprida na apólice
     - Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
 
     {
@@ -91,12 +91,16 @@ export async function compareCteSequencial(cteData) {
     const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
     const riskUserPrompt = `
     Compare as informações do CTe com as condições e regras de gerenciamento de risco da apólice.
-    - Se houver qualquer regra que explique a exclusão de mercadorias, reprove e detalhe o motivo.
-    - Se houver qualquer regra que não seja cumprida na apólice (origem, destino, embarcador, veículo proibido), reprove e detalhe o motivo.
+    - Mercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino: poderão ter regras específicas.
+    - Analise se as informações do CTe se enquadram em alguma condição e regra.
+    - status: "aprovado" -> se todas as "condições" forem cumpridas na apólice.
+    - status: "alerta" -> se alguma informação proveniente do CTe se enquandrar em alguma "condição" e "regra".
+    - limite_maximo_garantia: se o CTe se enquadrar em alguma condição de gerenciamento de risco.
     - Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
 
     {
-      "status": "aprovado" | "reprovado",
+      "status": "aprovado" | "atenção",
+      "limite_maximo_garantia": 
       "motivo": "string explicando o motivo"
     }
 
@@ -200,8 +204,8 @@ export async function compareCteCompleta(cteData) {
     const excludedGoods = POLICY_RULES.bens_mercadorias_excluidas;
     const excludedGoodsPrompt = `
     Compare as informações do CTe com as condições e regras de exclusão de bens e mercadorias da apólice.
-    - Se houver qualquer regra que explique a exclusão de mercadorias, reprove e detalhe o motivo.
-    - Se houver qualquer regra que não seja cumprida na apólice (origem, destino, embarcador, veículo proibido), reprove e detalhe o motivo.
+    - Mercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino: poderão ter restrições específicas.
+    - Se houver qualquer "regra" que não seja cumprida na apólice, reprove e detalhe o motivo.
     - Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
 
     {
@@ -236,13 +240,14 @@ export async function compareCteCompleta(cteData) {
     // 4. Regras de Gerenciamento de Risco
     const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
     const userPrompt = `
-    Compare as informações do CTe com as condições e regras de gerenciamento de risco da apólice.
-    - Se houver qualquer regra que explique a exclusão de mercadorias, reprove e detalhe o motivo.
-    - Se houver qualquer regra que não seja cumprida na apólice (origem, destino, embarcador, veículo proibido), reprove e detalhe o motivo.
+    Compare as informações do CTe com as condições de gerenciamento de risco da apólice.
+    - Mercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino: poderão ter restrições específicas.
+    - Você deverá analisar se alguma informação proveniente do CTe conflita com as regras de gerenciamento de risco da apólice.
+    - Se houver qualquer regra que não seja cumprida na apólice (origem, destino, embarcador), reprove e detalhe o motivo.
     - Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
 
     {
-      "status": "aprovado" | "reprovado",
+      "status": "aprovado" | "alerta",
       "motivo": "string explicando o motivo"
     }
 
