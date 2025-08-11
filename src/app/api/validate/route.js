@@ -1,9 +1,9 @@
-import { compareCte } from "@/lib/compareCte.js";
+import { compareCteSequencial, compareCteCompleta } from "@/lib/compareCte.js";
 
 export async function POST(request) {
   try {
     // Extrai o objeto cteData do corpo da requisição (front)
-    const { cteData } = await request.json();
+    const { cteData, mode } = await request.json();
 
     // 1. Validação básica: verifica se veio o objeto
     if (!cteData) {
@@ -14,27 +14,19 @@ export async function POST(request) {
       );
     }
 
-    // 2. Chama a função de validação sequencial
-    const validationResult = await compareCte(cteData);
-
-    // 3. Monta o response conforme o resultado
-    if (validationResult.status === "aprovado") {
-      // Retorna sucesso
-      return Response.json(
-        { status: "aprovado", motivo: "CTe validado com sucesso" },
-        { status: 200 }
-      );
-      // Reprovação na regra de negócio
+    // 2. Chama a função de validação sequencial ou completa
+    let validationResult;
+    if (mode === "sequencial") {
+      validationResult = await compareCteSequencial(cteData);
     } else {
-      return Response.json(
-        { status: "reprovado", motivo: validationResult.motivo },
-        { status: 422 }
-      );
+      validationResult = await compareCteCompleta(cteData);
     }
-    // Erro interno
+
+    // 3. Resposta flexível para ambos os modos
+    return Response.json(validationResult, { status: 200 });
   } catch (error) {
     return Response.json(
-      { status: "reprovado", motivo: error.message },
+      { status: "erro", motivo: error.message },
       { status: 500 }
     );
   }

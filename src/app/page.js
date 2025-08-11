@@ -6,23 +6,23 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { ResultCard } from "@/components/ResultCard";
 
 export default function Home() {
-  // Estados simplificados - apenas 3 estados principais
+  // Estados principais
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [validationMode, setValidationMode] = useState("sequencial");
 
-  // Handler simplificado para upload
+  // Handler para upload
   const handleFileSelect = async (file) => {
     setIsLoading(true);
     setError(null);
     setResult(null);
 
     try {
-      // Upload e validação em uma única operação
       const formData = new FormData();
       formData.append("file", file);
 
-      //1. Rota de upload
+      //1. Upload
       const uploadResponse = await fetch("/api/upload", {
         method: "POST",
         body: formData,
@@ -34,11 +34,14 @@ export default function Home() {
         throw new Error(uploadData.error || "Erro no upload");
       }
 
-      // 2. Rota de Validação (sequencial e automática)
+      // 2. Validação (enviando o modo)
       const validateResponse = await fetch("/api/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cteData: uploadData.data }),
+        body: JSON.stringify({
+          cteData: uploadData.data,
+          mode: validationMode, // <-- Envia o modo
+        }),
       });
 
       const validateData = await validateResponse.json();
@@ -72,7 +75,22 @@ export default function Home() {
             Validação de conformidade com apólice de seguro usando IA
           </p>
         </div>
-
+        {/* Toggle de modo de validação */}
+        <div className="flex items-center space-x-2 mb-2">
+          <label htmlFor="validationMode" className="font-medium text-gray-700">
+            Modo de validação:
+          </label>
+          <select
+            id="validationMode"
+            value={validationMode}
+            onChange={(e) => setValidationMode(e.target.value)}
+            className="border rounded px-2 py-1"
+            disabled={isLoading}
+          >
+            <option value="sequencial">Sequencial (para no 1º erro)</option>
+            <option value="completa">Completa (mostra todos os erros)</option>
+          </select>
+        </div>
         {/* Área de upload */}
         <div className="bg-white rounded-lg shadow-lg p-6">
           <FileUpload
@@ -84,7 +102,6 @@ export default function Home() {
             {isLoading ? "Processando..." : "Escolher arquivo XML"}
           </FileUpload>
         </div>
-
         {/* Estado de Loading */}
         {isLoading && (
           <div className="bg-white rounded-lg shadow-lg p-6">
@@ -95,7 +112,6 @@ export default function Home() {
             />
           </div>
         )}
-
         {/* Estado de Erro */}
         {error && (
           <div className="bg-white rounded-lg shadow-lg p-6">
@@ -108,7 +124,6 @@ export default function Home() {
             </div>
           </div>
         )}
-
         {/* Estado de Resultado */}
         {result && <ResultCard result={result} onNewUpload={handleNewUpload} />}
       </div>
