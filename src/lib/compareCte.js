@@ -179,8 +179,8 @@ export async function compareCteCompleta(cteData) {
       // Se passou por todas as validações, retorna aprovado
     }
     return {
-      status: "aprovado",
-      motivo: "CTe aprovado conforme regras da apólice.",
+      status: "completa",
+      validation: results, // <-- ESSA PROPRIEDADE É USADA PELO FRONT!
     };
   } catch (error) {
     return {
