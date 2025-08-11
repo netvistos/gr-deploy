@@ -7,6 +7,8 @@ import { normalizeCNPJ, isDateWithinPolicy } from './validateCTe';
 export async function POST(request) {
   try {
     const { cteData } = await request.json();
+    
+    // Verifica se os dados do CTe foram fornecidos
     if (!cteData) {
       return Response.json(
         { error: "Dados do CTe são obrigatórios" },
@@ -16,6 +18,8 @@ export async function POST(request) {
 
     // Validações if/else sequenciais
     async function cteValidator(cteData) {
+
+      // TODO: implementar try catch
 
       // 1. Validação do CNPJ
       const cnpjXML = normalizeCNPJ(cteData.emitente.cnpj);
