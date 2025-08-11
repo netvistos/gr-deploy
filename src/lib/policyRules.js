@@ -74,7 +74,7 @@ export const POLICY_RULES = {
       ],
     },
   },
-  regras_gerenciamento_de_riscos: {
+  regras_gerenciamento_de_risco: {
     condicao_1: {
       mercadorias: [
         "Aparelhos de telefonia celular, suas partes, peças e seus acessórios",

@@ -1,7 +1,8 @@
 import { validateCTeWithAI } from "@/lib/openaiClient";
 import { POLICY_RULES } from "@/lib/policyRules";
-import { formatDataForAI } from "@/lib/xmlParser"; // novo
+import { formatDataForAI } from "@/lib/xmlParser";
 import { normalizeCNPJ, isDateWithinPolicy } from "./validateCteUtils";
+import { formatDateBR } from "./validateCteUtils";
 
 // Validações if/else sequenciais
 export async function compareCteSequencial(cteData) {
@@ -27,7 +28,7 @@ export async function compareCteSequencial(cteData) {
     }
 
     // 2. Validação da data
-    const transportDate = cteData.dataTransporte;
+    const transportDate = cteData.data_transporte;
     const coverStart = POLICY_RULES.emitente.vigencia.inicio;
     const coverEnd = POLICY_RULES.emitente.vigencia.fim;
     if (!isDateWithinPolicy(transportDate, coverStart, coverEnd)) {
@@ -39,7 +40,7 @@ export async function compareCteSequencial(cteData) {
             status: "reprovado",
             motivo:
               "Data do transporte fora do período de vigência da apólice.",
-            data_xml: transportDate,
+            data_xml: formatDateBR(transportDate),
             data_policy: `${coverStart} a ${coverEnd}`,
           },
         ],
@@ -87,14 +88,42 @@ export async function compareCteSequencial(cteData) {
     }
 
     // 4. Regras de Gerenciamento de Risco
+    const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
+    const riskUserPrompt = `
+    Compare as informações do CTe com as condições e regras de gerenciamento de risco da apólice.
+    - Se houver qualquer regra que explique a exclusão de mercadorias, reprove e detalhe o motivo.
+    - Se houver qualquer regra que não seja cumprida na apólice (origem, destino, embarcador, veículo proibido), reprove e detalhe o motivo.
+    - Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
+
+    {
+      "status": "aprovado" | "reprovado",
+      "motivo": "string explicando o motivo"
+    }
+
+    - Não inclua texto adicional, apenas o objeto JSON.
+
+    DADOS DO CTe PARA VALIDAÇÃO:
+    ${JSON.stringify(cteData, null, 2)}
+
+    DADOS DE GERENCIAMENTO DE RISCO DA APÓLICE:
+    ${JSON.stringify(riskManagementRules, null, 2)}
+    `;
+    const riskManagementResult = await validateCTeWithAI(riskUserPrompt);
+
+    if (riskManagementResult.status === "reprovado") {
+      return {
+        status: "reprovado",
+        validation: [
+          {
+            etapa: "Gerenciamento de Risco",
+            status: "reprovado",
+            motivo: `Validação reprovada em gerenciamento de risco: ${riskManagementResult.motivo}`,
+          },
+        ],
+      };
+    }
 
     // 5. Limite máximo de Garantia
-
-    // TODO: mapping de "RJ -> Rio de Janeiro"
-    // TODO: arrumar apólice com dados do veículo transportador
-    // TODO: criar variável genérica para transportes
-
-    // Se passou por todas as validações, retorna aprovado
     return {
       status: "aprovado",
       validation: [
@@ -146,7 +175,7 @@ export async function compareCteCompleta(cteData) {
     }
 
     // 2. Validação da data
-    const transportDate = cteData.dataTransporte;
+    const transportDate = cteData.data_transporte;
     const coverStart = POLICY_RULES.emitente.vigencia.inicio;
     const coverEnd = POLICY_RULES.emitente.vigencia.fim;
     if (!isDateWithinPolicy(transportDate, coverStart, coverEnd)) {
@@ -154,7 +183,7 @@ export async function compareCteCompleta(cteData) {
         etapa: "Data",
         status: "reprovado",
         motivo: "Data do transporte fora do período de vigência da apólice.",
-        data_xml: transportDate,
+        data_xml: formatDateBR(transportDate),
         data_policy: `${coverStart} a ${coverEnd}`,
       });
     } else {
@@ -162,14 +191,14 @@ export async function compareCteCompleta(cteData) {
         etapa: "Data",
         status: "aprovado",
         motivo: "Data do transporte dentro do período de vigência da apólice.",
-        data_xml: transportDate,
+        data_xml: formatDateBR(transportDate),
         data_policy: `${coverStart} a ${coverEnd}`,
       });
     }
 
     // 3. Validação de bens e mercadorias excluídas
     const excludedGoods = POLICY_RULES.bens_mercadorias_excluidas;
-    const userPrompt = `
+    const excludedGoodsPrompt = `
     Compare as informações do CTe com as condições e regras de exclusão de bens e mercadorias da apólice.
     - Se houver qualquer regra que explique a exclusão de mercadorias, reprove e detalhe o motivo.
     - Se houver qualquer regra que não seja cumprida na apólice (origem, destino, embarcador, veículo proibido), reprove e detalhe o motivo.
@@ -188,7 +217,7 @@ export async function compareCteCompleta(cteData) {
     DADOS DE BENS E MERCADORIAS EXCLUÍDAS DA APÓLICE:
     ${JSON.stringify(excludedGoods, null, 2)}
     `;
-    const excludedGoodsResult = await validateCTeWithAI(userPrompt);
+    const excludedGoodsResult = await validateCTeWithAI(excludedGoodsPrompt);
 
     if (excludedGoodsResult.status === "reprovado") {
       results.push({
@@ -205,8 +234,40 @@ export async function compareCteCompleta(cteData) {
     }
 
     // 4. Regras de Gerenciamento de Risco
+    const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
+    const userPrompt = `
+    Compare as informações do CTe com as condições e regras de gerenciamento de risco da apólice.
+    - Se houver qualquer regra que explique a exclusão de mercadorias, reprove e detalhe o motivo.
+    - Se houver qualquer regra que não seja cumprida na apólice (origem, destino, embarcador, veículo proibido), reprove e detalhe o motivo.
+    - Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
 
-    // inclusive dita regra de LMG
+    {
+      "status": "aprovado" | "reprovado",
+      "motivo": "string explicando o motivo"
+    }
+
+    - Não inclua texto adicional, apenas o objeto JSON.
+
+    DADOS DO CTe PARA VALIDAÇÃO:
+    ${JSON.stringify(cteData, null, 2)}
+
+    DADOS DE GERENCIAMENTO DE RISCO DA APÓLICE:
+    ${JSON.stringify(riskManagementRules, null, 2)}
+    `;
+    const riskManagementResult = await validateCTeWithAI(userPrompt);
+
+    if (riskManagementResult.status === "reprovado") {
+      return {
+        status: "reprovado",
+        validation: [
+          {
+            etapa: "Gerenciamento de Risco",
+            status: "reprovado",
+            motivo: `Validação reprovada em gerenciamento de risco: ${riskManagementResult.motivo}`,
+          },
+        ],
+      };
+    }
 
     // 5. Limite máximo de Garantia
 

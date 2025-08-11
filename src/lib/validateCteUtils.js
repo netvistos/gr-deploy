@@ -1,15 +1,9 @@
-/**
- * Normaliza CNPJ removendo pontos, traços, barras e espaços.
- */
+// Normaliza CNPJ removendo pontos, traços, barras e espaços.
 export function normalizeCNPJ(cnpj) {
   return cnpj.replace(/[^\d]/g, "");
 }
 
-/**
- * Extrai a data do transporte do XML priorizando <dPrev>, caso não encontre usará: <dhEmi>.
- * xmlObj - Objeto convertido do XML
- * Data no formato YYYY-MM-DD ou null se não encontrar
- */
+// Extrai a data do transporte do XML priorizando <dPrev>, caso não encontre usará: <dhEmi>.
 export function extractTransportDate(xmlObj) {
   // Tenta extrair <dPrev>
   const dPrev = xmlObj?.ide?.dPrev?.[0];
@@ -23,13 +17,7 @@ export function extractTransportDate(xmlObj) {
   return null;
 }
 
-/**
- * Compara se a data do transporte está dentro do período de vigência da apólice.
- * transportDate - Data do transporte (YYYY-MM-DD)
- * startDate - Início da vigência (DD/MM/YYYY)
- * endDate - Fim da vigência (DD/MM/YYYY)
- * retorna boolean
- */
+// Compara se a data do transporte está dentro do período de vigência da apólice.
 export function isDateWithinPolicy(transportDate, startDate, endDate) {
   // Converte datas da apólice para YYYY-MM-DD
   const [startDay, startMonth, startYear] = startDate.split("/");
@@ -39,4 +27,12 @@ export function isDateWithinPolicy(transportDate, startDate, endDate) {
   const transport = new Date(transportDate);
 
   return transport >= start && transport <= end;
+}
+
+// Função para formatar data no padrão brasileiro (DD/MM/YYYY)
+export function formatDateBR(dateStr) {
+  if (!dateStr) return "";
+  const [year, month, day] = dateStr.split("-");
+  if (!year || !month || !day) return dateStr;
+  return `${day}/${month}/${year}`;
 }
