@@ -90,11 +90,19 @@ export async function compareCteSequencial(cteData) {
     // 4. Regras de Gerenciamento de Risco
     const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
     const riskUserPrompt = `
-    Compare as informações do CTe com as condições e regras de gerenciamento de risco da apólice.
-    - Mercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino: poderão ter regras específicas.
+    1) Compare as informações do CTe com as condições e regras de gerenciamento de risco da apólice (determina se o CTe se enquadra em alguma condição de risco).
+    2) O gerenciamento de risco pode incluir condições que contemplem:
+    - Embarcador, 
+    - Mercadorias.
+    - Trajetos (Estado de origem e/ou destino).
+    - Entre outros...
+    3) Se alguma informação do CTE se enquadrar em alguma condição de risco, devemos analisar sua respectiva regra.
+    4) A respectiva regra menciona o "valor_mercadoria", em que devemos comparar com "valor da mercadoria" proveniente do CTe.
+    5) Se 
+     status: "alerta" -> se alguma informação proveniente do CTe se enquandrar em alguma "condição" -> especificação -> "regra".
+
     - Analise se as informações do CTe se enquadram em alguma condição e regra.
     - status: "aprovado" -> se todas as "condições" forem cumpridas na apólice.
-    - status: "alerta" -> se alguma informação proveniente do CTe se enquandrar em alguma "condição" e "regra".
     - limite_maximo_garantia: se o CTe se enquadrar em alguma condição de gerenciamento de risco.
     - Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
 
