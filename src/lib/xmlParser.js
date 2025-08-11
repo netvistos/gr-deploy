@@ -7,7 +7,7 @@ import xml2js from "xml2js";
 export function isValidXML(xmlContent) {
   if (!xmlContent || typeof xmlContent !== "string") return false;
   const requiredTags = ["<cteProc", "<CTe", "<infCte"];
-  const hasAllTags = requiredTags.every(tag => xmlContent.includes(tag));
+  const hasAllTags = requiredTags.every((tag) => xmlContent.includes(tag));
   if (!hasAllTags) return false;
   if (!xmlContent.includes("<") || !xmlContent.includes(">")) return false;
   return true;
@@ -19,7 +19,7 @@ export function isValidXML(xmlContent) {
  */
 function extractTransportDate(ide) {
   if (ide?.dPrev) return ide.dPrev;
-  if (ide?.dhEmi) return ide.dhEmi.split('T')[0];
+  if (ide?.dhEmi) return ide.dhEmi.split("T")[0];
   return "";
 }
 
@@ -88,12 +88,12 @@ export function formatDataForAI(extractedData) {
       valor: extractedData.mercadoria.valor,
     },
     origem: {
-      municipio: extractedData.transporte.origem.municipio,
-      uf: extractedData.transporte.origem.uf,
+      municipio: extractedData.origem.municipio,
+      uf: extractedData.origem.uf,
     },
     destino: {
-      municipio: extractedData.transporte.destino.municipio,
-      uf: extractedData.transporte.destino.uf,
+      municipio: extractedData.destino.municipio,
+      uf: extractedData.destino.uf,
     },
   };
 }

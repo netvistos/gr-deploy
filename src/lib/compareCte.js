@@ -14,7 +14,15 @@ export async function compareCteSequencial(cteData) {
     if (cnpjXML !== cnpjPolicy) {
       return {
         status: "reprovado",
-        motivo: "CNPJ do emitente não autorizado pela apólice.",
+        validation: [
+          {
+            etapa: "CNPJ",
+            status: "reprovado",
+            motivo: "CNPJ do emitente não autorizado pela apólice.",
+            cnpj_xml: cnpjXML,
+            cnpj_policy: cnpjPolicy,
+          },
+        ],
       };
     }
 
@@ -24,8 +32,17 @@ export async function compareCteSequencial(cteData) {
     const coverEnd = POLICY_RULES.emitente.vigencia.fim;
     if (!isDateWithinPolicy(transportDate, coverStart, coverEnd)) {
       return {
-        status: false,
-        motivo: "Data do transporte fora do período de vigência da apólice.",
+        status: "reprovado",
+        validation: [
+          {
+            etapa: "Data",
+            status: "reprovado",
+            motivo:
+              "Data do transporte fora do período de vigência da apólice.",
+            data_xml: transportDate,
+            data_policy: `${coverStart} a ${coverEnd}`,
+          },
+        ],
       };
     }
 
@@ -59,13 +76,17 @@ export async function compareCteSequencial(cteData) {
     if (excludedGoodsResult.status === "reprovado") {
       return {
         status: "reprovado",
-        motivo: `Validação reprovada em bens e mercadorias excluídas: ${excludedGoodsResult.motivo}`,
+        validation: [
+          {
+            etapa: "Bens e Mercadorias",
+            status: "reprovado",
+            motivo: `Validação reprovada em bens e mercadorias excluídas: ${excludedGoodsResult.motivo}`,
+          },
+        ],
       };
     }
 
     // 4. Regras de Gerenciamento de Risco
-
-    // inclusive dita regra de LMG
 
     // 5. Limite máximo de Garantia
 
@@ -76,17 +97,29 @@ export async function compareCteSequencial(cteData) {
     // Se passou por todas as validações, retorna aprovado
     return {
       status: "aprovado",
-      motivo: "CTe aprovado conforme regras da apólice.",
+      validation: [
+        {
+          etapa: "Final",
+          status: "aprovado",
+          motivo: "CTe aprovado conforme regras da apólice.",
+        },
+      ],
     };
   } catch (error) {
     return {
       status: "erro",
-      motivo: `Erro na validação do CTe: ${error.message}`,
+      validation: [
+        {
+          etapa: "Geral",
+          status: "erro",
+          motivo: `Erro na validação do CTe: ${error.message}`,
+        },
+      ],
     };
   }
 }
 
-// Validações if/else sequenciais
+// Validações if/else completas
 export async function compareCteCompleta(cteData) {
   try {
     const results = [];
@@ -99,12 +132,16 @@ export async function compareCteCompleta(cteData) {
         etapa: "CNPJ",
         status: "reprovado",
         motivo: "CNPJ do emitente não autorizado pela apólice.",
+        cnpj_xml: cnpjXML,
+        cnpj_policy: cnpjPolicy,
       });
     } else {
       results.push({
         etapa: "CNPJ",
         status: "aprovado",
         motivo: "CNPJ do emitente autorizado pela apólice.",
+        cnpj_xml: cnpjXML,
+        cnpj_policy: cnpjPolicy,
       });
     }
 
@@ -117,17 +154,18 @@ export async function compareCteCompleta(cteData) {
         etapa: "Data",
         status: "reprovado",
         motivo: "Data do transporte fora do período de vigência da apólice.",
+        data_xml: transportDate,
+        data_policy: `${coverStart} a ${coverEnd}`,
       });
     } else {
       results.push({
         etapa: "Data",
         status: "aprovado",
         motivo: "Data do transporte dentro do período de vigência da apólice.",
+        data_xml: transportDate,
+        data_policy: `${coverStart} a ${coverEnd}`,
       });
     }
-
-    // Inicio de validação com IA
-    const cteDataForAI = formatDataForAI(cteData);
 
     // 3. Validação de bens e mercadorias excluídas
     const excludedGoods = POLICY_RULES.bens_mercadorias_excluidas;
@@ -149,7 +187,6 @@ export async function compareCteCompleta(cteData) {
 
     DADOS DE BENS E MERCADORIAS EXCLUÍDAS DA APÓLICE:
     ${JSON.stringify(excludedGoods, null, 2)}
-
     `;
     const excludedGoodsResult = await validateCTeWithAI(userPrompt);
 
@@ -162,30 +199,36 @@ export async function compareCteCompleta(cteData) {
     } else {
       results.push({
         etapa: "Bens e Mercadorias",
-        status: "erro",
-        motivo: "Erro na validação de bens e mercadorias excluídas.",
+        status: "aprovado",
+        motivo: "Mercadoria permitida pela apólice.",
       });
-
-      // 4. Regras de Gerenciamento de Risco
-
-      // inclusive dita regra de LMG
-
-      // 5. Limite máximo de Garantia
-
-      // TODO: mapping de "RJ -> Rio de Janeiro"
-      // TODO: arrumar apólice com dados do veículo transportador
-      // TODO: criar variável genérica para transportes
-
-      // Se passou por todas as validações, retorna aprovado
     }
+
+    // 4. Regras de Gerenciamento de Risco
+
+    // inclusive dita regra de LMG
+
+    // 5. Limite máximo de Garantia
+
+    // Determina status geral
+    const statusGeral = results.some((r) => r.status === "reprovado")
+      ? "reprovado"
+      : "aprovado";
+
     return {
-      status: "completa",
-      validation: results, // <-- ESSA PROPRIEDADE É USADA PELO FRONT!
+      status: statusGeral,
+      validation: results,
     };
   } catch (error) {
     return {
       status: "erro",
-      motivo: `Erro na validação do CTe: ${error.message}`,
+      validation: [
+        {
+          etapa: "Geral",
+          status: "erro",
+          motivo: `Erro na validação do CTe: ${error.message}`,
+        },
+      ],
     };
   }
 }

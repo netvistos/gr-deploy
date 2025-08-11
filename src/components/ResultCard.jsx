@@ -19,7 +19,7 @@ export function ResultCard({ result, onNewUpload }) {
       <div className="border border-gray-200 rounded-lg">
         <div className="px-4 py-3 bg-gray-50 rounded-t-lg">
           <h3 className="font-semibold text-gray-900">
-            Análise Completa da IA
+            Resultado da Análise com IA
           </h3>
         </div>
         <div className="p-4 bg-white rounded-b-lg">
