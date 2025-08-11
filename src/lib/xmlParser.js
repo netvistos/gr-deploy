@@ -42,24 +42,22 @@ export async function parseCTeXML(xmlContent) {
         cnpj: cte.emit?.CNPJ || "",
         nome: cte.emit?.xNome || "",
       },
+      data_transporte: extractTransportDate(cte.ide),
       embarcador: {
         cnpj: cte.rem?.CNPJ || "",
         nome: cte.rem?.xNome || "",
       },
-      dataTransporte: extractTransportDate(cte.ide),
       mercadoria: {
-        descricao: cte.infCTeNorm?.infCarga?.proPred || "",
+        nome: cte.infCTeNorm?.infCarga?.proPred || "",
         valor: parseFloat(cte.infCTeNorm?.infCarga?.vCarga) || 0,
       },
-      transporte: {
-        origem: {
-          municipio: cte.ide?.xMunIni || "",
-          uf: cte.ide?.UFIni || "",
-        },
-        destino: {
-          municipio: cte.ide?.xMunFim || "",
-          uf: cte.ide?.UFFim || "",
-        },
+      origem: {
+        municipio: cte.ide?.xMunIni || "",
+        uf: cte.ide?.UFIni || "",
+      },
+      destino: {
+        municipio: cte.ide?.xMunFim || "",
+        uf: cte.ide?.UFFim || "",
       },
     };
 
@@ -84,9 +82,11 @@ export function formatDataForAI(extractedData) {
       nome: extractedData.embarcador.nome,
       cnpj: extractedData.embarcador.cnpj,
     },
-    dataTransporte: extractedData.dataTransporte,
-    mercadoria: extractedData.mercadoria.descricao,
-    valorMercadoria: extractedData.mercadoria.valor,
+
+    mercadoria: {
+      nome: extractedData.mercadoria.nome,
+      valor: extractedData.mercadoria.valor,
+    },
     origem: {
       municipio: extractedData.transporte.origem.municipio,
       uf: extractedData.transporte.origem.uf,

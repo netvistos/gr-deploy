@@ -10,7 +10,7 @@ export const POLICY_RULES = {
     },
   },
 
-  mercadorias_excluidas: {
+  bens_mercadorias_excluidas: {
     condicao_1: {
       regra:
         "Qualquer mercadoria que se esteja na lista a seguir estará proibida",
@@ -63,8 +63,8 @@ export const POLICY_RULES = {
     },
   },
 
-  clausulasEspecificasDeExclusao: {
-    condicao: {
+  clausula_especificas_exclusao: {
+    condicao_1: {
       regra: "Cláusula específica de exclusão de armas químicas",
       mercadorias: [
         "Armas Químicas, Biológicas, Bioquímicas, Eletromagnéticas e de Ataque Cibernético",
@@ -72,7 +72,7 @@ export const POLICY_RULES = {
     },
   },
 
-  regrasDeGerenciamentoDeRiscos: {
+  regras_gerenciamento_de_riscos: {
     condicao_1: {
       mercadorias: [
         "Aparelhos de telefonia celular, suas partes, peças e seus acessórios",
@@ -512,7 +512,7 @@ export const POLICY_RULES = {
       },
     },
   },
-  limiteMaximoGarantia: {
+  limite_maximo_garantia: {
     regra:
       "Para todas as mercadorias que não se enquadram em nenhuma condição específica, o limite máximo de cobertura é de R$ 3.000.000,00",
     valorMaximo: "3.000.000,00",
