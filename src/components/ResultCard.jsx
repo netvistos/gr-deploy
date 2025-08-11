@@ -1,6 +1,8 @@
 "use client";
 
 export function ResultCard({ result, onNewUpload }) {
+  const { validation } = result;
+
   if (!result) {
     return (
       <div className="bg-white rounded-lg shadow-lg p-6">
@@ -10,8 +12,6 @@ export function ResultCard({ result, onNewUpload }) {
       </div>
     );
   }
-
-  const { validation } = result;
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">

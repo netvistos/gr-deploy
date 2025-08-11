@@ -44,8 +44,8 @@ export default function Home() {
         }),
       });
 
+      // 3. Set result
       const validateData = await validateResponse.json();
-
       if (!validateResponse.ok) {
         throw new Error(validateData.motivo || "Erro na validação");
       }
