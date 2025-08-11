@@ -18,10 +18,11 @@ export default function Home() {
     setResult(null);
 
     try {
-      // 1. Upload e validação em uma única operação
+      // Upload e validação em uma única operação
       const formData = new FormData();
       formData.append("file", file);
 
+      //1. Rota de upload
       const uploadResponse = await fetch("/api/upload", {
         method: "POST",
         body: formData,
@@ -33,7 +34,7 @@ export default function Home() {
         throw new Error(uploadData.error || "Erro no upload");
       }
 
-      // 2. Validação (sequencial e automática)
+      // 2. Rota de Validação (sequencial e automática)
       const validateResponse = await fetch("/api/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -43,9 +44,8 @@ export default function Home() {
       const validateData = await validateResponse.json();
 
       if (!validateResponse.ok) {
-        throw new Error(validateData.error || "Erro na validação");
+        throw new Error(validateData.motivo || "Erro na validação");
       }
-
       setResult(validateData);
     } catch (err) {
       setError(err.message);
@@ -79,6 +79,7 @@ export default function Home() {
             onFileSelect={handleFileSelect}
             accept=".xml"
             disabled={isLoading}
+            error={error}
           >
             {isLoading ? "Processando..." : "Escolher arquivo XML"}
           </FileUpload>

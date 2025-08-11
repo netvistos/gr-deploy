@@ -11,7 +11,7 @@ export function ResultCard({ result, onNewUpload }) {
     );
   }
 
-  const { validation, cteInfo } = result;
+  const { validation } = result;
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">

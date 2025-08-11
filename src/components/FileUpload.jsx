@@ -7,6 +7,7 @@ export function FileUpload({
   accept = ".xml",
   disabled = false,
   children,
+  error,
 }) {
   // Estados para controlar a interação
   const [isDragOver, setIsDragOver] = useState(false);
@@ -147,12 +148,11 @@ export function FileUpload({
         </div>
 
         {/* Mensagem de erro */}
-        {error && (
-          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
-            <p className="text-sm text-red-600">{error}</p>
+        {(error || props.error) && (
+          <div className="mt-2 text-red-600 text-sm">
+            {props.error || error}
           </div>
         )}
-      </div>
     </div>
   );
 }
