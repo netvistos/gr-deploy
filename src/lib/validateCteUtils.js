@@ -1,6 +1,6 @@
 // Normaliza CNPJ removendo pontos, traços, barras e espaços.
 export function normalizeCNPJ(cnpj) {
-  return cnpj.replace(/[^\d]);
+  return cnpj.replace(/[^\d]/g, "");
 }
 
 // Extrai a data do transporte do XML priorizando <dPrev>, caso não encontre usará: <dhEmi>.

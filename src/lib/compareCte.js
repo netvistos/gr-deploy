@@ -270,31 +270,36 @@ export async function compareCteCompleta(cteData) {
     DADOS DE GERENCIAMENTO DE RISCO DA APÓLICE:
     ${JSON.stringify(riskManagementRules, null, 2)}
     `;
+
     const riskManagementResult = await validateCTeWithAI(
       riskManagementRulesPrompt
     );
 
     if (riskManagementResult.status === "reprovado") {
-      return {
+      results.push({
+        etapa: "Regras de Gerenciamento de Risco",
         status: "reprovado",
-        validation: [
-          {
-            etapa: "Gerenciamento de Risco",
-            status: "reprovado",
-            motivo: `Validação reprovada em gerenciamento de risco: ${riskManagementResult.motivo}`,
-          },
-        ],
-      };
+        motivo: `Validação reprovada em Regras de Gerenciamento de Risco: ${riskManagementResult.motivo}`,
+      });
+    } else {
+      results.push({
+        etapa: "Bens e Mercadorias",
+        status: "aprovado",
+        motivo: "Mercadoria permitida pela apólice.",
+      });
     }
-    console.log("🚀 ", cnpjXML);
-    console.log(cteData);
-    console.log(excludedGoodsResult);
-    console.log(riskManagementResult);
-    // Determina status geral
-    const statusGeral = results.some((r) => r.status === "reprovado")
-      ? "reprovado"
-      : "aprovado";
 
+    // Determina status geral
+    let statusGeral;
+    if (results.some((r) => r.status === "reprovado")) {
+      statusGeral = "reprovado";
+    } else if (results.some((r) => r.status === "atenção")) {
+      statusGeral = "atenção";
+    } else {
+      statusGeral = "aprovado";
+    }
+
+    //Resultado: Fim do fluxo
     return {
       status: statusGeral,
       validation: results,

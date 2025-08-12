@@ -18,7 +18,6 @@ export async function validateCTeWithAI(userPrompt) {
     Use variações semânticas para validar as informações e siga estritamente as regras organizadas abaixo.
     PADRÕES DE RESPOSTA:
     - Sempre retornar JSON válido conforme orientado.
-    - Status deve ser SEMPRE "aprovado" ou "reprovado" (strings), nunca booleanos.
 }`;
 
     // Enviar prompt para a IA
