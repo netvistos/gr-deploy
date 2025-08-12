@@ -1,6 +1,5 @@
 import { validateCTeWithAI } from "@/lib/openaiClient";
 import { POLICY_RULES } from "@/lib/policyRules";
-import { formatDataForAI } from "@/lib/xmlParser";
 import { normalizeCNPJ, isDateWithinPolicy } from "./validateCteUtils";
 import { formatDateBR } from "./validateCteUtils";
 
