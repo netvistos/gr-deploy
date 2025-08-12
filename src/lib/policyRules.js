@@ -542,6 +542,6 @@ export const POLICY_RULES = {
   limite_maximo_garantia: {
     regra:
       "Para todas as mercadorias que não se enquadram em nenhuma condição específica de gerenciamento de risco, o valor será igual ao abaixo",
-    valor: "3.000.000,00",
+    valor: "R$ 3.000.000,00",
   },
 };

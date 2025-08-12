@@ -52,7 +52,7 @@ export async function compareCteSequencial(cteData) {
 
     // 3. Validação de bens e mercadorias excluídas
     const excludedGoods = POLICY_RULES.bens_mercadorias_excluidas;
-    const userPrompt = `
+    const excludedGoodsPrompt = `
     Compare as informações do CTe com as condições e regras de exclusão de bens e mercadorias da apólice.
     - Mercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino: poderão ter restrições específicas.
     - status: "reprovado" -> se houver qualquer "regra" que não seja cumprida na apólice
@@ -72,7 +72,7 @@ export async function compareCteSequencial(cteData) {
     ${JSON.stringify(excludedGoods, null, 2)}
 
     `;
-    const excludedGoodsResult = await validateCTeWithAI(userPrompt);
+    const excludedGoodsResult = await validateCTeWithAI(excludedGoodsPrompt);
 
     if (excludedGoodsResult.status === "reprovado") {
       return {
@@ -87,9 +87,10 @@ export async function compareCteSequencial(cteData) {
       };
     }
 
-    // 4. Regras de Gerenciamento de Risco
+    // 4. Regras de Gerenciamento de Risco e LMG
     const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
-    const riskUserPrompt = `
+    const limitGuarantee = POLICY_RULES.limite_maximo_garantia.value;
+    const riskManagementRulesPrompt = `
     1) Compare as informações do CTe com as condições (enumeradas e ordenadas sequencialmente).
     2) Analise se as informações do CTe se enquadram em alguma "limitacao". Caso se enquadrem:
     - analise o "valor da mercadoria" do CTe com as regras de "valor_mercadoria" da apólice e retorne:
@@ -97,13 +98,13 @@ export async function compareCteSequencial(cteData) {
     - "limite_maximo_garantia" = maior valor mencionado na regra da "condicao" específica.
     - "motivo": "string explicando o motivo".
     3) Se não houver enquadramento: 
-      "status": "aprovado",
-      "limite_maximo_garantia": 0.00,
+      "status": "aprovado"
+      "limite_maximo_garantia": R$ ${limitGuarantee}
       "motivo": "string explicando o motivo"
     4) Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
     {
       "status": "aprovado" | "atenção",
-      "limite_maximo_garantia": 0.00 | <valor>,
+      "limite_maximo_garantia": "R$ 0,00",
       "motivo": "string explicando o motivo"
     }
     - Não inclua texto adicional, apenas o objeto JSON.
@@ -114,7 +115,9 @@ export async function compareCteSequencial(cteData) {
     DADOS DE GERENCIAMENTO DE RISCO DA APÓLICE:
     ${JSON.stringify(riskManagementRules, null, 2)}
     `;
-    const riskManagementResult = await validateCTeWithAI(riskUserPrompt);
+    const riskManagementResult = await validateCTeWithAI(
+      riskManagementRulesPrompt
+    );
 
     if (riskManagementResult.status === "reprovado") {
       return {
@@ -129,7 +132,6 @@ export async function compareCteSequencial(cteData) {
       };
     }
 
-    // 5. Limite máximo de Garantia
     return {
       status: "aprovado",
       validation: [
@@ -207,7 +209,7 @@ export async function compareCteCompleta(cteData) {
     const excludedGoodsPrompt = `
     Compare as informações do CTe com as condições e regras de exclusão de bens e mercadorias da apólice.
     - Mercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino: poderão ter restrições específicas.
-    - Se houver qualquer "regra" que não seja cumprida na apólice, reprove e detalhe o motivo.
+    - status: "reprovado" -> se houver qualquer "regra" que não seja cumprida na apólice
     - Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
 
     {
@@ -222,6 +224,7 @@ export async function compareCteCompleta(cteData) {
 
     DADOS DE BENS E MERCADORIAS EXCLUÍDAS DA APÓLICE:
     ${JSON.stringify(excludedGoods, null, 2)}
+
     `;
     const excludedGoodsResult = await validateCTeWithAI(excludedGoodsPrompt);
 
@@ -239,20 +242,26 @@ export async function compareCteCompleta(cteData) {
       });
     }
 
-    // 4. Regras de Gerenciamento de Risco
+    // 4. Regras de Gerenciamento de Risco e LMG
     const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
-    const userPrompt = `
-    Compare as informações do CTe com as condições de gerenciamento de risco da apólice.
-    - Mercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino: poderão ter restrições específicas.
-    - Você deverá analisar se alguma informação proveniente do CTe se enquadra em alguma "condição".
-    - Se houver qualquer regra que não seja cumprida na apólice (origem, destino, embarcador), reprove e detalhe o motivo.
-    - Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
-
+    const limitGuarantee = POLICY_RULES.limite_maximo_garantia.valor;
+    const riskManagementRulesPrompt = `
+    1) Compare as informações do CTe com as condições (enumeradas e ordenadas sequencialmente).
+    2) Analise se as informações do CTe se enquadram em alguma "limitacao". Caso se enquadrem:
+    - analise o "valor da mercadoria" do CTe com as regras de "valor_mercadoria" da apólice e retorne:
+    - "status": "atenção"
+    - "limite_maximo_garantia" = maior valor mencionado na regra da "condicao" específica.
+    - "motivo": "string explicando o motivo".
+    3) Se não houver enquadramento: 
+      "status": "aprovado"
+      "limite_maximo_garantia": R$ ${limitGuarantee}
+      "motivo": "string explicando o motivo"
+    4) Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
     {
-      "status": "aprovado" | "alerta",
+      "status": "aprovado" | "atenção",
+      "limite_maximo_garantia": "R$ 0,00",
       "motivo": "string explicando o motivo"
     }
-
     - Não inclua texto adicional, apenas o objeto JSON.
 
     DADOS DO CTe PARA VALIDAÇÃO:
@@ -261,7 +270,9 @@ export async function compareCteCompleta(cteData) {
     DADOS DE GERENCIAMENTO DE RISCO DA APÓLICE:
     ${JSON.stringify(riskManagementRules, null, 2)}
     `;
-    const riskManagementResult = await validateCTeWithAI(userPrompt);
+    const riskManagementResult = await validateCTeWithAI(
+      riskManagementRulesPrompt
+    );
 
     if (riskManagementResult.status === "reprovado") {
       return {
@@ -275,9 +286,10 @@ export async function compareCteCompleta(cteData) {
         ],
       };
     }
-
-    // 5. Limite máximo de Garantia
-
+    console.log("🚀 ", cnpjXML);
+    console.log(cteData);
+    console.log(excludedGoodsResult);
+    console.log(riskManagementResult);
     // Determina status geral
     const statusGeral = results.some((r) => r.status === "reprovado")
       ? "reprovado"
