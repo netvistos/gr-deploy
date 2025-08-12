@@ -13,21 +13,22 @@ const openai = new OpenAI({
 export async function validateCTeWithAI(userPrompt) {
   try {
     // System prompt com instruções técnicas específicas para a IA
-    const systemPrompt = `
-    Você é um especialista em validação de conformidade de CTe (Conhecimento de Transporte Eletrônico) com apólices de seguro de transporte.
-    Use variações semânticas para validar as informações e siga estritamente as regras organizadas abaixo.
-    PADRÕES DE RESPOSTA:
-    - Sempre retornar JSON válido conforme orientado.
-}`;
+    //     const systemPrompt = `
+    //     Você é um especialista em validação de conformidade de CTe (Conhecimento de Transporte Eletrônico) com apólices de seguro de transporte.
+    //     Use variações semânticas para validar as informações e siga estritamente as regras organizadas abaixo.
+    //     PADRÕES DE RESPOSTA:
+    //     - Sempre retornar JSON válido conforme orientado.
+    // }`;
 
     // Enviar prompt para a IA
     const completion = await openai.chat.completions.create({
       model: "gpt-4.1-mini",
+      // gpt-5-mini
       messages: [
         // { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
       ],
-      temperature: 0.7,
+      temperature: 0.8,
       response_format: { type: "json_object" },
     });
 

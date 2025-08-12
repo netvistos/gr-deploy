@@ -9,11 +9,11 @@ const mockCte = {
     nome: "MANN+HUMMEL BRASIL LTDA",
   },
   mercadoria: {
-    nome: "apple watch",
+    nome: "relogio oakley",
     valor: "150000.00",
   },
   origem: {
-    municipio: "São Paulo",
+    municipio: "Rio de Janeiro",
     uf: "RJ",
   },
   destino: {

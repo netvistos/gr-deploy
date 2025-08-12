@@ -40,7 +40,7 @@ export const POLICY_RULES = {
     },
     condicao_2: {
       regra:
-        "Se origem e destino do transporte for o Estado do Rio de Janeiro, as mercadorias a seguir estarão proibidas",
+        "Se origem OU destino do transporte for o Estado do Rio de Janeiro, as mercadorias a seguir estarão proibidas",
       mercadorias: [
         "Carne de qualquer tipo",
         "Medicamentos de qualquer tipo (de uso humano e/ou veterinário)",
