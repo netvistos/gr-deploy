@@ -72,21 +72,24 @@ export const POLICY_RULES = {
   },
   regras_gerenciamento_de_risco: {
     condicao_1: {
-      mercadorias: [
-        "Aparelhos de telefonia celular, suas partes, peças e seus acessórios",
-        "Café de qualquer tipo",
-        "Carne congelada, in natura e charque",
-        "Cobre (qualquer tipo)",
-        "Combustíveis e seus derivados",
-        "Computadores e Periféricos (Notebook, Desktop, Teclados, Monitores, CPUs, Processadores, Memorias, Kit Multimídia e semelhantes)",
-        "Defensivos Agrícolas",
-        "Estanho (qualquer tipo)",
-        "Ferro Vanádio (qualquer tipo)",
-        "Medicamentos de qualquer tipo (de uso humano e/ou veterinário)",
-        "Minério de molibdênio (qualquer tipo)",
-        "Nióbio de ferro (qualquer tipo)",
-        "Tablets em Geral",
-      ],
+      restricao: {
+        limitacao: "se mercadoria estiver na lista baixo",
+        mercadorias: [
+          "Aparelhos de telefonia celular, suas partes, peças e seus acessórios",
+          "Café de qualquer tipo",
+          "Carne congelada, in natura e charque",
+          "Cobre (qualquer tipo)",
+          "Combustíveis e seus derivados",
+          "Computadores e Periféricos (Notebook, Desktop, Teclados, Monitores, CPUs, Processadores, Memorias, Kit Multimídia e semelhantes)",
+          "Defensivos Agrícolas",
+          "Estanho (qualquer tipo)",
+          "Ferro Vanádio (qualquer tipo)",
+          "Medicamentos de qualquer tipo (de uso humano e/ou veterinário)",
+          "Minério de molibdênio (qualquer tipo)",
+          "Nióbio de ferro (qualquer tipo)",
+          "Tablets em Geral",
+        ],
+      },
       regras: {
         regra_1: {
           valor_mercadoria: "igual ou superior a R$ 40.000,00",
@@ -126,71 +129,74 @@ export const POLICY_RULES = {
       },
     },
     condicao_2: {
-      mercadorias: [
-        "Aço e Ferro em geral",
-        "Álcool Etílico e para fins medicinais/farmacêuticos",
-        "Algodão de qualquer tipo",
-        "Alumínio em geral (perfis, tubos, chapas, bobinas, folhas, lingotes, tarugos, vergalhões, etc.)",
-        "Açúcar, Arroz e Trigo",
-        "Aparelhos Eletroeletrônicos de Som e Imagem",
-        "Artigos de higiene e limpeza",
-        "Artigos escolares e de papelaria",
-        "Artigos esportivos",
-        "Artigos, filmes e máquinas fotográficas",
-        "Autopeças inclusive para motocicleta",
-        "Bacalhau",
-        "Balas, chocolates, chiclete e doces em geral",
-        "Baterias automotivas",
-        "Bebidas em geral",
-        "Brinquedos e Bicicletas (partes, peças e acessórios)",
-        "Cabos de Fibra Óptica",
-        "Calçados em geral (tênis, sapatos, chinelos, sandálias), solados, palmilhas e correias",
-        "Capas e películas para aparelho celular",
-        "Cartuchos para impressoras e copiadoras",
-        "Cassiterita (qualquer tipo)",
-        "CD (Compact Disc)/ LD (Laser Disc) / DVD / Blu-ray",
-        "Confecções, fios de seda, fios têxteis e tecidos",
-        "Cosméticos/ Perfumes",
-        "Couro Cru, Wetblue (semi-acabado) ou beneficiado",
-        "Eletrodomésticos",
-        "Empilhadeiras",
-        "Equipamento Médico Hospitalar",
-        "Fechaduras e Ferragens em geral",
-        "Ferramentas Manuais ou elétricas (por exemplo, furadeiras, serras elétricas, lixadeiras, etc.)",
-        "Fertilizantes",
-        "Fios ou cabos elétricos e de telefonia",
-        "Fraldas descartáveis",
-        "Granitos e Mármores",
-        "Impressoras em geral",
-        "Lâmpadas (reatores, luminárias e periféricos)",
-        "Latão e Folhas de Flandres",
-        "Leite em pó ou condensado",
-        "Livros e revistas em geral",
-        "Materiais elétricos, interruptores, fuzis e semelhantes",
-        "Níquel (qualquer tipo)",
-        "Óleos comestíveis e óleos lubrificantes",
-        "Pneus e câmaras de ar",
-        "Papel de qualquer tipo, resmas e celulose",
-        "Pilhas e baterias",
-        "Polímeros e seus derivados (Polietileno, polipropileno, Policloreto de vinila, etc.)",
-        "Porcelanas e Pisos Cerâmicos",
-        "Produtos alimentícios em geral",
-        "Produtos farmacêuticos (exceto medicamentos)",
-        "Produtos Siderúrgicos",
-        "Produtos químicos em geral (inclusive de uso veterinário)",
-        "Produtos óticos em geral",
-        "Relógios (Valor por Unidade inferior a R$ 2.000,00)",
-        "Rolamentos em geral",
-        "Sémen bovino, acondicionado em cilindro de nitrogênio",
-        "TDI (Tolueno de Isocianato), dióxido de titânio, tolueno refinado, silício metálico",
-        "Tintas, Vernizes, Corantes, Pigmentos e Similares",
-        "Tratores, máquinas e implementos agrícolas",
-        "Tubos e conexões de PVC e Resinas de PVC",
-        "Veículos transportados em veículo cegonheira/container",
-        "Vidros em geral",
-        "Vitaminas e suplementos alimentares",
-        "Zinco (qualquer tipo)",
-      ],
+      restricao: {
+        limitacao: "se mercadoria estiver na lista abaixo",
+        mercadorias: [
+          "Aço e Ferro em geral",
+          "Álcool Etílico e para fins medicinais/farmacêuticos",
+          "Algodão de qualquer tipo",
+          "Alumínio em geral (perfis, tubos, chapas, bobinas, folhas, lingotes, tarugos, vergalhões, etc.)",
+          "Açúcar, Arroz e Trigo",
+          "Aparelhos Eletroeletrônicos de Som e Imagem",
+          "Artigos de higiene e limpeza",
+          "Artigos escolares e de papelaria",
+          "Artigos esportivos",
+          "Artigos, filmes e máquinas fotográficas",
+          "Autopeças inclusive para motocicleta",
+          "Bacalhau",
+          "Balas, chocolates, chiclete e doces em geral",
+          "Baterias automotivas",
+          "Bebidas em geral",
+          "Brinquedos e Bicicletas (partes, peças e acessórios)",
+          "Cabos de Fibra Óptica",
+          "Calçados em geral (tênis, sapatos, chinelos, sandálias), solados, palmilhas e correias",
+          "Capas e películas para aparelho celular",
+          "Cartuchos para impressoras e copiadoras",
+          "Cassiterita (qualquer tipo)",
+          "CD (Compact Disc)/ LD (Laser Disc) / DVD / Blu-ray",
+          "Confecções, fios de seda, fios têxteis e tecidos",
+          "Cosméticos/ Perfumes",
+          "Couro Cru, Wetblue (semi-acabado) ou beneficiado",
+          "Eletrodomésticos",
+          "Empilhadeiras",
+          "Equipamento Médico Hospitalar",
+          "Fechaduras e Ferragens em geral",
+          "Ferramentas Manuais ou elétricas (por exemplo, furadeiras, serras elétricas, lixadeiras, etc.)",
+          "Fertilizantes",
+          "Fios ou cabos elétricos e de telefonia",
+          "Fraldas descartáveis",
+          "Granitos e Mármores",
+          "Impressoras em geral",
+          "Lâmpadas (reatores, luminárias e periféricos)",
+          "Latão e Folhas de Flandres",
+          "Leite em pó ou condensado",
+          "Livros e revistas em geral",
+          "Materiais elétricos, interruptores, fuzis e semelhantes",
+          "Níquel (qualquer tipo)",
+          "Óleos comestíveis e óleos lubrificantes",
+          "Pneus e câmaras de ar",
+          "Papel de qualquer tipo, resmas e celulose",
+          "Pilhas e baterias",
+          "Polímeros e seus derivados (Polietileno, polipropileno, Policloreto de vinila, etc.)",
+          "Porcelanas e Pisos Cerâmicos",
+          "Produtos alimentícios em geral",
+          "Produtos farmacêuticos (exceto medicamentos)",
+          "Produtos Siderúrgicos",
+          "Produtos químicos em geral (inclusive de uso veterinário)",
+          "Produtos óticos em geral",
+          "Relógios (Valor por Unidade inferior a R$ 2.000,00)",
+          "Rolamentos em geral",
+          "Sémen bovino, acondicionado em cilindro de nitrogênio",
+          "TDI (Tolueno de Isocianato), dióxido de titânio, tolueno refinado, silício metálico",
+          "Tintas, Vernizes, Corantes, Pigmentos e Similares",
+          "Tratores, máquinas e implementos agrícolas",
+          "Tubos e conexões de PVC e Resinas de PVC",
+          "Veículos transportados em veículo cegonheira/container",
+          "Vidros em geral",
+          "Vitaminas e suplementos alimentares",
+          "Zinco (qualquer tipo)",
+        ],
+      },
       regras: {
         regra_1: {
           valor_mercadoria: "até R$ 200.000,00",
@@ -226,8 +232,10 @@ export const POLICY_RULES = {
       },
     },
     condicao_3: {
-      mercadoria:
-        "exclusivamente sêmen bovino E acondicionado em cilindro de nitrogênio",
+      restricao: {
+        limitacao: "se mercadoria e sua embalagem for igual a abaixo:",
+        mercadoria: "sêmen bovino E se embalagem for cilindro de nitrogênio",
+      },
       regras: {
         regra_1: {
           valor_mercadoria: "até R$ 150.000,00",
@@ -251,7 +259,10 @@ export const POLICY_RULES = {
       },
     },
     condicao_4: {
-      mercadoria: "Máquinas e equipamentos pesados novos e sem uso",
+      restricao: {
+        limitacao: "se mercadoria estiver na lista abaixo",
+        mercadoria: "Máquinas e equipamentos pesados novos e sem uso",
+      },
       regras: {
         regra_1: {
           valor_mercadoria: "até R$ 4.000.000,00",
@@ -260,7 +271,10 @@ export const POLICY_RULES = {
       },
     },
     condicao_5: {
-      embarcador: "MANN+HUMMEL BRASIL LTDA",
+      restricao: {
+        limitacao: "se embarcador for igual ao abaixo",
+        embarcador: "MANN+HUMMEL BRASIL LTDA",
+      },
       regras: {
         regra_1: {
           valor_mercadoria: "até R$ 300.000,00",
@@ -296,8 +310,11 @@ export const POLICY_RULES = {
       },
     },
     condicao_6: {
-      mercadoria: "painel solar",
-      origem_destino: "proibido para origem ou destino do Rio de Janeiro",
+      restricao: {
+        limitacao: "ser mercadoria for igual a abaixo",
+        mercadoria: "painel solar",
+        origem_destino: "proibido para origem ou destino do Rio de Janeiro",
+      },
       regras: {
         regra_1: {
           valor_mercadoria: "até R$ 80.000,00",
@@ -345,12 +362,15 @@ export const POLICY_RULES = {
       },
     },
     condicao_7: {
-      embarcador: "BYD MAN",
-      mercadoria: [
-        "Células de baterias e partes e peças para uso em Ônibus elétrico",
-        "filtro de ar para veículos e partes",
-        "peças de veículos elétricos",
-      ],
+      restricao: {
+        limitacao: "se embarcador for igual ao abaixo",
+        embarcador: "BYD MAN",
+        mercadoria: [
+          "Células de baterias e partes e peças para uso em Ônibus elétrico",
+          "filtro de ar para veículos e partes",
+          "peças de veículos elétricos",
+        ],
+      },
       veiculo: "BI TREM OU TRUCK",
       regras: {
         regra_1: {
@@ -393,9 +413,11 @@ export const POLICY_RULES = {
       },
     },
     condicao_8: {
-      embarcador: "BYD MAN",
-      mercadoria: "painel solar",
-      veiculo: "BITREM",
+      restricao: {
+        limitacao: "se embarcador e a mercadoria for igual a abaixo",
+        embarcador: "BYD MAN",
+        mercadoria: "painel solar",
+      },
       regras: {
         regra_1: {
           valor_mercadoria: "até R$ 80.000,00",
@@ -468,8 +490,11 @@ export const POLICY_RULES = {
       },
     },
     condicao_9: {
-      embarcador: "MIBA",
-      origemDestino: "proibido para origem ou destino do Rio de Janeiro",
+      restricao: {
+        limitacao: "se embarcador e origem ou destino for igual abaixo",
+        embarcador: "MIBA",
+        origemDestino: "origem ou destino diferente do Rio de Janeiro",
+      },
       regras: {
         regra_1: {
           valor_mercadoria: "até R$ 300.000,00",
@@ -485,8 +510,12 @@ export const POLICY_RULES = {
       },
     },
     condicao_10: {
-      mercadoria:
-        "aeronaves desmontadas, inclusive suas partes e peças e acessórios",
+      restricao: {
+        limitacao: "se mercadoria for igual a abaixo",
+        mercadoria:
+          "aeronaves desmontadas, inclusive suas partes e peças e acessórios",
+      },
+
       regras: {
         regra_1: {
           valor_mercadoria: "até R$ 300.000,00",
@@ -512,7 +541,7 @@ export const POLICY_RULES = {
   },
   limite_maximo_garantia: {
     regra:
-      "Para todas as mercadorias que não se enquadram em nenhuma condição específica, o limite máximo de cobertura é de R$ 3.000.000,00",
-    valorMaximo: "3.000.000,00",
+      "Para todas as mercadorias que não se enquadram em nenhuma condição específica de gerenciamento de risco, o valor será igual ao abaixo",
+    valor: "3.000.000,00",
   },
 };

@@ -90,13 +90,13 @@ export async function compareCteSequencial(cteData) {
     // 4. Regras de Gerenciamento de Risco
     const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
     const riskUserPrompt = `
-    1) Compare as informações do CTe com as condições e regras de gerenciamento de risco da apólice (determina se o CTe se enquadra em alguma condição de risco).
-    2) O gerenciamento de risco pode incluir condições que contemplem:
-    - Embarcador, 
-    - Mercadorias.
-    - Trajetos (Estado de origem e/ou destino).
-    - Entre outros...
-    3) Se alguma informação do CTE se enquadrar em alguma condição de risco, devemos analisar sua respectiva regra.
+    1) Compare as informações do CTe com as condições (enumeradas e ordenadas sequencialmente).
+    2) Analise se as informações do CTe se enquadram em alguma "limitacao". Caso se enquadrem:
+    - analise o "valor da mercadoria" do CTe com as regras de "valor_mercadoria" da apólice e retorne:
+    - "status": "atenção".
+    - "limite_maximo_garantia" = maior valor mencionado na regra da condição específica.
+    - "motivo": "string explicando o motivo".
+    2) Analise sua informação inicial referente a: lista de mercadorias,
     4) A respectiva regra menciona o "valor_mercadoria", em que devemos comparar com "valor da mercadoria" proveniente do CTe.
     5) Se 
      status: "alerta" -> se alguma informação proveniente do CTe se enquandrar em alguma "condição" -> especificação -> "regra".
@@ -108,7 +108,7 @@ export async function compareCteSequencial(cteData) {
 
     {
       "status": "aprovado" | "atenção",
-      "limite_maximo_garantia": 
+      "limite_maximo_garantia": <valor>,
       "motivo": "string explicando o motivo"
     }
 
@@ -250,7 +250,7 @@ export async function compareCteCompleta(cteData) {
     const userPrompt = `
     Compare as informações do CTe com as condições de gerenciamento de risco da apólice.
     - Mercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino: poderão ter restrições específicas.
-    - Você deverá analisar se alguma informação proveniente do CTe conflita com as regras de gerenciamento de risco da apólice.
+    - Você deverá analisar se alguma informação proveniente do CTe se enquadra em alguma "condição".
     - Se houver qualquer regra que não seja cumprida na apólice (origem, destino, embarcador), reprove e detalhe o motivo.
     - Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
 
