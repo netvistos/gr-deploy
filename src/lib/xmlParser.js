@@ -67,33 +67,3 @@ export async function parseCTeXML(xmlContent) {
     throw new Error(`Falha no parse do XML: ${error.message}`);
   }
 }
-
-/**
- * Formata os dados extraídos para envio à IA.
- * Retorna apenas os campos relevantes para análise semântica.
- */
-export function formatDataForAI(extractedData) {
-  return {
-    emitente: {
-      nome: extractedData.emitente.nome,
-      cnpj: extractedData.emitente.cnpj,
-    },
-    embarcador: {
-      nome: extractedData.embarcador.nome,
-      cnpj: extractedData.embarcador.cnpj,
-    },
-
-    mercadoria: {
-      nome: extractedData.mercadoria.nome,
-      valor: extractedData.mercadoria.valor,
-    },
-    origem: {
-      municipio: extractedData.origem.municipio,
-      uf: extractedData.origem.uf,
-    },
-    destino: {
-      municipio: extractedData.destino.municipio,
-      uf: extractedData.destino.uf,
-    },
-  };
-}

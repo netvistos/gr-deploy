@@ -1,40 +1,42 @@
 const mockCte = {
   emitente: {
-    cnpj: '12345678000199',
-    nome: 'Transportadora Exemplo Ltda',
+    cnpj: "12345678000199",
+    nome: "Transportadora Exemplo Ltda",
   },
   embarcador: {
-    cnpj: '98765432000198',
-    nome: 'Embarcador Exemplo Ltda',
+    cnpj: "98765432000198",
+    nome: "Embarcador Exemplo Ltda",
   },
-  dataTransporte: '2024-08-10T10:00:00.000Z',
+  dataTransporte: "2024-08-10T10:00:00.000Z",
   mercadoria: {
-    descricao: 'painel solar',
-    valor: '150000.00',
+    descricao: "painel solar",
+    valor: "150000.00",
   },
   transporte: {
     origem: {
-      municipio: 'São Paulo',
-      uf: 'SP',
+      municipio: "São Paulo",
+      uf: "SP",
     },
     destino: {
-      municipio: 'Limeira',
-      uf: 'SP',
+      municipio: "Limeira",
+      uf: "SP",
     },
   },
 };
 
+// Mode: sequencial || completa
+
 async function testValidateMock() {
   try {
-    const response = await fetch('http://localhost:3000/api/validate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch("http://localhost:3000/api/validate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cteData: mockCte }),
     });
     const data = await response.json();
-    console.log('Resultado da validação do CTe:', data.validation);
+    console.log("Resultado da validação do CTe:", data.validation);
   } catch (error) {
-    console.error('Erro ao validar o CTe:', error);
+    console.error("Erro ao validar o CTe:", error);
   }
 }
 

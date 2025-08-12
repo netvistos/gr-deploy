@@ -244,21 +244,21 @@ export async function compareCteCompleta(cteData) {
 
     // 4. Regras de Gerenciamento de Risco e LMG
     const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
-    const limitGuarantee = POLICY_RULES.limite_maximo_garantia.valor;
+    const limitGuaranteeValue = POLICY_RULES.limite_maximo_garantia.valor;
     const riskManagementRulesPrompt = `
     1) Compare as informações do CTe com as condições (enumeradas e ordenadas sequencialmente).
     2) Analise se as informações do CTe se enquadram em alguma "limitacao". Caso se enquadrem:
     - analise o "valor da mercadoria" do CTe com as regras de "valor_mercadoria" da apólice e retorne:
-    - "status": "atenção"
+    - "status": "atencao"
     - "limite_maximo_garantia" = maior valor mencionado na regra da "condicao" específica.
     - "motivo": "string explicando o motivo".
     3) Se não houver enquadramento: 
       "status": "aprovado"
-      "limite_maximo_garantia": R$ ${limitGuarantee}
+      "limite_maximo_garantia": R$ ${limitGuaranteeValue}
       "motivo": "string explicando o motivo"
     4) Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
     {
-      "status": "aprovado" | "atenção",
+      "status": "aprovado" | "atencao",
       "limite_maximo_garantia": "R$ 0,00",
       "motivo": "string explicando o motivo"
     }
@@ -275,29 +275,25 @@ export async function compareCteCompleta(cteData) {
       riskManagementRulesPrompt
     );
 
-    if (riskManagementResult.status === "reprovado") {
+    if (riskManagementResult.status === "atencao") {
       results.push({
         etapa: "Regras de Gerenciamento de Risco",
-        status: "reprovado",
-        motivo: `Validação reprovada em Regras de Gerenciamento de Risco: ${riskManagementResult.motivo}`,
+        status: "atencao",
+        motivo: `Estre transporte possui alerta em Regras de Gerenciamento de Risco: ${riskManagementResult.motivo}`,
       });
     } else {
       results.push({
-        etapa: "Bens e Mercadorias",
+        etapa: "Regras de Gerenciamento de Risco",
         status: "aprovado",
-        motivo: "Mercadoria permitida pela apólice.",
+        motivo:
+          "Regras de Gerenciamento de Risco não possui pontos de atenção.",
       });
     }
 
     // Determina status geral
-    let statusGeral;
-    if (results.some((r) => r.status === "reprovado")) {
-      statusGeral = "reprovado";
-    } else if (results.some((r) => r.status === "atenção")) {
-      statusGeral = "atenção";
-    } else {
-      statusGeral = "aprovado";
-    }
+    const statusGeral = results.some((r) => r.status === "reprovado")
+      ? "reprovado"
+      : "aprovado";
 
     //Resultado: Fim do fluxo
     return {
