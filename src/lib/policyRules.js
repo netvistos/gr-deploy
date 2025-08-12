@@ -72,8 +72,8 @@ export const POLICY_RULES = {
   },
   regras_gerenciamento_de_risco: {
     condicao_1: {
-      restricao: {
-        limitacao: "se mercadoria estiver na lista baixo",
+      ponto_de_atencao: {
+        regra: "se mercadoria estiver na lista baixo",
         mercadorias: [
           "Aparelhos de telefonia celular, suas partes, peças e seus acessórios",
           "Café de qualquer tipo",
@@ -90,7 +90,7 @@ export const POLICY_RULES = {
           "Tablets em Geral",
         ],
       },
-      regras: {
+      valores_e_obrigatoriedades: {
         regra_1: {
           valor_mercadoria: "igual ou superior a R$ 40.000,00",
           obrigatoriedade: "análise de perfil profissional",
@@ -129,8 +129,8 @@ export const POLICY_RULES = {
       },
     },
     condicao_2: {
-      restricao: {
-        limitacao: "se mercadoria estiver na lista abaixo",
+      ponto_de_atencao: {
+        regra: "se mercadoria estiver na lista abaixo",
         mercadorias: [
           "Aço e Ferro em geral",
           "Álcool Etílico e para fins medicinais/farmacêuticos",
@@ -197,7 +197,7 @@ export const POLICY_RULES = {
           "Zinco (qualquer tipo)",
         ],
       },
-      regras: {
+      valores_e_obrigatoriedades: {
         regra_1: {
           valor_mercadoria: "até R$ 200.000,00",
           obrigatoriedade: "análise de perfil profissional",
@@ -232,11 +232,11 @@ export const POLICY_RULES = {
       },
     },
     condicao_3: {
-      restricao: {
-        limitacao: "se mercadoria e sua embalagem for igual a abaixo:",
+      ponto_de_atencao: {
+        regra: "se mercadoria e sua embalagem for igual a abaixo:",
         mercadoria: "sêmen bovino E se embalagem for cilindro de nitrogênio",
       },
-      regras: {
+      valores_e_obrigatoriedades: {
         regra_1: {
           valor_mercadoria: "até R$ 150.000,00",
           obrigatoriedade: "análise de perfil profissional",
@@ -259,11 +259,11 @@ export const POLICY_RULES = {
       },
     },
     condicao_4: {
-      restricao: {
-        limitacao: "se mercadoria estiver na lista abaixo",
+      ponto_de_atencao: {
+        regra: "se mercadoria estiver na lista abaixo",
         mercadoria: "Máquinas e equipamentos pesados novos e sem uso",
       },
-      regras: {
+      valores_e_obrigatoriedades: {
         regra_1: {
           valor_mercadoria: "até R$ 4.000.000,00",
           obrigatoriedade: "análise de perfil profissional",
@@ -271,11 +271,11 @@ export const POLICY_RULES = {
       },
     },
     condicao_5: {
-      restricao: {
-        limitacao: "se embarcador for igual ao abaixo",
+      ponto_de_atencao: {
+        regra: "se embarcador for igual ao abaixo",
         embarcador: "MANN+HUMMEL BRASIL LTDA",
       },
-      regras: {
+      valores_e_obrigatoriedades: {
         regra_1: {
           valor_mercadoria: "até R$ 300.000,00",
           obrigatoriedade: "análise de perfil profissional",
@@ -310,12 +310,12 @@ export const POLICY_RULES = {
       },
     },
     condicao_6: {
-      restricao: {
-        limitacao: "ser mercadoria for igual a abaixo",
+      ponto_de_atencao: {
+        regra: "ser mercadoria for igual a abaixo",
         mercadoria: "painel solar",
         origem_destino: "proibido para origem ou destino do Rio de Janeiro",
       },
-      regras: {
+      valores_e_obrigatoriedades: {
         regra_1: {
           valor_mercadoria: "até R$ 80.000,00",
           obrigatoriedade: "análise de perfil profissional",
@@ -362,8 +362,8 @@ export const POLICY_RULES = {
       },
     },
     condicao_7: {
-      restricao: {
-        limitacao: "se embarcador for igual ao abaixo",
+      ponto_de_atencao: {
+        regra: "se embarcador e mercadoria for igual ao abaixo",
         embarcador: "BYD MAN",
         mercadoria: [
           "Células de baterias e partes e peças para uso em Ônibus elétrico",
@@ -371,7 +371,6 @@ export const POLICY_RULES = {
           "peças de veículos elétricos",
         ],
       },
-      veiculo: "BI TREM OU TRUCK",
       regras: {
         regra_1: {
           valor_mercadoria: "até R$ 500.000,00",
@@ -413,12 +412,12 @@ export const POLICY_RULES = {
       },
     },
     condicao_8: {
-      restricao: {
-        limitacao: "se embarcador e a mercadoria for igual a abaixo",
+      ponto_de_atencao: {
+        regra: "se embarcador e a mercadoria for igual a abaixo",
         embarcador: "BYD MAN",
         mercadoria: "painel solar",
       },
-      regras: {
+      valores_e_obrigatoriedades: {
         regra_1: {
           valor_mercadoria: "até R$ 80.000,00",
           obrigatoriedade: "análise de perfil profissional",
@@ -490,12 +489,12 @@ export const POLICY_RULES = {
       },
     },
     condicao_9: {
-      restricao: {
-        limitacao: "se embarcador e origem ou destino for igual abaixo",
+      ponto_de_atencao: {
+        regra: "se embarcador e origem ou destino for igual abaixo",
         embarcador: "MIBA",
         origemDestino: "origem ou destino diferente do Rio de Janeiro",
       },
-      regras: {
+      valores_e_obrigatoriedades: {
         regra_1: {
           valor_mercadoria: "até R$ 300.000,00",
           obrigatoriedade: "análise de perfil profissional",
@@ -510,13 +509,13 @@ export const POLICY_RULES = {
       },
     },
     condicao_10: {
-      restricao: {
-        limitacao: "se mercadoria for igual a abaixo",
+      ponto_de_atencao: {
+        regra: "se mercadoria for igual a abaixo",
         mercadoria:
           "aeronaves desmontadas, inclusive suas partes e peças e acessórios",
       },
 
-      regras: {
+      valores_e_obrigatoriedades: {
         regra_1: {
           valor_mercadoria: "até R$ 300.000,00",
           obrigatoriedade: "análise de perfil profissional",

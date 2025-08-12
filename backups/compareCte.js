@@ -243,22 +243,23 @@ export async function compareCteCompleta(cteData) {
 
     // 4. Regras de Gerenciamento de Risco e LMG
     const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
+    const limitGuaranteeValue = POLICY_RULES.limite_maximo_garantia.valor;
     const riskManagementRulesPrompt = `
-    Compare as informações do CTe com as regras de gerenciamento de risco da apólice.
-    - Mercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino: poderão ter pontos de atenção específicos.
-    - Ponto de atenção significa que alguma informação do CTe se enquadrou em  "ponto_de_atencao" das regras de gerenciamento de risco da apólice.
-    - Uma "condicao" fornece regras sobre "valor_mercadoria" e "obrigatoriedade".
+    1) Compare as informações do CTe com as condições (enumeradas e ordenadas sequencialmente).
     2) Analise se as informações do CTe se enquadram em alguma "limitacao". Caso se enquadrem:
     - analise o "valor da mercadoria" do CTe com as regras de "valor_mercadoria" da apólice e retorne:
     - "status": "atencao"
+    - "limite_maximo_garantia" = maior valor encontrado na regramencionado na regra da "condicao" específica.
     - "motivo": "string explicando o motivo".
     3) Se não houver enquadramento: 
       "status": "aprovado"
       "motivo": "string explicando o motivo"
+      "limite_maximo_garantia": R$ ${limitGuaranteeValue}
     4) Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
     {
       "status": "aprovado" | "atencao",
       "motivo": "string explicando o motivo"
+      "limite_maximo_garantia": "R$ 0,00",
     }
     - Não inclua texto adicional, apenas o objeto JSON.
 
