@@ -244,10 +244,9 @@ export async function compareCteCompleta(cteData) {
     // 4. Regras de Gerenciamento de Risco e LMG
     const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
     const riskManagementRulesPrompt = `
-    Compare as informações do CTe com as regras de gerenciamento de risco da apólice.
-    - Mercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino: poderão ter pontos de atenção específicos.
-    - Ponto de atenção significa que alguma informação do CTe se enquadrou em  "ponto_de_atencao" das regras de gerenciamento de risco da apólice.
-    - Uma "condicao" fornece regras sobre "valor_mercadoria" e "obrigatoriedade".
+    1. Compare as informações do CTe com as regras de gerenciamento de risco da apólice.
+    2. Informações do CTeMercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino do CTe poderão se enquadrar em um "ponto_de_atencao" das regras de gerenciamento de risco da apólice.
+    - Se alguma informação se enquadrar em "ponto_de_atencao", analise sua respectiva "regra"
     2) Analise se as informações do CTe se enquadram em alguma "limitacao". Caso se enquadrem:
     - analise o "valor da mercadoria" do CTe com as regras de "valor_mercadoria" da apólice e retorne:
     - "status": "atencao"
@@ -262,7 +261,7 @@ export async function compareCteCompleta(cteData) {
     }
     - Não inclua texto adicional, apenas o objeto JSON.
 
-    DADOS DO CTe PARA VALIDAÇÃO:
+    INFORMAÇÕES DO CTe PARA VALIDAÇÃO:
     ${JSON.stringify(cteData, null, 2)}
 
     DADOS DE GERENCIAMENTO DE RISCO DA APÓLICE:
