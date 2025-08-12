@@ -93,25 +93,19 @@ export async function compareCteSequencial(cteData) {
     1) Compare as informações do CTe com as condições (enumeradas e ordenadas sequencialmente).
     2) Analise se as informações do CTe se enquadram em alguma "limitacao". Caso se enquadrem:
     - analise o "valor da mercadoria" do CTe com as regras de "valor_mercadoria" da apólice e retorne:
-    - "status": "atenção".
-    - "limite_maximo_garantia" = maior valor mencionado na regra da condição específica.
+    - "status": "atenção"
+    - "limite_maximo_garantia" = maior valor mencionado na regra da "condicao" específica.
     - "motivo": "string explicando o motivo".
-    2) Analise sua informação inicial referente a: lista de mercadorias,
-    4) A respectiva regra menciona o "valor_mercadoria", em que devemos comparar com "valor da mercadoria" proveniente do CTe.
-    5) Se 
-     status: "alerta" -> se alguma informação proveniente do CTe se enquandrar em alguma "condição" -> especificação -> "regra".
-
-    - Analise se as informações do CTe se enquadram em alguma condição e regra.
-    - status: "aprovado" -> se todas as "condições" forem cumpridas na apólice.
-    - limite_maximo_garantia: se o CTe se enquadrar em alguma condição de gerenciamento de risco.
-    - Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
-
+    3) Se não houver enquadramento: 
+      "status": "aprovado",
+      "limite_maximo_garantia": 0.00,
+      "motivo": "string explicando o motivo"
+    4) Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
     {
       "status": "aprovado" | "atenção",
-      "limite_maximo_garantia": <valor>,
+      "limite_maximo_garantia": 0.00 | <valor>,
       "motivo": "string explicando o motivo"
     }
-
     - Não inclua texto adicional, apenas o objeto JSON.
 
     DADOS DO CTe PARA VALIDAÇÃO:
