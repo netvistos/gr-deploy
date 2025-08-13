@@ -10,7 +10,7 @@ export async function validateCTeWithAI(userPrompt) {
     const completion = await openai.chat.completions.create({
       model: "gpt-4.1-mini",
       messages: [{ role: "user", content: userPrompt }],
-      temperature: 0.2, // ↓ validação mais estável
+      temperature: 0.2, // validação estável
       response_format: { type: "json_object" },
     });
 

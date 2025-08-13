@@ -10,7 +10,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-  const [validationMode, setValidationMode] = useState("sequencial");
+  const [validationMode, setValidationMode] = useState("completa");
 
   // Handler para upload
   const handleFileSelect = async (file) => {
@@ -87,8 +87,8 @@ export default function Home() {
             className="border rounded px-2 py-1"
             disabled={isLoading}
           >
-            <option value="sequencial">Sequencial (para no 1º erro)</option>
             <option value="completa">Completa (mostra todos os erros)</option>
+            <option value="sequencial">Sequencial (para no 1º erro)</option>
           </select>
         </div>
         {/* Área de upload */}

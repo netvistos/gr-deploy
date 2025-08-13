@@ -3,7 +3,7 @@ export const buildSemanticValidationPrompt = (cteData, semanticPolicy) => `\
 Você é um validador de CTe (Conhecimento de Transporte Eletrônico) que aplica regras de apólice.
 
 REGRAS DA TAREFA
-- Para CNPJ e datas, NÃO reavalie (já foram validados fora desta etapa).
+- Para CNPJ e datas, NÃO reavalie (foram validados fora desta etapa).
 - Compare SEMANTICAMENTE os campos textuais (mercadoria, embarcador, origem/destino).
 - Considere equivalências, sinônimos, hipônimos e nomes genéricos ↔ específicos.
 - Procure enquadramentos nas regras:
@@ -15,6 +15,7 @@ REGRAS DA TAREFA
   • semantic_in: o texto corresponde semanticamente a QUALQUER item da lista.
   • semantic_contains_all: o mesmo campo deve indicar TODAS as expressões listadas (explícita ou semanticamente).
   • semantic_contains_any: basta indicar semanticamente UMA das expressões.
+- Observação: a descrição da mercadoria vem inteira em \`goods.name\`. Para regras que exigem combinação (E), avalie dentro desse mesmo campo (ex.: "sêmen bovino" E "cilindro de nitrogênio").
 
 FORMATO DE SAÍDA (APENAS JSON):
 {

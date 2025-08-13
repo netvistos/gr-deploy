@@ -32,7 +32,10 @@ async function testValidateMock() {
       body: JSON.stringify({ cteData: mockCte, mode: "completa" }),
     });
     const data = await response.json();
-    console.log("Resultado da validação do CTe:", data);
+    console.log(
+      "Resultado da validação do CTe:",
+      JSON.stringify(data, null, 2)
+    );
   } catch (error) {
     console.error("Erro ao validar o CTe:", error);
   }

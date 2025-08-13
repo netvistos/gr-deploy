@@ -1,6 +1,5 @@
 import xml2js from "xml2js";
 
-/** Validação básica do XML de CTe. */
 export function isValidXML(xmlContent) {
   if (!xmlContent || typeof xmlContent !== "string") return false;
   const requiredTags = ["<cteProc", "<CTe", "<infCte"];
@@ -10,14 +9,12 @@ export function isValidXML(xmlContent) {
   return true;
 }
 
-/** Extrai a data do transporte do bloco <ide> (prioriza dPrev, senão dhEmi yyyy-mm-dd). */
 function extractTransportDateISO(ide) {
-  if (ide?.dPrev) return ide.dPrev; // já costuma vir yyyy-mm-dd
+  if (ide?.dPrev) return ide.dPrev; // geralmente yyyy-mm-dd
   if (ide?.dhEmi) return ide.dhEmi.split("T")[0];
   return "";
 }
 
-/** Parser XML → objeto CTe padronizado para o fluxo. */
 export async function parseCTeXML(xmlContent) {
   try {
     const parser = new xml2js.Parser({
@@ -33,7 +30,7 @@ export async function parseCTeXML(xmlContent) {
         cnpj: cte.emit?.CNPJ || "",
         name: cte.emit?.xNome || "",
       },
-      transport_date: extractTransportDateISO(cte.ide), // yyyy-mm-dd
+      transport_date: extractTransportDateISO(cte.ide),
       shipper: {
         cnpj: cte.rem?.CNPJ || "",
         name: cte.rem?.xNome || "",
