@@ -9,7 +9,7 @@ const mockCte = {
     name: "MANN+HUMMEL BRASIL LTDA",
   },
   goods: {
-    name: "Relógios inteligentes Apple Watch Série 9", // nome capitalizado
+    name: "taco de beisebol", // nome capitalizado
     value_brl: 2_800_000, // número direto
   },
   origin: { city: "Rio de Janeiro", uf: "RJ" },

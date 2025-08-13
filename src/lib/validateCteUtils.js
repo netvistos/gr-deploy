@@ -67,6 +67,9 @@ export function calculateLMG(bands_applied = [], policy) {
   // O LMG final é o maior valor entre o default e todos os limites de regras aplicáveis
   const lmgFinal = Math.max(defaultLMG, ...sources.map((s) => s.last_band_max));
 
+  console.log("DEBUG risk_rules:", Object.keys(policy.risk_rules || {}));
+  console.log("DEBUG allRiskRules length:", allRiskRules.length);
+
   return {
     lmg_brl: lmgFinal,
     lmg_sources: sources,

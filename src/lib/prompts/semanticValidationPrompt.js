@@ -31,7 +31,6 @@ ${JSON.stringify(cteData, null, 2)}
 export function buildRiskPrompt(cteData, policy) {
   return `\
 TAREFA: Avalie GERENCIAMENTO DE RISCO.
-- Execute esta avaliação mesmo que o transporte tenha sido reprovado em outra etapa.
 - Verifique critérios em risk_rules.by_goods, risk_rules.by_shipper e risk_rules.operations.
 - Para cada REGRA APLICÁVEL:
   * Selecione o band cujo range_brl contenha goods.value_brl.
