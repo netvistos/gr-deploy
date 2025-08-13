@@ -1,0 +1,234 @@
+[
+  {
+    "id": "exclusao-relogios",
+    "description": "Mercadoria proibida (Relógios)",
+    "result": {
+      "status": "reprovado",
+      "validation": [
+        {
+          "etapa": "CNPJ",
+          "status": "aprovado",
+          "motivo": "CNPJ do emitente autorizado pela apólice.",
+          "cnpj_xml": "13657062000112",
+          "cnpj_policy": "13657062000112"
+        },
+        {
+          "etapa": "Data",
+          "status": "aprovado",
+          "motivo": "Data do transporte dentro do período de vigência da apólice.",
+          "data_xml": "10/06/2025",
+          "data_policy": "2024-10-19 a 2026-10-31"
+        },
+        {
+          "etapa": "Bens e Mercadorias",
+          "status": "reprovado",
+          "motivo": "Mercadoria 'relógios de pulso Rolex com caixa original' está na lista geral de bens não compreendidos no seguro (Regra excl-geral-001).",
+          "matched_rule_ids": [
+            "excl-geral-001"
+          ]
+        },
+        {
+          "etapa": "Gerenciamento de Risco",
+          "status": "atenção",
+          "motivo": "Ponto(s) de atenção identificado(s).",
+          "matched_rule_ids": [
+            "risk-B"
+          ],
+          "obligations": [
+            "análise de perfil profissional"
+          ],
+          "bands_applied": [
+            {
+              "rule_id": "risk-B",
+              "band_index": 0,
+              "range_brl": {
+                "min": 0,
+                "max": 200000,
+                "inclusive_min": true,
+                "inclusive_max": true
+              }
+            }
+          ]
+        },
+        {
+          "etapa": "LMG",
+          "status": "aprovado",
+          "motivo": "LMG calculado a partir das regras de risco aplicáveis.",
+          "lmg_brl": 3000000
+        }
+      ]
+    }
+  },
+  {
+    "id": "risco-altera-lmg",
+    "description": "Regra de risco com teto maior que o default da apólice",
+    "result": {
+      "status": "aprovado",
+      "validation": [
+        {
+          "etapa": "CNPJ",
+          "status": "aprovado",
+          "motivo": "CNPJ do emitente autorizado pela apólice.",
+          "cnpj_xml": "13657062000112",
+          "cnpj_policy": "13657062000112"
+        },
+        {
+          "etapa": "Data",
+          "status": "aprovado",
+          "motivo": "Data do transporte dentro do período de vigência da apólice.",
+          "data_xml": "05/08/2025",
+          "data_policy": "2024-10-19 a 2026-10-31"
+        },
+        {
+          "etapa": "Bens e Mercadorias",
+          "status": "aprovado",
+          "motivo": "Sem enquadramento em exclusões.",
+          "matched_rule_ids": []
+        },
+        {
+          "etapa": "Gerenciamento de Risco",
+          "status": "aprovado",
+          "motivo": "Sem enquadramento em pontos de atenção.",
+          "matched_rule_ids": [],
+          "obligations": [],
+          "bands_applied": []
+        },
+        {
+          "etapa": "LMG",
+          "status": "aprovado",
+          "motivo": "LMG calculado a partir das regras de risco aplicáveis.",
+          "lmg_brl": 3000000
+        }
+      ]
+    }
+  },
+  {
+    "id": "dois-riscos",
+    "description": "Mercadoria e embarcador disparam regras de risco distintas",
+    "result": {
+      "status": "atenção",
+      "validation": [
+        {
+          "etapa": "CNPJ",
+          "status": "aprovado",
+          "motivo": "CNPJ do emitente autorizado pela apólice.",
+          "cnpj_xml": "13657062000112",
+          "cnpj_policy": "13657062000112"
+        },
+        {
+          "etapa": "Data",
+          "status": "aprovado",
+          "motivo": "Data do transporte dentro do período de vigência da apólice.",
+          "data_xml": "14/09/2025",
+          "data_policy": "2024-10-19 a 2026-10-31"
+        },
+        {
+          "etapa": "Bens e Mercadorias",
+          "status": "aprovado",
+          "motivo": "Sem enquadramento em exclusões.",
+          "matched_rule_ids": []
+        },
+        {
+          "etapa": "Gerenciamento de Risco",
+          "status": "atenção",
+          "motivo": "Ponto(s) de atenção identificado(s).",
+          "matched_rule_ids": [
+            "risk-A",
+            "risk-B"
+          ],
+          "obligations": [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "acompanhamento de escolta armada e monitorada do início ao fim do risco OU Isca Eletrônica RF OU Imobilizador Inteligente"
+          ],
+          "bands_applied": [
+            {
+              "rule_id": "risk-A",
+              "band_index": 3,
+              "range_brl": {
+                "min": 600000.01,
+                "max": 1000000
+              }
+            },
+            {
+              "rule_id": "risk-B",
+              "band_index": 2,
+              "range_brl": {
+                "min": 1000000.01,
+                "max": 2500000
+              }
+            }
+          ]
+        },
+        {
+          "etapa": "LMG",
+          "status": "aprovado",
+          "motivo": "LMG calculado a partir das regras de risco aplicáveis.",
+          "lmg_brl": 3000000
+        }
+      ]
+    }
+  },
+  {
+    "id": "exclusao-mas-calcula-lmg",
+    "description": "Mercadoria proibida, mas cálculo de LMG executado",
+    "result": {
+      "status": "reprovado",
+      "validation": [
+        {
+          "etapa": "CNPJ",
+          "status": "aprovado",
+          "motivo": "CNPJ do emitente autorizado pela apólice.",
+          "cnpj_xml": "13657062000112",
+          "cnpj_policy": "13657062000112"
+        },
+        {
+          "etapa": "Data",
+          "status": "aprovado",
+          "motivo": "Data do transporte dentro do período de vigência da apólice.",
+          "data_xml": "01/10/2025",
+          "data_policy": "2024-10-19 a 2026-10-31"
+        },
+        {
+          "etapa": "Bens e Mercadorias",
+          "status": "reprovado",
+          "motivo": "Mercadoria 'relógios inteligentes Apple Watch série 9' enquadra-se em 'Relógios' da lista de exclusão para origem ou destino RJ conforme regra excl-rj-002.",
+          "matched_rule_ids": [
+            "excl-rj-002"
+          ]
+        },
+        {
+          "etapa": "Gerenciamento de Risco",
+          "status": "atenção",
+          "motivo": "Ponto(s) de atenção identificado(s).",
+          "matched_rule_ids": [
+            "risk-B"
+          ],
+          "obligations": [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "acompanhamento de escolta armada e monitorada do início ao fim do risco OU Isca Eletrônica RF OU Imobilizador Inteligente"
+          ],
+          "bands_applied": [
+            {
+              "rule_id": "risk-B",
+              "band_index": 3,
+              "range_brl": {
+                "min": 2500000.01,
+                "max": 3000000,
+                "inclusive_min": true,
+                "inclusive_max": true
+              }
+            }
+          ]
+        },
+        {
+          "etapa": "LMG",
+          "status": "aprovado",
+          "motivo": "LMG calculado a partir das regras de risco aplicáveis.",
+          "lmg_brl": 3000000
+        }
+      ]
+    }
+  }
+]
