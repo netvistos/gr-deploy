@@ -4,6 +4,13 @@
 export function buildExclusionsPrompt(cteData, policy) {
   return `\
 TAREFA: Avalie APENAS EXCLUSÕES com base em policy.exclusions.
+- Analise TODAS as regras listadas em policy.exclusions.
+- O campo "matched_rule_ids" deve conter TODAS as IDs das regras que se aplicarem ao CTe.
+- O campo "violations" deve conter TODOS os textos explicativos das regras que se aplicarem, na mesma ordem das IDs.
+- Se pelo menos UMA regra se aplicar, o status deve ser "reprovado".
+- Se nenhuma regra se aplicar, status deve ser "aprovado" e arrays vazios.
+- NÃO inventar regras ou IDs que não estejam na policy.
+- Comparar SEMANTICAMENTE mercadoria, embarcador, origem e destino.
 
 FORMATO DE SAÍDA (APENAS JSON):
 {
