@@ -1,21 +1,21 @@
 // mockCte.js
 const mockCte = {
   issuer: {
-    cnpj: "12345678000199",
+    cnpj: "13657062/000112",
     name: "Transportadora Exemplo Ltda",
   },
-  transport_date: "2025-03-22", // ISO
+  transport_date: "2025-08-13", // ISO
   shipper: {
-    cnpj: "98765432000198",
-    name: "MANN+HUMMEL BRASIL LTDA",
+    cnpj: "12345678000199",
+    name: "BOTICÁRIO",
   },
   goods: {
     name: "relogio oakley",
     value_brl: 150000.0,
   },
   origin: {
-    city: "Rio de Janeiro",
-    uf: "RJ",
+    city: "Belo Horizonte",
+    uf: "MG",
   },
   destination: {
     city: "Limeira",
