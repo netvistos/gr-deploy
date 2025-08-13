@@ -11,12 +11,6 @@ import {
   buildRiskPrompt,
 } from "./prompts/semanticValidationPrompt.js";
 
-/**
- * Consolida o status geral baseado nas etapas:
- * - Se alguma for "reprovado" => reprovado
- * - Senão, se alguma for "atenção" => atenção
- * - Caso contrário => aprovado
- */
 function consolidateStatus(results) {
   const hasReprovado = results.some((r) => r.status === "reprovado");
   if (hasReprovado) return "reprovado";
@@ -25,10 +19,6 @@ function consolidateStatus(results) {
   return "aprovado";
 }
 
-/**
- * Validação COMPLETA:
- * Executa todas as etapas, mesmo que alguma reprove.
- */
 export async function compareCteCompleta(cteData) {
   try {
     const results = [];
@@ -81,11 +71,10 @@ export async function compareCteCompleta(cteData) {
         : [],
     });
 
-    // 4) Gerenciamento de Risco (somente risco, sem LMG)
+    // 4) Gerenciamento de Risco
     const riskRaw = await validateCTeWithAI(
       buildRiskPrompt(cteData, POLICY_RULES)
     );
-
     results.push({
       etapa: "Gerenciamento de Risco",
       status: riskRaw.status || "aprovado",
@@ -104,17 +93,17 @@ export async function compareCteCompleta(cteData) {
         : [],
     });
 
-    // 5) LMG calculado no backend
-    const lmgFinal = calculateLMG(
+    // 5) LMG (calculado no backend)
+    const { lmg_brl, lmg_sources } = calculateLMG(
       results[results.length - 1].bands_applied,
       POLICY_RULES
     );
-
     results.push({
       etapa: "LMG",
       status: "aprovado",
       motivo: "LMG calculado a partir das regras de risco aplicáveis.",
-      lmg_brl: lmgFinal,
+      lmg_brl,
+      lmg_sources,
     });
 
     return { status: consolidateStatus(results), validation: results };

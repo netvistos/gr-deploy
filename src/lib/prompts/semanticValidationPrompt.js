@@ -22,23 +22,17 @@ ${JSON.stringify(cteData, null, 2)}
 }
 
 export function buildRiskPrompt(cteData, policy) {
-  const riskPayload = {
-    by_goods: policy.risk_rules?.by_goods || [],
-    by_shipper: policy.risk_rules?.by_shipper || [],
-    operations: policy.risk_rules?.operations || [],
-  };
-
   return `\
-TAREFA: Avaliar GERENCIAMENTO DE RISCO.
-- Sempre verificar critérios em risk_rules.by_goods, risk_rules.by_shipper e risk_rules.operations.
+TAREFA: Avalie GERENCIAMENTO DE RISCO.
+- Execute esta avaliação mesmo que o transporte tenha sido reprovado em outra etapa.
+- Verifique critérios em risk_rules.by_goods, risk_rules.by_shipper e risk_rules.operations.
 - Para cada REGRA APLICÁVEL:
-  * O valor de goods.value_brl deve estar dentro do range_brl do band escolhido (inclusive_min e inclusive_max quando definidos).
-  * Inclua esse band em "bands_applied" com: rule_id e band_index (índice do band na lista da regra).
-  * NÃO invente bands ou obrigações fora do policy.
-  * Combine obrigações de todas as bands aplicáveis (mantendo exatamente o texto do policy).
-- STATUS:
-  * "atenção" se existir pelo menos uma regra aplicável (matched_rule_ids não vazio).
-  * "aprovado" caso contrário.
+  * Selecione o band cujo range_brl contenha goods.value_brl.
+  * Inclua esse band em "bands_applied" com: rule_id e band_index.
+  * Combine as obrigações de todas as bands aplicáveis, sem criar novas obrigações além do policy.
+- Definição de STATUS:
+  * Se existir ao menos uma REGRA APLICÁVEL ⇒ "status": "atenção".
+  * Caso contrário ⇒ "status": "aprovado".
 
 FORMATO DE SAÍDA (APENAS JSON):
 {
@@ -50,7 +44,7 @@ FORMATO DE SAÍDA (APENAS JSON):
 }
 
 POLICY.risk_rules:
-${JSON.stringify(riskPayload, null, 2)}
+${JSON.stringify(policy.risk_rules || {}, null, 2)}
 
 CTE:
 ${JSON.stringify(cteData, null, 2)}

@@ -39,22 +39,28 @@ export function formatDateBR(dateStr) {
 
 // Função para calcular o LMG
 export function calculateLMG(bands_applied, policy) {
-  const defaultLMG = policy.lmg.default_brl;
-  if (!bands_applied || bands_applied.length === 0) return defaultLMG;
+  const defaultLMG = policy.lmg?.default_brl || 0;
 
-  const maxValues = bands_applied.map((bandInfo) => {
-    const rule = [
-      ...(policy.risk_rules?.by_goods || []),
-      ...(policy.risk_rules?.by_shipper || []),
-      ...(policy.risk_rules?.operations || []),
-    ].find((r) => r.id === bandInfo.rule_id);
+  if (!bands_applied || bands_applied.length === 0) {
+    return { lmg_brl: defaultLMG, lmg_sources: [] };
+  }
 
-    if (!rule || !rule.bands?.length) return defaultLMG;
+  // Pega todos os grupos de regras de risk_rules dinamicamente
+  const allRules = Object.values(policy.risk_rules || {}).flat();
 
-    // último band dessa regra
+  const sources = bands_applied.map((bandInfo) => {
+    const rule = allRules.find((r) => r.id === bandInfo.rule_id);
+    if (!rule || !rule.bands?.length) {
+      return { rule_id: bandInfo.rule_id, last_band_max: defaultLMG };
+    }
+
+    // Último band dessa regra = teto do LMG
     const lastBand = rule.bands[rule.bands.length - 1];
-    return lastBand.range_brl.max;
+    return { rule_id: bandInfo.rule_id, last_band_max: lastBand.range_brl.max };
   });
 
-  return Math.max(defaultLMG, ...maxValues);
+  const lmgValues = sources.map((s) => s.last_band_max);
+  const lmgFinal = Math.max(defaultLMG, ...lmgValues);
+
+  return { lmg_brl: lmgFinal, lmg_sources: sources };
 }
