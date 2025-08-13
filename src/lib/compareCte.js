@@ -1,14 +1,14 @@
-import { POLICY_RULES } from "@/lib/policyRules";
-import { validateCTeWithAI } from "@/lib/openaiClient";
+import { POLICY_RULES } from "./policyRules.js";
+import { validateCTeWithAI } from "./openaiClient.js";
 import {
   normalizeCNPJ,
   isDateWithinPolicy,
   formatDateBR,
-} from "@/lib/validateCteUtils";
+} from "./validateCteUtils.js";
 import {
   buildExclusionsPrompt,
   buildRiskAndLmgPrompt,
-} from "@/lib/prompts/semanticValidationPrompt";
+} from "./prompts/semanticValidationPrompt.js";
 
 /**
  * Consolida o status geral baseado nas etapas:

@@ -50,14 +50,20 @@ export function buildRiskAndLmgPrompt(cteData, policy) {
 ${COMMON_RULES}
 
 TAREFA: Avalie GERENCIAMENTO DE RISCO e determine o LMG (Limite Máximo de Garantia) final.
+- Sempre execute esta avaliação mesmo que o transporte tenha sido reprovado em outra etapa.
 - Verifique critérios em risk_rules.by_goods, risk_rules.by_shipper e risk_rules.operations.
-- Para cada regra aplicável, selecione o band cujo range_brl contenha goods.value_brl.
-- Combine obrigações de todas as bands aplicáveis.
-- Para o LMG:
+- Para cada regra aplicável:
+  * Selecione o band cujo range_brl contenha goods.value_brl.
+  * Inclua esse band em bands_applied.
+  * Combine as obrigações (obligations) de todas as bands aplicáveis, sem criar novas obrigações que não estejam no policy.
+- Cálculo do LMG:
   * Comece com policy.lmg.default_brl.
-  * Para cada regra aplicável, considere o valor 'max' do último band dessa regra.
-  * LMG final = maior valor encontrado entre o default e esses tetos.
+  * Para cada regra de risco aplicável, identifique o valor 'max' do último band dessa regra.
+  * Compare todos esses valores 'max' com o default_brl e escolha apenas o MAIOR entre eles.
+  * NÃO some valores de bands diferentes.
+  * Se nenhuma regra for aplicável, use apenas o default_brl.
 - NÃO invente obrigações fora das regras.
+- NÃO use nenhuma lógica externa à listada acima para LMG (o valor vem exclusivamente das bands).
 
 FORMATO DE SAÍDA (APENAS JSON):
 {
