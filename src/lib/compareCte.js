@@ -1,15 +1,20 @@
 import { validateCTeWithAI } from "@/lib/openaiClient";
 import { POLICY_RULES } from "@/lib/policyRules";
-import { normalizeCNPJ, isDateWithinPolicy } from "./validateCteUtils";
-import { formatDateBR } from "./validateCteUtils";
+import { SEMANTIC_POLICY } from "@/lib/policyRules.semantic";
+import {
+  normalizeCNPJ,
+  isDateWithinPolicy,
+  formatDateBR,
+} from "./validateCteUtils";
+import { buildSemanticValidationPrompt } from "@/lib/prompts/semanticValidationPrompt";
 
-// Validações if/else completas
+// MODO COMPLETO – mantém etapas determinísticas e segue mesmo com reprovação
 export async function compareCteCompleta(cteData) {
   try {
     const results = [];
 
-    // 1. Validação do CNPJ
-    const cnpjXML = normalizeCNPJ(cteData.emitente.cnpj);
+    // 1) CNPJ (comparação exata)
+    const cnpjXML = normalizeCNPJ(cteData.issuer.cnpj);
     const cnpjPolicy = normalizeCNPJ(POLICY_RULES.emitente.cnpj);
     if (cnpjXML !== cnpjPolicy) {
       results.push({
@@ -29,10 +34,10 @@ export async function compareCteCompleta(cteData) {
       });
     }
 
-    // 2. Validação da data
-    const transportDate = cteData.data_transporte;
-    const coverStart = POLICY_RULES.emitente.vigencia.inicio;
-    const coverEnd = POLICY_RULES.emitente.vigencia.fim;
+    // 2) Data (comparação exata)
+    const transportDate = cteData.transport_date; // ISO yyyy-mm-dd
+    const coverStart = POLICY_RULES.emitente.vigencia.inicio; // dd/mm/yyyy
+    const coverEnd = POLICY_RULES.emitente.vigencia.fim; // dd/mm/yyyy
     if (!isDateWithinPolicy(transportDate, coverStart, coverEnd)) {
       results.push({
         etapa: "Data",
@@ -51,121 +56,61 @@ export async function compareCteCompleta(cteData) {
       });
     }
 
-    // 3. Validação de bens e mercadorias excluídas
-    const excludedGoods = POLICY_RULES.bens_mercadorias_excluidas;
-    const excludedGoodsPrompt = `
-Você é um validador de CTe para gerenciamento de riscos. Compare os dados do CTe com as condições e exclusões contidas na apólice informada e decida se o transporte deve ser aprovado ou reprovado.
+    // 3) IA SEMÂNTICA (exclusões + risco + LMG) – UMA chamada
+    const prompt = buildSemanticValidationPrompt(cteData, SEMANTIC_POLICY);
+    const ai = await validateCTeWithAI(prompt);
 
-REGRAS DE COMPARAÇÃO
-- Leia TODAS as condições da apólice (bens_mercadorias_excluidas, clausulas_especificas_exclusao, ou outras que possam existir no JSON) e aplique exatamente como descritas.
-- Correspondência de mercadorias: sem sensibilidade a maiúsculas/minúsculas/acentos. Considere correspondências por igualdade ou inclusão semântica (ex.: “apple watch” bate com “Relógios”).
-- Se QUALQUER condição da apólice for violada, o status é "reprovado".
-- Se houver múltiplas violações, liste todas no campo "motivo", separadas por "; ".
-- Trate todas as condições com a mesma prioridade (sem hierarquias fixas).
-- Compare valores monetários com eventuais limites definidos na apólice.
-- Compare embarcadores, trajetos, origem/destino e quaisquer outros critérios que a apólice especifique.
-- Aplique regras geográficas somente se a apólice especificar restrições desse tipo (ex.: origem e/ou destino em determinado estado ou município).
-- O campo de valor da mercadoria virá sempre como string com ponto decimal.
+    const excl = ai.stage_results?.find((s) => s.stage === "BENS_EXCLUIDOS");
+    const risk = ai.stage_results?.find(
+      (s) => s.stage === "GERENCIAMENTO_RISCO"
+    );
 
-NORMALIZAÇÃO
-- Remova acentos e padronize para minúsculas ao comparar textos.
-- Ao lidar com listas de mercadorias da apólice, aplique correspondência semântica quando possível (sinônimos, nomes genéricos vs. nomes específicos).
-
-DADOS DE ENTRADA
-CTE:
-${JSON.stringify(cteData, null, 2)}
-
-APÓLICE:
-${JSON.stringify(excludedGoods, null, 2)}
-
-DECISÃO
-1) Leia e interprete todas as condições da apólice.
-2) Valide cada campo do CTe (mercadoria, valor, embarcador, origem, destino etc.) contra essas condições.
-3) Se encontrar qualquer violação, "reprovado"; caso contrário, "aprovado".
-4) Se reprovado, o motivo deve listar todas as condições não atendidas.
-5) Se aprovado, o motivo deve indicar que todas as condições da apólice foram atendidas.
-
-SAÍDA
-Retorne EXCLUSIVAMENTE um objeto JSON válido:
-{
-  "status": "aprovado" | "reprovado",
-  "motivo": "string explicando todas as violações encontradas ou, se aprovado, o motivo objetivo da aprovação"
-}
-    `;
-    const excludedGoodsResult = await validateCTeWithAI(excludedGoodsPrompt);
-
-    if (excludedGoodsResult.status === "reprovado") {
+    if (excl) {
       results.push({
         etapa: "Bens e Mercadorias",
-        status: "reprovado",
-        motivo: `Validação reprovada em bens e mercadorias excluídas: ${excludedGoodsResult.motivo}`,
-      });
-    } else {
-      results.push({
-        etapa: "Bens e Mercadorias",
-        status: "aprovado",
-        motivo: "Mercadoria permitida pela apólice.",
+        status: excl.status,
+        motivo:
+          excl.status === "reprovado"
+            ? `Reprovado por exclusões: ${excl.violations?.join("; ")}`
+            : "Sem enquadramento em exclusões",
+        matched_rule_ids: excl.matched_rule_ids || [],
       });
     }
 
-    // // 4. Regras de Gerenciamento de Risco e LMG
-    // const riskManagementRules = POLICY_RULES.regras_gerenciamento_de_risco;
-    // const riskManagementRulesPrompt = `
-    // 1. Compare as informações do CTe com as regras de gerenciamento de risco da apólice.
-    // 2. Informações do CTeMercadorias, valor de mercadorias, embarcadores, trajetos de origem e destino do CTe poderão se enquadrar em um "ponto_de_atencao" das regras de gerenciamento de risco da apólice.
-    // - Se alguma informação se enquadrar em "ponto_de_atencao", analise sua respectiva "regra"
-    // 2) Analise se as informações do CTe se enquadram em alguma "limitacao". Caso se enquadrem:
-    // - analise o "valor da mercadoria" do CTe com as regras de "valor_mercadoria" da apólice e retorne:
-    // - "status": "atencao"
-    // - "motivo": "string explicando o motivo".
-    // 3) Se não houver enquadramento:
-    //   "status": "aprovado"
-    //   "motivo": "string explicando o motivo"
-    // 4) Retorne EXCLUSIVAMENTE um objeto JSON válido com a estrutura:
-    // {
-    //   "status": "aprovado" | "atencao",
-    //   "motivo": "string explicando o motivo"
-    // }
-    // - Não inclua texto adicional, apenas o objeto JSON.
+    if (risk) {
+      results.push({
+        etapa: "Gerenciamento de Risco",
+        status: risk.status,
+        motivo:
+          risk.status === "atenção"
+            ? "Ponto(s) de atenção identificado(s)."
+            : "Sem enquadramento em pontos de atenção.",
+        matched_rule_ids: risk.matched_rule_ids || [],
+        obligations: risk.obligations || [],
+        limite_maximo_garantia:
+          typeof risk.lmg_brl === "number"
+            ? risk.lmg_brl
+            : SEMANTIC_POLICY.lmg.default_brl,
+      });
+    } else {
+      results.push({
+        etapa: "Gerenciamento de Risco",
+        status: "aprovado",
+        motivo: "Sem enquadramento em pontos de atenção.",
+        matched_rule_ids: [],
+        obligations: [],
+        limite_maximo_garantia: SEMANTIC_POLICY.lmg.default_brl,
+      });
+    }
 
-    // INFORMAÇÕES DO CTe PARA VALIDAÇÃO:
-    // ${JSON.stringify(cteData, null, 2)}
+    // 4) Status geral: reprovado > atenção > aprovado
+    let statusGeral = "aprovado";
+    if (results.some((r) => r.status === "reprovado"))
+      statusGeral = "reprovado";
+    else if (results.some((r) => r.status === "atenção"))
+      statusGeral = "atenção";
 
-    // DADOS DE GERENCIAMENTO DE RISCO DA APÓLICE:
-    // ${JSON.stringify(riskManagementRules, null, 2)}
-    // `;
-
-    // const riskManagementResult = await validateCTeWithAI(
-    //   riskManagementRulesPrompt
-    // );
-
-    // if (riskManagementResult.status === "atencao") {
-    //   results.push({
-    //     etapa: "Regras de Gerenciamento de Risco",
-    //     status: "atencao",
-    //     motivo: `Estre transporte possui alerta em Regras de Gerenciamento de Risco: ${riskManagementResult.motivo}`,
-    //     limite_maximo_garantia: riskManagementResult.limite_maximo_garantia,
-    //   });
-    // } else {
-    //   results.push({
-    //     etapa: "Regras de Gerenciamento de Risco",
-    //     status: "aprovado",
-    //     motivo:
-    //       "Regras de Gerenciamento de Risco não possui pontos de atenção.",
-    //     limite_maximo_garantia: riskManagementResult.limite_maximo_garantia,
-    //   });
-    // }
-
-    // Determina status geral
-    const statusGeral = results.some((r) => r.status === "reprovado")
-      ? "reprovado"
-      : "aprovado";
-
-    //Resultado: Fim do fluxo
-    return {
-      status: statusGeral,
-      validation: results,
-    };
+    return { status: statusGeral, validation: results };
   } catch (error) {
     return {
       status: "erro",

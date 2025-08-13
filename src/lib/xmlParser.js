@@ -1,9 +1,6 @@
 import xml2js from "xml2js";
 
-/**
- * Validação básica do XML de CTe.
- * Retorna true se o XML contém as tags principais e estrutura mínima.
- */
+/** Validação básica do XML de CTe. */
 export function isValidXML(xmlContent) {
   if (!xmlContent || typeof xmlContent !== "string") return false;
   const requiredTags = ["<cteProc", "<CTe", "<infCte"];
@@ -13,20 +10,14 @@ export function isValidXML(xmlContent) {
   return true;
 }
 
-/**
- * Função utilitária para extrair a data do transporte do bloco <ide>
- * Prioriza <dPrev>, depois <dhEmi> (apenas a data).
- */
-function extractTransportDate(ide) {
-  if (ide?.dPrev) return ide.dPrev;
+/** Extrai a data do transporte do bloco <ide> (prioriza dPrev, senão dhEmi yyyy-mm-dd). */
+function extractTransportDateISO(ide) {
+  if (ide?.dPrev) return ide.dPrev; // já costuma vir yyyy-mm-dd
   if (ide?.dhEmi) return ide.dhEmi.split("T")[0];
   return "";
 }
 
-/**
- * Parser XML simples para CTe.
- * Retorna objeto estruturado com os dados essenciais para validação.
- */
+/** Parser XML → objeto CTe padronizado para o fluxo. */
 export async function parseCTeXML(xmlContent) {
   try {
     const parser = new xml2js.Parser({
@@ -38,25 +29,25 @@ export async function parseCTeXML(xmlContent) {
     if (!cte) throw new Error("Estrutura XML inválida - CTe não encontrado");
 
     const extractedData = {
-      emitente: {
+      issuer: {
         cnpj: cte.emit?.CNPJ || "",
-        nome: cte.emit?.xNome || "",
+        name: cte.emit?.xNome || "",
       },
-      data_transporte: extractTransportDate(cte.ide),
-      embarcador: {
+      transport_date: extractTransportDateISO(cte.ide), // yyyy-mm-dd
+      shipper: {
         cnpj: cte.rem?.CNPJ || "",
-        nome: cte.rem?.xNome || "",
+        name: cte.rem?.xNome || "",
       },
-      mercadoria: {
-        nome: cte.infCTeNorm?.infCarga?.proPred || "",
-        valor: parseFloat(cte.infCTeNorm?.infCarga?.vCarga) || 0,
+      goods: {
+        name: cte.infCTeNorm?.infCarga?.proPred || "",
+        value_brl: Number(cte.infCTeNorm?.infCarga?.vCarga) || 0,
       },
-      origem: {
-        municipio: cte.ide?.xMunIni || "",
+      origin: {
+        city: cte.ide?.xMunIni || "",
         uf: cte.ide?.UFIni || "",
       },
-      destino: {
-        municipio: cte.ide?.xMunFim || "",
+      destination: {
+        city: cte.ide?.xMunFim || "",
         uf: cte.ide?.UFFim || "",
       },
     };

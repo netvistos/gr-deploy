@@ -1,38 +1,35 @@
+// mockCte.js
 const mockCte = {
-  emitente: {
+  issuer: {
     cnpj: "12345678000199",
-    nome: "Transportadora Exemplo Ltda",
+    name: "Transportadora Exemplo Ltda",
   },
-  data_transporte: "22/03/2025",
-  embarcador: {
+  transport_date: "2025-03-22", // ISO
+  shipper: {
     cnpj: "98765432000198",
-    nome: "MANN+HUMMEL BRASIL LTDA",
+    name: "MANN+HUMMEL BRASIL LTDA",
   },
-  mercadoria: {
-    nome: "relogio oakley",
-    valor: "150000.00",
+  goods: {
+    name: "relogio oakley",
+    value_brl: 150000.0,
   },
-  origem: {
-    municipio: "Rio de Janeiro",
+  origin: {
+    city: "Rio de Janeiro",
     uf: "RJ",
   },
-  destino: {
-    municipio: "Limeira",
+  destination: {
+    city: "Limeira",
     uf: "SP",
   },
 };
 
-// Mode: sequencial || completa
-
+// Teste local do endpoint
 async function testValidateMock() {
   try {
     const response = await fetch("http://localhost:3000/api/validate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        cteData: mockCte,
-        mode: "completa",
-      }),
+      body: JSON.stringify({ cteData: mockCte, mode: "completa" }),
     });
     const data = await response.json();
     console.log("Resultado da validação do CTe:", data);
