@@ -1,74 +1,25 @@
-/**
- * Lista de cenários de teste para validação COMPLETA do CTe
- * Cenários criados para cobrir múltiplas variações semânticas e numéricas
- */
-
 export const CTE_SCENARIOS = [
-  // 4) Exclusão direta
   {
-    id: "exclusao-relogios",
-    description: "Mercadoria proibida (Relógios)",
-    cte: {
-      issuer: { cnpj: "13.657.062/0001-12", name: "LOGITIME TRANSPORTES LTDA" },
-      transport_date: "2025-06-10",
-      shipper: { cnpj: "66.111.222/0001-55", name: "IMPORTADORA SUIÇA LTDA" },
-      goods: {
-        name: "relógios de pulso Rolex com caixa original",
-        value_brl: 150000,
-      },
-      origin: { city: "Rio de Janeiro", uf: "RJ" },
-      destination: { city: "Porto Alegre", uf: "RS" },
-    },
-  },
-
-  // 6) Risco altera LMG
-  {
-    id: "risco-altera-lmg",
-    description: "Regra de risco com teto maior que o default da apólice",
-    cte: {
-      issuer: { cnpj: "13.657.062/0001-12", name: "LOGITIME TRANSPORTES LTDA" },
-      transport_date: "2025-08-05",
-      shipper: { cnpj: "88.999.111/0001-77", name: "BYD MANUFACTURING BRASIL" },
-      goods: {
-        name: "baterias de íon-lítio para veículos elétricos",
-        value_brl: 7800000,
-      },
-      origin: { city: "Shenzhen", uf: "EX" },
-      destination: { city: "Campinas", uf: "SP" },
-    },
-  },
-
-  // 7) Dois riscos aplicados
-  {
-    id: "dois-riscos",
-    description: "Mercadoria e embarcador disparam regras de risco distintas",
-    cte: {
-      issuer: { cnpj: "13.657.062/0001-12", name: "LOGITIME TRANSPORTES LTDA" },
-      transport_date: "2025-09-14",
-      shipper: { cnpj: "55.666.777/0001-88", name: "EXPORTADORA AMAZÔNIA" },
-      goods: {
-        name: "bens eletrônicos diversos (smartphones, tablets)",
-        value_brl: 2600000,
-      },
-      origin: { city: "Manaus", uf: "AM" },
-      destination: { city: "São Paulo", uf: "SP" },
-    },
-  },
-
-  // 8) Exclusão mas calcula LMG
-  {
-    id: "exclusao-mas-calcula-lmg",
-    description: "Mercadoria proibida, mas cálculo de LMG executado",
-    cte: {
-      issuer: { cnpj: "13.657.062/0001-12", name: "LOGITIME TRANSPORTES LTDA" },
+    cteData: {
+      issuer: { cnpj: "13657062000112", name: "LOGITIME TRANSPORTES LTDA" },
       transport_date: "2025-10-01",
-      shipper: { cnpj: "33.444.555/0001-99", name: "IMPORTADORA LUXO PREMIUM" },
+      shipper: { cnpj: "98765432000198", name: "MANN+HUMMEL BRASIL LTDA" },
       goods: {
         name: "relógios inteligentes Apple Watch série 9",
-        value_brl: 8500000,
+        value_brl: 2800000,
       },
       origin: { city: "Rio de Janeiro", uf: "RJ" },
-      destination: { city: "Brasília", uf: "DF" },
+      destination: { city: "Limeira", uf: "SP" },
+    },
+  },
+  {
+    cteData: {
+      issuer: { cnpj: "13657062000112", name: "LOGITIME TRANSPORTES LTDA" },
+      transport_date: "2025-09-14",
+      shipper: { cnpj: "12345678000199", name: "BYD MAN" },
+      goods: { name: "peças de veículos elétricos", value_brl: 900000 },
+      origin: { city: "Curitiba", uf: "PR" },
+      destination: { city: "São Paulo", uf: "SP" },
     },
   },
 ];

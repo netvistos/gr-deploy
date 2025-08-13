@@ -652,17 +652,6 @@ export const POLICY_RULES = {
             ],
             effect: { status: "atenção" },
           },
-          // Regra extra do PDF: Motorista Frota acima de 2M
-          {
-            range_brl: {
-              min: 2000000.0,
-              max: 9999999999.0,
-              inclusive_min: true,
-              inclusive_max: true,
-            },
-            obligations: ["MOTORISTA FROTA"],
-            effect: { status: "atenção" },
-          },
         ],
       },
 

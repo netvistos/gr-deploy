@@ -36,3 +36,25 @@ export function formatDateBR(dateStr) {
   if (!year || !month || !day) return dateStr;
   return `${day}/${month}/${year}`;
 }
+
+// Função para calcular o LMG
+export function calculateLMG(bands_applied, policy) {
+  const defaultLMG = policy.lmg.default_brl;
+  if (!bands_applied || bands_applied.length === 0) return defaultLMG;
+
+  const maxValues = bands_applied.map((bandInfo) => {
+    const rule = [
+      ...(policy.risk_rules?.by_goods || []),
+      ...(policy.risk_rules?.by_shipper || []),
+      ...(policy.risk_rules?.operations || []),
+    ].find((r) => r.id === bandInfo.rule_id);
+
+    if (!rule || !rule.bands?.length) return defaultLMG;
+
+    // último band dessa regra
+    const lastBand = rule.bands[rule.bands.length - 1];
+    return lastBand.range_brl.max;
+  });
+
+  return Math.max(defaultLMG, ...maxValues);
+}

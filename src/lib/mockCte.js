@@ -1,26 +1,14 @@
 // mockCte.js
 const mockCte = {
-  issuer: {
-    cnpj: "13657062/000112",
-    name: "Transportadora Exemplo Ltda",
-  },
-  transport_date: "2025-08-13", // ISO
-  shipper: {
-    cnpj: "12345678000199",
-    name: "BOTICÁRIO",
-  },
+  issuer: { cnpj: "13657062000112", name: "LOGITIME TRANSPORTES LTDA" },
+  transport_date: "2025-10-01",
+  shipper: { cnpj: "98765432000198", name: "MANN+HUMMEL BRASIL LTDA" },
   goods: {
-    name: "relogio oakley",
-    value_brl: 150000.0,
+    name: "relógios inteligentes Apple Watch série 9",
+    value_brl: 2800000,
   },
-  origin: {
-    city: "Belo Horizonte",
-    uf: "MG",
-  },
-  destination: {
-    city: "Limeira",
-    uf: "SP",
-  },
+  origin: { city: "Rio de Janeiro", uf: "RJ" },
+  destination: { city: "Limeira", uf: "SP" },
 };
 
 // Teste local do endpoint
