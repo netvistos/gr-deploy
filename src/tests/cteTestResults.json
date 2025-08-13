@@ -22,7 +22,7 @@
         {
           "etapa": "Bens e Mercadorias",
           "status": "reprovado",
-          "motivo": "Mercadoria 'relógios de pulso Rolex com caixa original' está na lista geral de bens não compreendidos no seguro (Regra excl-geral-001).",
+          "motivo": "Mercadoria 'relógios de pulso Rolex com caixa original' enquadra-se em 'Relógios', item excluído conforme regra excl-geral-001.",
           "matched_rule_ids": [
             "excl-geral-001"
           ]
@@ -63,7 +63,7 @@
     "id": "risco-altera-lmg",
     "description": "Regra de risco com teto maior que o default da apólice",
     "result": {
-      "status": "aprovado",
+      "status": "atenção",
       "validation": [
         {
           "etapa": "CNPJ",
@@ -87,17 +87,34 @@
         },
         {
           "etapa": "Gerenciamento de Risco",
-          "status": "aprovado",
-          "motivo": "Sem enquadramento em pontos de atenção.",
-          "matched_rule_ids": [],
-          "obligations": [],
-          "bands_applied": []
+          "status": "atenção",
+          "motivo": "Ponto(s) de atenção identificado(s).",
+          "matched_rule_ids": [
+            "op-byd-man-itens-ev"
+          ],
+          "obligations": [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "02 Iscas Eletrônicas RF E Imobilizador Inteligente E Escolta Armada"
+          ],
+          "bands_applied": [
+            {
+              "rule_id": "op-byd-man-itens-ev",
+              "band_index": 4,
+              "range_brl": {
+                "min": 5000000.01,
+                "max": 8000000,
+                "inclusive_min": true,
+                "inclusive_max": true
+              }
+            }
+          ]
         },
         {
           "etapa": "LMG",
           "status": "aprovado",
           "motivo": "LMG calculado a partir das regras de risco aplicáveis.",
-          "lmg_brl": 3000000
+          "lmg_brl": 8000000
         }
       ]
     }
@@ -138,8 +155,7 @@
           ],
           "obligations": [
             "análise de perfil profissional",
-            "rastreamento / monitoramento de cargas",
-            "acompanhamento de escolta armada e monitorada do início ao fim do risco OU Isca Eletrônica RF OU Imobilizador Inteligente"
+            "rastreamento / monitoramento de cargas"
           ],
           "bands_applied": [
             {
@@ -147,15 +163,19 @@
               "band_index": 3,
               "range_brl": {
                 "min": 600000.01,
-                "max": 1000000
+                "max": 1000000,
+                "inclusive_min": true,
+                "inclusive_max": true
               }
             },
             {
               "rule_id": "risk-B",
-              "band_index": 2,
+              "band_index": 1,
               "range_brl": {
-                "min": 1000000.01,
-                "max": 2500000
+                "min": 200000.01,
+                "max": 1000000,
+                "inclusive_min": true,
+                "inclusive_max": true
               }
             }
           ]
@@ -192,9 +212,9 @@
         {
           "etapa": "Bens e Mercadorias",
           "status": "reprovado",
-          "motivo": "Mercadoria 'relógios inteligentes Apple Watch série 9' enquadra-se em 'Relógios' da lista de exclusão para origem ou destino RJ conforme regra excl-rj-002.",
+          "motivo": "Mercadoria 'relógios inteligentes Apple Watch série 9' enquadra-se na exclusão de 'Relógios' conforme regra geral de bens não compreendidos no seguro (excl-geral-001).",
           "matched_rule_ids": [
-            "excl-rj-002"
+            "excl-geral-001"
           ]
         },
         {
@@ -226,7 +246,7 @@
           "etapa": "LMG",
           "status": "aprovado",
           "motivo": "LMG calculado a partir das regras de risco aplicáveis.",
-          "lmg_brl": 3000000
+          "lmg_brl": 8500000
         }
       ]
     }
