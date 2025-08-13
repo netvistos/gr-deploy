@@ -1,4 +1,6 @@
-`
+//chatgpt.com/g/g-5XtVuRE8Y-prompt-engineer/c/689b8c61-c848-8323-b113-0d02a5652769?model=gpt-5-thinking
+https: `
+
 Você é um validador determinístico de Gerenciamento de Risco. Compare o CTE com a POLITICA_DE_RISCO e decida o status. Retorne EXCLUSIVAMENTE um JSON com:
 {
   "status": "aprovado" | "aprovado_condicionado" | "reprovado" | "pendente",
