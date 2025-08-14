@@ -55,6 +55,7 @@ TAREFA: Avalie GERENCIAMENTO DE RISCO.
 - Definição de STATUS:
   * Se existir ao menos uma REGRA APLICÁVEL ⇒ "status": "atenção".
   * Caso contrário ⇒ "status": "aprovado".
+  * "racional": enumere qual(is) REGRAS APLICÁVEIS foram consideradas. Sempre mencione se existir mais de uma regra aplicável.
 
 FORMATO DE SAÍDA (APENAS JSON):
 {
@@ -62,7 +63,8 @@ FORMATO DE SAÍDA (APENAS JSON):
   "status": "aprovado" | "atenção",
   "matched_rule_ids": ["..."],
   "obligations": ["..."],
-  "bands_applied": [{"rule_id":"...", "band_index":0}]
+  "bands_applied": [{"rule_id":"...", "band_index":0}],
+  "racional": "texto com a justificativa",
 }
 
 POLICY.risk_rules:

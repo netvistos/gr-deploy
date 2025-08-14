@@ -89,6 +89,7 @@ export async function compareCteCompleta(cteData) {
       bands_applied: Array.isArray(riskRaw.bands_applied)
         ? riskRaw.bands_applied
         : [],
+      racional: riskRaw.racional,
     });
 
     // 5) LMG (calculado no backend)

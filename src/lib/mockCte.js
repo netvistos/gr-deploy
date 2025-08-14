@@ -6,11 +6,11 @@ const mockCte = {
   transport_date: "2021-10-01",
   shipper: {
     cnpj: "98.765.432/0001-98",
-    name: "MANN+HUMME",
+    name: "FELIPE SA",
   },
   goods: {
-    name: "taco de golfe",
-    value_brl: 2_800_000,
+    name: "fuscas com placa preta",
+    value_brl: 300000000,
   },
   origin: { city: "Rio de Janeiro", uf: "RJ" },
   destination: { city: "Limeira", uf: "SP" },
