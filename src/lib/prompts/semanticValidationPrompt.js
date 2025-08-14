@@ -1,8 +1,22 @@
 /**
+ * Regras comuns aplicadas em todos os prompts.
+ */
+const COMMON_RULES = `\
+Você é um validador de CTe (Conhecimento de Transporte Eletrônico) que aplica uma apólice.
+- Compare SEMANTICAMENTE os campos textuais (mercadoria, embarcador, origem/destino).
+- Considere equivalências, sinônimos, hipônimos e termos genéricos ↔ específicos.
+- A descrição completa da mercadoria vem no campo goods.name.
+- Use IDs de regras da apólice para justificar enquadramentos (matched_rule_ids).
+- Responda APENAS com JSON válido no formato solicitado.
+`;
+
+/**
  * Prompt para o bloco "Exclusões".
  */
 export function buildExclusionsPrompt(cteData, policy) {
   return `\
+${COMMON_RULES}
+
 TAREFA: Avalie APENAS EXCLUSÕES com base em policy.exclusions.
 - Analise TODAS as regras listadas em policy.exclusions.
 - O campo "matched_rule_ids" deve conter TODAS as IDs das regras que se aplicarem ao CTe.
@@ -30,6 +44,8 @@ ${JSON.stringify(cteData, null, 2)}
 
 export function buildRiskPrompt(cteData, policy) {
   return `\
+${COMMON_RULES}
+
 TAREFA: Avalie GERENCIAMENTO DE RISCO.
 - Verifique critérios em risk_rules.by_goods, risk_rules.by_shipper e risk_rules.operations.
 - Para cada REGRA APLICÁVEL:

@@ -10,7 +10,7 @@ export const CTE_SCENARIOS = [
       name: "MANN+HUMMEL BRASIL LTDA",
     },
     goods: {
-      name: "artigos esportivos", // nome capitalizado
+      name: "taco de beisebol", // nome capitalizado
       value_brl: 2800000, // número direto
     },
     origin: { city: "Rio de Janeiro", uf: "RJ" },
