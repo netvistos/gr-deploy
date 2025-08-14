@@ -29,15 +29,7 @@ export function ResultCard({ result, onNewUpload }) {
         </div>
       </div>
 
-      {/* Botão Novo Upload */}
-      <div className="pt-4 border-t border-gray-200">
-        <button
-          onClick={onNewUpload}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-        >
-          Novo Upload
-        </button>
-      </div>
+      {/* botão "Novo Upload" removido — use a área de upload existente */}
     </div>
   );
 }

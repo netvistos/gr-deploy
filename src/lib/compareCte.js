@@ -6,10 +6,7 @@ import {
   formatDateBR,
   calculateLMG,
 } from "./validateCteUtils.js";
-import {
-  buildExclusionsPrompt,
-  buildRiskPrompt,
-} from "./prompts/semanticValidationPrompt.js";
+import { buildExclusionsPrompt, buildRiskPrompt } from "./prompts.js";
 
 function consolidateStatus(results) {
   const hasReprovado = results.some((r) => r.status === "reprovado");
