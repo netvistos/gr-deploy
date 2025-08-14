@@ -8,9 +8,9 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 export async function validateCTeWithAI(userPrompt) {
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-5-mini-2025-08-07",
+      model: "gpt-4.1-mini",
       messages: [{ role: "user", content: userPrompt }],
-      // temperature: 0.2, // validação estável
+      temperature: 0.2, // validação estável
       response_format: { type: "json_object" },
     });
 

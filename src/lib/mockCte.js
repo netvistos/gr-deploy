@@ -6,10 +6,10 @@ const mockCte = {
   transport_date: "2021-10-01", // formato ISO
   shipper: {
     cnpj: "98.765.432/0001-98",
-    name: "MANN+HUMMEL",
+    name: "MANN+HUMME",
   },
   goods: {
-    name: "taco de beisebol", // nome capitalizado
+    name: "Tablets em Geral", // nome capitalizado
     value_brl: 2_800_000, // número direto
   },
   origin: { city: "Rio de Janeiro", uf: "RJ" },

@@ -37,6 +37,7 @@ export function formatDateBR(dateStr) {
  * Calcula o LMG (Limite Máximo de Garantia) considerando:
  * - LMG padrão da apólice (policy.lmg.default_brl)
  * - Overrides por bandas aplicadas em regras de risco
+ * REGRA: O LMG final é o MENOR valor entre todas as limitações aplicáveis
  */
 export function calculateLMG(bands_applied = [], policy) {
   if (!policy) {
@@ -50,22 +51,37 @@ export function calculateLMG(bands_applied = [], policy) {
 
   const sources = bands_applied.map((bandInfo) => {
     const rule = allRiskRules.find((r) => r.id === bandInfo.rule_id);
+    // quando não há regra ou bandas, não forçar o default aqui — retornar 0 para ser ignorado
     if (!rule || !rule.bands?.length) {
       return {
         rule_id: bandInfo.rule_id,
-        last_band_max: defaultLMG,
+        last_band_max: 0,
       };
     }
 
     const lastBand = rule.bands[rule.bands.length - 1];
+    // acesso seguro ao max e conversão para number (fallback 0)
+    const bandMax = Number(lastBand?.range_brl?.max || 0);
     return {
       rule_id: bandInfo.rule_id,
-      last_band_max: lastBand.range_brl.max,
+      last_band_max: bandMax,
     };
   });
 
-  // O LMG final é o maior valor entre o default e todos os limites de regras aplicáveis
-  const lmgFinal = Math.max(defaultLMG, ...sources.map((s) => s.last_band_max));
+  // Coleta todos os limites aplicáveis (default + regras de risco)
+  const allLimits = [defaultLMG];
+  sources.forEach((source) => {
+    if (source.last_band_max > 0) {
+      allLimits.push(source.last_band_max);
+    }
+  });
+
+  // O LMG final é o MENOR valor entre todas as limitações aplicáveis.
+  // Se não houver limites positivos, usa o defaultLMG (ou 0).
+  const positiveLimits = allLimits.filter((limit) => limit > 0);
+  const lmgFinal = positiveLimits.length
+    ? Math.min(...positiveLimits)
+    : defaultLMG || 0;
 
   return {
     lmg_brl: lmgFinal,
