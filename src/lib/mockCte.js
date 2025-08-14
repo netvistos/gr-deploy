@@ -1,16 +1,16 @@
 const mockCte = {
   issuer: {
-    cnpj: "13.657.062/0001-12", // CNPJ no formato oficial
+    cnpj: "13.657.062/0001-12",
     name: "LOGITIME TRANSPORTES LTDA",
   },
-  transport_date: "2021-10-01", // formato ISO
+  transport_date: "2021-10-01",
   shipper: {
     cnpj: "98.765.432/0001-98",
     name: "MANN+HUMME",
   },
   goods: {
-    name: "cheddar", // nome capitalizado
-    value_brl: 2_800_000, // número direto
+    name: "taco de golfe",
+    value_brl: 2_800_000,
   },
   origin: { city: "Rio de Janeiro", uf: "RJ" },
   destination: { city: "Limeira", uf: "SP" },
