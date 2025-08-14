@@ -40,6 +40,12 @@ export function FileUpload({
     (file) => {
       if (validateFile(file)) {
         onFileSelect(file);
+        // reset para permitir novo upload (mesmo arquivo ou novo)
+        try {
+          if (fileInputRef.current) fileInputRef.current.value = "";
+        } catch (e) {
+          /* ignore */
+        }
       }
     },
     [onFileSelect]

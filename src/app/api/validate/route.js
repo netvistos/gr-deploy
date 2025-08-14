@@ -1,4 +1,4 @@
-import { compareCteCompleta } from "@/lib/compareCte.js";
+import { compareCteCompleta, compareCteSequencial } from "@/lib/compareCte.js";
 
 export async function POST(request) {
   try {

@@ -51,7 +51,7 @@ export async function compareCteCompleta(cteData) {
         ? "Data do transporte dentro do período de vigência da apólice."
         : "Data do transporte fora do período de vigência da apólice.",
       data_xml: formatDateBR(transportDateISO),
-      data_policy: `${coverStart} a ${coverEnd}`,
+      data_policy: `${formatDateBR(coverStart)} a ${formatDateBR(coverEnd)}`,
     });
 
     // 3) Exclusões
@@ -148,22 +148,8 @@ export async function compareCteSequencial(cteData) {
     };
     results.push(cnpjResult);
 
-    // Para na primeira falha
+    // Para na primeira falha (não incluir LMG quando parar cedo)
     if (cnpjResult.status === "reprovado") {
-      // LMG default quando reprova em CNPJ
-      const { lmg_brl: defaultLmg, lmg_sources: defaultSources } = calculateLMG(
-        [], // bandas vazias = LMG default
-        POLICY_RULES
-      );
-
-      results.push({
-        etapa: "LMG",
-        status: "reprovado",
-        motivo: "LMG padrão aplicado devido à reprovação em etapa anterior.",
-        lmg_brl: defaultLmg,
-        lmg_sources: defaultSources,
-      });
-
       return {
         status: "reprovado",
         validation: results,
@@ -185,26 +171,12 @@ export async function compareCteSequencial(cteData) {
         ? "Data do transporte dentro do período de vigência da apólice."
         : "Data do transporte fora do período de vigência da apólice.",
       data_xml: formatDateBR(transportDateISO),
-      data_policy: `${coverStart} a ${coverEnd}`,
+      data_policy: `${formatDateBR(coverStart)} a ${formatDateBR(coverEnd)}`,
     };
     results.push(dataResult);
 
-    // Para na segunda falha
+    // Para na segunda falha (não incluir LMG quando parar cedo)
     if (dataResult.status === "reprovado") {
-      // LMG default quando reprova em Data
-      const { lmg_brl: defaultLmg, lmg_sources: defaultSources } = calculateLMG(
-        [], // bandas vazias = LMG default
-        POLICY_RULES
-      );
-
-      results.push({
-        etapa: "LMG",
-        status: "reprovado",
-        motivo: "LMG padrão aplicado devido à reprovação em etapa anterior.",
-        lmg_brl: defaultLmg,
-        lmg_sources: defaultSources,
-      });
-
       return {
         status: "reprovado",
         validation: results,
@@ -232,22 +204,8 @@ export async function compareCteSequencial(cteData) {
     };
     results.push(exclusoesResult);
 
-    // Para se houve reprovação em exclusões
+    // Para se houve reprovação em exclusões (não incluir LMG quando parar cedo)
     if (exclusoesResult.status === "reprovado") {
-      // LMG default quando reprova em Exclusões
-      const { lmg_brl: defaultLmg, lmg_sources: defaultSources } = calculateLMG(
-        [], // bandas vazias = LMG default
-        POLICY_RULES
-      );
-
-      results.push({
-        etapa: "LMG",
-        status: "reprovado",
-        motivo: "LMG padrão aplicado devido à reprovação em etapa anterior.",
-        lmg_brl: defaultLmg,
-        lmg_sources: defaultSources,
-      });
-
       return {
         status: "reprovado",
         validation: results,
@@ -279,9 +237,9 @@ export async function compareCteSequencial(cteData) {
     };
     results.push(riskResult);
 
-    // 5) LMG - sempre executa (usando bandas de Risco ou default se não houver)
+    // 5) LMG - executa apenas quando chega aqui (há validação de risk rules)
     const { lmg_brl, lmg_sources } = calculateLMG(
-      riskResult.bands_applied || [], // se não há bandas aplicadas, usa default
+      riskResult.bands_applied || [],
       POLICY_RULES
     );
 
