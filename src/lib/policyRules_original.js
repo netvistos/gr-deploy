@@ -1,3 +1,11 @@
+// src/lib/policyRules.semantic.v2.js
+// Reorganized, PDF‑faithful policy (V2)
+// • Portuguese texts preserved exactly (semantic matching works better)
+// • Separation of concerns: exclusions, risk_rules (by goods / by shipper / operations), and LMG overrides
+// • User decisions applied:
+//   - "Relógios" tratado sem qualificador de valor por unidade
+//   - Condição "ORIGEM OU DESTINO != RIO DE JANEIRO" interpretada como (origin.uf != "RJ" || destination.uf != "RJ")
+
 export const POLICY_RULES = {
   issuer: {
     cnpj: "13.657.062/0001-12",
