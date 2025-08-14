@@ -9,7 +9,7 @@ const mockCte = {
     name: "MANN+HUMME",
   },
   goods: {
-    name: "Tablets em Geral", // nome capitalizado
+    name: "cheddar", // nome capitalizado
     value_brl: 2_800_000, // número direto
   },
   origin: { city: "Rio de Janeiro", uf: "RJ" },
