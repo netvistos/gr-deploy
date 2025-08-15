@@ -1,0 +1,270 @@
+[
+  {
+    "id": "cenario-1",
+    "description": "papel sulfite (100000 BRL)",
+    "result": {
+      "status": "atenção",
+      "validation": [
+        {
+          "etapa": "CNPJ",
+          "status": "aprovado",
+          "motivo": "CNPJ do emitente autorizado pela apólice.",
+          "cnpj_xml": "13657062000112",
+          "cnpj_policy": "13657062000112"
+        },
+        {
+          "etapa": "Data",
+          "status": "aprovado",
+          "motivo": "Data do transporte dentro do período de vigência da apólice.",
+          "data_xml": "15/07/2025",
+          "data_policy": "19/10/2024 a 31/10/2026"
+        },
+        {
+          "etapa": "Bens e Mercadorias",
+          "status": "aprovado",
+          "motivo": "Sem enquadramento em exclusões.",
+          "matched_rule_ids": []
+        },
+        {
+          "etapa": "Gerenciamento de Risco",
+          "status": "atenção",
+          "motivo": "Ponto(s) de atenção identificado(s).",
+          "matched_rule_ids": [
+            "risk-B"
+          ],
+          "obligations": [
+            "análise de perfil profissional"
+          ],
+          "bands_applied": [
+            {
+              "rule_id": "risk-B",
+              "band_index": 0
+            }
+          ]
+        },
+        {
+          "etapa": "LMG",
+          "status": "aprovado",
+          "motivo": "LMG calculado a partir das regras de risco aplicáveis.",
+          "lmg_brl": 3000000,
+          "lmg_sources": [
+            {
+              "rule_id": "risk-B",
+              "last_band_max": 3000000
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "cenario-2",
+    "description": "taco de beisebol profissional (50000 BRL)",
+    "result": {
+      "status": "aprovado",
+      "validation": [
+        {
+          "etapa": "CNPJ",
+          "status": "aprovado",
+          "motivo": "CNPJ do emitente autorizado pela apólice.",
+          "cnpj_xml": "13657062000112",
+          "cnpj_policy": "13657062000112"
+        },
+        {
+          "etapa": "Data",
+          "status": "aprovado",
+          "motivo": "Data do transporte dentro do período de vigência da apólice.",
+          "data_xml": "15/07/2025",
+          "data_policy": "19/10/2024 a 31/10/2026"
+        },
+        {
+          "etapa": "Bens e Mercadorias",
+          "status": "aprovado",
+          "motivo": "Sem enquadramento em exclusões.",
+          "matched_rule_ids": []
+        },
+        {
+          "etapa": "Gerenciamento de Risco",
+          "status": "aprovado",
+          "motivo": "Sem enquadramento em pontos de atenção.",
+          "matched_rule_ids": [],
+          "obligations": [],
+          "bands_applied": []
+        },
+        {
+          "etapa": "LMG",
+          "status": "aprovado",
+          "motivo": "LMG calculado a partir das regras de risco aplicáveis.",
+          "lmg_brl": 3000000,
+          "lmg_sources": []
+        }
+      ]
+    }
+  },
+  {
+    "id": "cenario-3",
+    "description": "placas de circuito eletrônico industrial (1500000 BRL)",
+    "result": {
+      "status": "aprovado",
+      "validation": [
+        {
+          "etapa": "CNPJ",
+          "status": "aprovado",
+          "motivo": "CNPJ do emitente autorizado pela apólice.",
+          "cnpj_xml": "13657062000112",
+          "cnpj_policy": "13657062000112"
+        },
+        {
+          "etapa": "Data",
+          "status": "aprovado",
+          "motivo": "Data do transporte dentro do período de vigência da apólice.",
+          "data_xml": "15/07/2025",
+          "data_policy": "19/10/2024 a 31/10/2026"
+        },
+        {
+          "etapa": "Bens e Mercadorias",
+          "status": "aprovado",
+          "motivo": "Sem enquadramento em exclusões.",
+          "matched_rule_ids": []
+        },
+        {
+          "etapa": "Gerenciamento de Risco",
+          "status": "aprovado",
+          "motivo": "Sem enquadramento em pontos de atenção.",
+          "matched_rule_ids": [],
+          "obligations": [],
+          "bands_applied": []
+        },
+        {
+          "etapa": "LMG",
+          "status": "aprovado",
+          "motivo": "LMG calculado a partir das regras de risco aplicáveis.",
+          "lmg_brl": 3000000,
+          "lmg_sources": []
+        }
+      ]
+    }
+  },
+  {
+    "id": "cenario-4",
+    "description": "filtros automotivos (2000000 BRL)",
+    "result": {
+      "status": "atenção",
+      "validation": [
+        {
+          "etapa": "CNPJ",
+          "status": "aprovado",
+          "motivo": "CNPJ do emitente autorizado pela apólice.",
+          "cnpj_xml": "13657062000112",
+          "cnpj_policy": "13657062000112"
+        },
+        {
+          "etapa": "Data",
+          "status": "aprovado",
+          "motivo": "Data do transporte dentro do período de vigência da apólice.",
+          "data_xml": "15/07/2025",
+          "data_policy": "19/10/2024 a 31/10/2026"
+        },
+        {
+          "etapa": "Bens e Mercadorias",
+          "status": "aprovado",
+          "motivo": "Sem enquadramento em exclusões.",
+          "matched_rule_ids": []
+        },
+        {
+          "etapa": "Gerenciamento de Risco",
+          "status": "atenção",
+          "motivo": "Ponto(s) de atenção identificado(s).",
+          "matched_rule_ids": [
+            "risk-shipper-mannhummel"
+          ],
+          "obligations": [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "acompanhamento de escolta armada e monitorada do início ao fim do risco OU Isca Eletrônica RF OU Imobilizador Inteligente"
+          ],
+          "bands_applied": [
+            {
+              "rule_id": "risk-shipper-mannhummel",
+              "band_index": 2
+            }
+          ]
+        },
+        {
+          "etapa": "LMG",
+          "status": "aprovado",
+          "motivo": "LMG calculado a partir das regras de risco aplicáveis.",
+          "lmg_brl": 3000000,
+          "lmg_sources": [
+            {
+              "rule_id": "risk-shipper-mannhummel",
+              "last_band_max": 3000000
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "cenario-5",
+    "description": "relógio de luxo (5000000 BRL)",
+    "result": {
+      "status": "reprovado",
+      "validation": [
+        {
+          "etapa": "CNPJ",
+          "status": "aprovado",
+          "motivo": "CNPJ do emitente autorizado pela apólice.",
+          "cnpj_xml": "13657062000112",
+          "cnpj_policy": "13657062000112"
+        },
+        {
+          "etapa": "Data",
+          "status": "aprovado",
+          "motivo": "Data do transporte dentro do período de vigência da apólice.",
+          "data_xml": "15/07/2025",
+          "data_policy": "19/10/2024 a 31/10/2026"
+        },
+        {
+          "etapa": "Bens e Mercadorias",
+          "status": "reprovado",
+          "motivo": "Bens ou mercadorias não compreendidos no seguro (lista geral)",
+          "matched_rule_ids": [
+            "excl-geral-001"
+          ]
+        },
+        {
+          "etapa": "Gerenciamento de Risco",
+          "status": "atenção",
+          "motivo": "Ponto(s) de atenção identificado(s).",
+          "matched_rule_ids": [
+            "risk-B"
+          ],
+          "obligations": [
+            "análise de perfil profissional",
+            "rastreamento / monitoramento de cargas",
+            "acompanhamento de escolta armada e monitorada do início ao fim do risco OU Isca Eletrônica RF OU Imobilizador Inteligente"
+          ],
+          "bands_applied": [
+            {
+              "rule_id": "risk-B",
+              "band_index": 3
+            }
+          ]
+        },
+        {
+          "etapa": "LMG",
+          "status": "reprovado",
+          "motivo": "Valor da mercadoria (R$ 5.000.000) excede o LMG aplicável (R$ 3.000.000).",
+          "lmg_brl": 3000000,
+          "lmg_sources": [
+            {
+              "rule_id": "risk-B",
+              "last_band_max": 3000000
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

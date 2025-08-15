@@ -1,0 +1,132 @@
+"use client";
+
+import { useState } from "react";
+import { FileUpload } from "@/components/FileUpload";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { ResultCard } from "@/components/ResultCard";
+
+export default function Home() {
+  // Estados principais
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const [validationMode, setValidationMode] = useState("completa");
+
+  // Handler para upload
+  const handleFileSelect = async (file) => {
+    setIsLoading(true);
+    setError(null);
+    setResult(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      //1. Upload
+      const uploadResponse = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const uploadData = await uploadResponse.json();
+
+      if (!uploadResponse.ok) {
+        throw new Error(uploadData.error || "Erro no upload");
+      }
+
+      // 2. Validação (enviando o modo)
+      const validateResponse = await fetch("/api/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cteData: uploadData.data,
+          mode: validationMode, // <-- Envia o modo
+        }),
+      });
+
+      // 3. Set result
+      const validateData = await validateResponse.json();
+      if (!validateResponse.ok) {
+        throw new Error(validateData.motivo || "Erro na validação");
+      }
+      setResult(validateData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handler para novo upload
+  const handleNewUpload = () => {
+    setResult(null);
+    setError(null);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-4xl space-y-6">
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            Validador CTe
+          </h1>
+          <p className="text-gray-600">
+            Validação de conformidade com apólice de seguro usando IA
+          </p>
+        </div>
+        {/* Toggle de modo de validação */}
+        <div className="flex items-center space-x-2 mb-2">
+          <label htmlFor="validationMode" className="font-medium text-gray-700">
+            Modo de validação:
+          </label>
+          <select
+            id="validationMode"
+            value={validationMode}
+            onChange={(e) => setValidationMode(e.target.value)}
+            className="border rounded px-2 py-1"
+            disabled={isLoading}
+          >
+            <option value="completa">Completa (mostra todos os erros)</option>
+            <option value="sequencial">Sequencial (para no 1º erro)</option>
+          </select>
+        </div>
+        {/* Área de upload */}
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <FileUpload
+            onFileSelect={handleFileSelect}
+            accept=".xml"
+            disabled={isLoading}
+            error={error}
+          >
+            {isLoading ? "Processando..." : "Escolher arquivo XML"}
+          </FileUpload>
+        </div>
+        {/* Estado de Loading */}
+        {isLoading && (
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <LoadingSpinner
+              message="Processando arquivo XML..."
+              description="Aguarde enquanto validamos o documento"
+              size="default"
+            />
+          </div>
+        )}
+        {/* Estado de Erro */}
+        {error && (
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <div className="flex items-center space-x-2">
+                <span className="text-red-500 text-xl">❌</span>
+                <h3 className="font-semibold text-red-800">Erro</h3>
+              </div>
+              <p className="text-red-700 text-sm mt-2">{error}</p>
+            </div>
+          </div>
+        )}
+        {/* Estado de Resultado */}
+        {result && <ResultCard result={result} onNewUpload={handleNewUpload} />}
+      </div>
+    </div>
+  );
+}

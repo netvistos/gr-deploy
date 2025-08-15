@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ia-gr-cte-validator
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: OPENAI_API_KEY
+        sync: false # Esta será configurada manualmente no painel do Render
+    regions:
+      - ohio # Região mais próxima do Brasil com melhor latência
