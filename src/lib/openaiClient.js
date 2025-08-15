@@ -16,13 +16,15 @@ export async function validateCTeWithAI(userPrompt) {
 
     // Calculate costs based on GPT-5 pricing
     const inputCostPer1M = 1.25; // $1.25 per 1M input tokens
-    const outputCostPer1M = 10.00; // $10.00 per 1M output tokens
+    const outputCostPer1M = 10.0; // $10.00 per 1M output tokens
     const usdToBrl = 5.42; // Exchange rate: 1 USD = 5.42 BRL
-    
-    const inputCost = (completion.usage.prompt_tokens / 1000000) * inputCostPer1M;
-    const outputCost = (completion.usage.completion_tokens / 1000000) * outputCostPer1M;
+
+    const inputCost =
+      (completion.usage.prompt_tokens / 1000000) * inputCostPer1M;
+    const outputCost =
+      (completion.usage.completion_tokens / 1000000) * outputCostPer1M;
     const totalCost = inputCost + outputCost;
-    
+
     // Convert to BRL
     const inputCostBRL = inputCost * usdToBrl;
     const outputCostBRL = outputCost * usdToBrl;
@@ -33,9 +35,19 @@ export async function validateCTeWithAI(userPrompt) {
     console.log(`Prompt tokens: ${completion.usage.prompt_tokens}`);
     console.log(`Completion tokens: ${completion.usage.completion_tokens}`);
     console.log(`--- COST BREAKDOWN ---`);
-    console.log(`Input cost: $${inputCost.toFixed(6)} / R$ ${inputCostBRL.toFixed(6)} (${completion.usage.prompt_tokens} tokens)`);
-    console.log(`Output cost: $${outputCost.toFixed(6)} / R$ ${outputCostBRL.toFixed(6)} (${completion.usage.completion_tokens} tokens)`);
-    console.log(`Total cost: $${totalCost.toFixed(6)} / R$ ${totalCostBRL.toFixed(6)}`);
+    console.log(
+      `Input cost: $${inputCost.toFixed(6)} / R$ ${inputCostBRL.toFixed(6)} (${
+        completion.usage.prompt_tokens
+      } tokens)`
+    );
+    console.log(
+      `Output cost: $${outputCost.toFixed(6)} / R$ ${outputCostBRL.toFixed(
+        6
+      )} (${completion.usage.completion_tokens} tokens)`
+    );
+    console.log(
+      `Total cost: $${totalCost.toFixed(6)} / R$ ${totalCostBRL.toFixed(6)}`
+    );
 
     const response = completion.choices[0]?.message?.content;
     if (!response) throw new Error("Resposta vazia da OpenAI");

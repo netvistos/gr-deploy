@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cteProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/cte">
+  <CTe>
+    <infCte versao="4.00" Id="CTe35250813657062000112570000000000022000000020">
+      <ide>
+        <cUF>35</cUF>
+        <cCT>00000020</cCT>
+        <CFOP>5352</CFOP>
+        <natOp>TRANSPORTE RODOVIARIO DE CARGAS</natOp>
+        <mod>57</mod>
+        <serie>1</serie>
+        <nCT>2</nCT>
+        <dhEmi>2025-08-10T10:30:00-03:00</dhEmi>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>0</cDV>
+        <tpAmb>1</tpAmb>
+        <tpCTe>0</tpCTe>
+        <procEmi>0</procEmi>
+        <verProc>TesteIA-GR</verProc>
+        <cMunEnv>3509502</cMunEnv>
+        <xMunEnv>Campinas</xMunEnv>
+        <UFEnv>SP</UFEnv>
+        <modal>01</modal>
+        <tpServ>0</tpServ>
+        <cMunIni>3509502</cMunIni>
+        <xMunIni>Campinas</xMunIni>
+        <UFIni>SP</UFIni>
+        <cMunFim>3543402</cMunFim>
+        <xMunFim>Rio Claro</xMunFim>
+        <UFFim>SP</UFFim>
+        <retira>1</retira>
+        <indIEToma>1</indIEToma>
+        <toma3><toma>3</toma></toma3>
+      </ide>
+      <emit>
+        <CNPJ>13657062000112</CNPJ>
+        <IE>1234567890</IE>
+        <xNome>LOGITIME TRANSPORTES LTDA</xNome>
+        <enderEmit>
+          <xLgr>Rua Teste</xLgr>
+          <nro>100</nro>
+          <xBairro>Centro</xBairro>
+          <cMun>3509502</cMun>
+          <xMun>Campinas</xMun>
+          <CEP>13000000</CEP>
+          <UF>SP</UF>
+        </enderEmit>
+        <CRT>3</CRT>
+      </emit>
+      <rem>
+        <CNPJ>33333333000188</CNPJ>
+        <IE>ISENTO</IE>
+        <xNome>REMETENTE COMERCIAL LTDA</xNome>
+        <enderReme>
+          <xLgr>Av Brasil</xLgr>
+          <nro>2500</nro>
+          <xBairro>Centro</xBairro>
+          <cMun>3509502</cMun>
+          <xMun>Campinas</xMun>
+          <CEP>13000000</CEP>
+          <UF>SP</UF>
+        </enderReme>
+      </rem>
+      <dest>
+        <CNPJ>44444444000166</CNPJ>
+        <IE>ISENTO</IE>
+        <xNome>DESTINATARIO INDUSTRIAL SA</xNome>
+        <enderDest>
+          <xLgr>Rua Industrial</xLgr>
+          <nro>900</nro>
+          <xBairro>Distrito</xBairro>
+          <cMun>3543402</cMun>
+          <xMun>Rio Claro</xMun>
+          <CEP>13500000</CEP>
+          <UF>SP</UF>
+        </enderDest>
+      </dest>
+      <vPrest>
+        <vTPrest>2000.00</vTPrest>
+        <vRec>2000.00</vRec>
+      </vPrest>
+      <imp>
+        <ICMS>
+          <ICMS00>
+            <CST>00</CST>
+            <vBC>2000.00</vBC>
+            <pICMS>12.00</pICMS>
+            <vICMS>240.00</vICMS>
+          </ICMS00>
+        </ICMS>
+      </imp>
+      <infCTeNorm>
+        <infCarga>
+          <vCarga>120000.00</vCarga>
+          <proPred>PALETES DE MADEIRA</proPred>
+          <infQ>
+            <cUnid>01</cUnid>
+            <tpMed>PESO</tpMed>
+            <qCarga>200.0000</qCarga>
+          </infQ>
+          <vCargaAverb>120000.00</vCargaAverb>
+        </infCarga>
+        <infDoc>
+          <infNFe>
+            <chave>35250844444444000166550010000000022000000020</chave>
+            <dPrev>2025-08-13</dPrev>
+          </infNFe>
+        </infDoc>
+      </infCTeNorm>
+    </infCte>
+  </CTe>
+</cteProc>

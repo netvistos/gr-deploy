@@ -1,18 +1,16 @@
-/**
- * Regras comuns aplicadas em todos os prompts.
- */
 const COMMON_RULES = `\
 Você é um validador de CTe (Conhecimento de Transporte Eletrônico) que aplica uma apólice.
-- Compare SEMANTICAMENTE os campos textuais (mercadoria, embarcador, origem/destino).
-- Considere equivalências, sinônimos, hipônimos e termos genéricos ↔ específicos.
-- A descrição completa da mercadoria vem no campo goods.name.
+- Compare SEMANTICAMENTE os campos textuais (mercadoria, embarcador, origem/destino), com PRIORIDADE:
+  (P1) correspondência exata ou sinônimo estrito;
+  (P2) categoria/hiperônimo somente se a policy declarar explicitamente a categoria como abrangente para o item e houver evidência textual forte;
+  (P3) EVITE generalizações que mudem a natureza do item (ex.: mobiliário com motor ≠ eletrodoméstico), a menos que a policy cite exemplo explícito.
+- Regra específica: itens de MOBILIÁRIO (cadeira, poltrona, sofá, estante, mesa), mesmo com motor/eletricidade, NÃO são "eletrodomésticos" a menos que a policy traga o termo exato do item como exemplo de eletrodoméstico.
+- A descrição completa da mercadoria vem em goods.name.
 - Use IDs de regras da apólice para justificar enquadramentos (matched_rule_ids).
+- Para qualquer correspondência, forneça evidências textuais curtas (trechos do CTe e da policy) que suportem a decisão.
 - Responda APENAS com JSON válido no formato solicitado.
 `;
 
-/**
- * Prompt para o bloco "Exclusões".
- */
 export function buildExclusionsPrompt(cteData, policy) {
   return `\
 ${COMMON_RULES}
@@ -24,14 +22,16 @@ TAREFA: Avalie APENAS EXCLUSÕES com base em policy.exclusions.
 - Se pelo menos UMA regra se aplicar, o status deve ser "reprovado".
 - Se nenhuma regra se aplicar, status deve ser "aprovado" e arrays vazios.
 - NÃO inventar regras ou IDs que não estejam na policy.
-- Comparar SEMANTICAMENTE mercadoria, embarcador, origem e destino.
+- Comparar SEMANTICAMENTE mercadoria, embarcador, origem e destino seguindo as prioridades (P1→P3) descritas em COMMON_RULES.
+- Inclua "evidence" com pares { from_cte, from_policy } para cada matched_rule_id.
 
 FORMATO DE SAÍDA (APENAS JSON):
 {
   "stage": "BENS_EXCLUIDOS",
   "status": "aprovado" | "reprovado",
   "matched_rule_ids": ["excl-..."],
-  "violations": ["..."]
+  "violations": ["..."],
+  "evidence": [{"rule_id":"excl-...","from_cte":"...","from_policy":"..."}]
 }
 
 POLICY.exclusions:

@@ -9,8 +9,8 @@ const mockCte = {
     name: "FELIPE SA",
   },
   goods: {
-    name: "fuscas com placa preta",
-    value_brl: 300000000,
+    name: "tijolos",
+    value_brl: 300000,
   },
   origin: { city: "Rio de Janeiro", uf: "RJ" },
   destination: { city: "Limeira", uf: "SP" },

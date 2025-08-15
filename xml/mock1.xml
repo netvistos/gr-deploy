@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cteProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/cte">
+  <CTe>
+    <infCte versao="4.00" Id="CTe35250813657062000112570000000000011000000010">
+      <ide>
+        <cUF>35</cUF>
+        <cCT>00000010</cCT>
+        <CFOP>5352</CFOP>
+        <natOp>TRANSPORTE RODOVIARIO DE CARGAS</natOp>
+        <mod>57</mod>
+        <serie>1</serie>
+        <nCT>1</nCT>
+        <dhEmi>2025-08-10T10:00:00-03:00</dhEmi>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>0</cDV>
+        <tpAmb>1</tpAmb>
+        <tpCTe>0</tpCTe>
+        <procEmi>0</procEmi>
+        <verProc>TesteIA-GR</verProc>
+        <cMunEnv>3509502</cMunEnv>
+        <xMunEnv>Campinas</xMunEnv>
+        <UFEnv>SP</UFEnv>
+        <modal>01</modal>
+        <tpServ>0</tpServ>
+        <cMunIni>3509502</cMunIni>
+        <xMunIni>Campinas</xMunIni>
+        <UFIni>SP</UFIni>
+        <cMunFim>3550308</cMunFim>
+        <xMunFim>Sao Paulo</xMunFim>
+        <UFFim>SP</UFFim>
+        <retira>1</retira>
+        <indIEToma>1</indIEToma>
+        <toma3><toma>3</toma></toma3>
+      </ide>
+      <emit>
+        <CNPJ>13657062000112</CNPJ>
+        <IE>1234567890</IE>
+        <xNome>LOGITIME TRANSPORTES LTDA</xNome>
+        <enderEmit>
+          <xLgr>Rua Teste</xLgr>
+          <nro>100</nro>
+          <xBairro>Centro</xBairro>
+          <cMun>3509502</cMun>
+          <xMun>Campinas</xMun>
+          <CEP>13000000</CEP>
+          <UF>SP</UF>
+        </enderEmit>
+        <CRT>3</CRT>
+      </emit>
+      <rem>
+        <CNPJ>11111111000191</CNPJ>
+        <IE>ISENTO</IE>
+        <xNome>CLIENTE REMETENTE TESTE</xNome>
+        <enderReme>
+          <xLgr>Av Paulista</xLgr>
+          <nro>1500</nro>
+          <xBairro>Bela Vista</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>Sao Paulo</xMun>
+          <CEP>01310000</CEP>
+          <UF>SP</UF>
+        </enderReme>
+      </rem>
+      <dest>
+        <CNPJ>22222222000155</CNPJ>
+        <IE>ISENTO</IE>
+        <xNome>CLIENTE DESTINATARIO TESTE</xNome>
+        <enderDest>
+          <xLgr>Rua das Flores</xLgr>
+          <nro>500</nro>
+          <xBairro>Centro</xBairro>
+          <cMun>3509502</cMun>
+          <xMun>Campinas</xMun>
+          <CEP>13000000</CEP>
+          <UF>SP</UF>
+        </enderDest>
+      </dest>
+      <vPrest>
+        <vTPrest>1000.00</vTPrest>
+        <vRec>1000.00</vRec>
+      </vPrest>
+      <imp>
+        <ICMS>
+          <ICMS00>
+            <CST>00</CST>
+            <vBC>1000.00</vBC>
+            <pICMS>12.00</pICMS>
+            <vICMS>120.00</vICMS>
+          </ICMS00>
+        </ICMS>
+      </imp>
+      <infCTeNorm>
+        <infCarga>
+          <vCarga>50000.00</vCarga>
+          <proPred>tijolos</proPred>
+          <infQ>
+            <cUnid>01</cUnid>
+            <tpMed>PESO</tpMed>
+            <qCarga>100.0000</qCarga>
+          </infQ>
+          <vCargaAverb>50000.00</vCargaAverb>
+        </infCarga>
+        <infDoc>
+          <infNFe>
+            <chave>35250822222222000155550010000000011000000010</chave>
+            <dPrev>2025-08-12</dPrev>
+          </infNFe>
+        </infDoc>
+      </infCTeNorm>
+    </infCte>
+  </CTe>
+</cteProc>
