@@ -9,10 +9,21 @@ import {
 import { buildExclusionsPrompt, buildRiskPrompt } from "./prompts.js";
 
 function consolidateStatus(results) {
+  // Reprovado sobrescreve qualquer status anterior
   const hasReprovado = results.some((r) => r.status === "reprovado");
   if (hasReprovado) return "reprovado";
-  const hasAtencao = results.some((r) => r.status === "atenção");
-  if (hasAtencao) return "atenção";
+
+  // Atenção só se todos forem aprovados E gerenciamento de risco for atenção
+  const allApproved = results.every((r) => r.status === "aprovado");
+  const riskManagement = results.find(
+    (r) => r.etapa === "Gerenciamento de Risco"
+  );
+  const hasRiskAttention =
+    riskManagement && riskManagement.status === "atenção";
+
+  if (allApproved && hasRiskAttention) return "atenção";
+
+  // Caso contrário, aprovado
   return "aprovado";
 }
 
