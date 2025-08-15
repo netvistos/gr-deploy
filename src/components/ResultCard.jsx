@@ -65,10 +65,10 @@ function ResultCard({ result, onNewUpload }) {
     <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-lg font-semibold text-gray-900 font-sans">
             Resultado da Análise com IA
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 font-sans">
             Status:&nbsp;
             <span
               className={`font-medium px-2 py-1 rounded ${statusBadge(
@@ -94,7 +94,7 @@ function ResultCard({ result, onNewUpload }) {
 
       {topViolations.length > 0 && (
         <div className="border rounded p-3 bg-gray-50">
-          <h4 className="font-medium text-gray-800 mb-2">
+          <h4 className="font-medium text-gray-800 mb-2 font-sans">
             Principais itens encontrados
           </h4>
           <ul className="text-sm space-y-1">
@@ -112,7 +112,7 @@ function ResultCard({ result, onNewUpload }) {
       {riskStage && (
         <div className="border rounded p-3 bg-white">
           <div className="flex items-center justify-between mb-2">
-            <h4 className="font-medium text-gray-800">
+            <h4 className="font-medium text-gray-800 font-sans">
               Gerenciamento de Risco
             </h4>
             <span
@@ -148,7 +148,7 @@ function ResultCard({ result, onNewUpload }) {
           <h3 className="font-semibold text-gray-900">Debug / JSON completo</h3>
         </div>
         <div className="p-4 bg-white rounded-b-lg">
-          <pre className="whitespace-pre-wrap text-sm bg-gray-50 p-4 rounded border overflow-x-auto">
+          <pre className="whitespace-pre-wrap text-sm bg-gray-50 p-4 rounded border overflow-x-auto font-mono">
             {JSON.stringify(result, null, 2)}
           </pre>
         </div>
@@ -158,7 +158,7 @@ function ResultCard({ result, onNewUpload }) {
         <div className="text-right">
           <button
             onClick={() => onNewUpload()}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-sans"
           >
             Nova análise
           </button>

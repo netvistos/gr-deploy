@@ -141,10 +141,10 @@ export function FileUpload({
         </div>
         {/* Texto principal */}
         <div className="space-y-2">
-          <p className="text-lg font-medium text-gray-900">
+          <p className="text-lg font-medium text-gray-900 font-sans">
             {children || "Arraste um arquivo XML aqui"}
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 font-sans">
             ou clique para selecionar um arquivo
           </p>
         </div>

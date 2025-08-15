@@ -68,10 +68,10 @@ export default function Home() {
       <div className="w-full max-w-4xl space-y-6">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 font-sans">
             Validador CTe
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 font-sans">
             Validação de conformidade com apólice de seguro usando IA
           </p>
         </div>

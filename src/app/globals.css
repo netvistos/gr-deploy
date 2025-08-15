@@ -77,7 +77,17 @@
   * {
     @apply border-border;
   }
+  
+  html {
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+  }
+  
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+  }
+  
+  code, pre, kbd {
+    font-family: var(--font-geist-mono), 'Courier New', monospace;
   }
 }
